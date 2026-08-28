@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import '../models/fuel_entry.dart';
 import '../models/vehicle.dart';
+import '../models/fuel_unit.dart';
+import 'fuel_unit_service.dart';
 import 'fuel_storage_service.dart';
 import 'vehicle_service.dart';
 
@@ -28,16 +30,21 @@ class EntryConflict {
   final FuelEntry backup;
   final String? localVehicleId;
   final String? backupVehicleId;
+  final FuelUnit localUnit;
+  final FuelUnit backupUnit;
 
   const EntryConflict({
     required this.local,
     required this.backup,
     this.localVehicleId,
     this.backupVehicleId,
+    this.localUnit = FuelUnit.liter,
+    this.backupUnit = FuelUnit.liter,
   });
 
   String get id => backup.id;
   bool get vehicleChanged => localVehicleId != backupVehicleId;
+  bool get unitChanged => localUnit != backupUnit;
 }
 
 /// A vehicle that exists both locally and in the backup with different values.
@@ -61,6 +68,9 @@ class RestorePreview {
   /// Backup's entry -> vehicle mapping, applied for entries the user does not
   /// keep local.
   final Map<String, String> entryVehicleMap;
+
+  /// Backup's entry -> unit id snapshots, applied like [entryVehicleMap].
+  final Map<String, String> entryUnitMap;
   final String? selectedVehicleId;
 
   /// Records present in both copies with identical values — skipped silently.
@@ -73,6 +83,7 @@ class RestorePreview {
     required this.newVehicles,
     required this.vehicleConflicts,
     required this.entryVehicleMap,
+    required this.entryUnitMap,
     required this.selectedVehicleId,
     required this.identicalEntries,
     required this.identicalVehicles,
@@ -97,7 +108,7 @@ class RestorePreview {
 /// mapping together. Version 1 was a bare fuel-entry CSV with no vehicle data —
 /// see [analyzeLegacyCsv].
 class BackupDataService {
-  static const int payloadVersion = 2;
+  static const int payloadVersion = 3;
 
   // --- Export ---
 
@@ -113,6 +124,7 @@ class BackupDataService {
       'fuelEntries': entries.map((e) => e.toJson()).toList(),
       'vehicles': vehicles.map((v) => v.toJson()).toList(),
       'entryVehicleMap': entryVehicleMap,
+      'entryUnitMap': await FuelUnitService.getEntryUnitMap(),
       'selectedVehicleId': selectedVehicleId,
     });
   }
@@ -145,10 +157,16 @@ class BackupDataService {
     final entryVehicleMap =
         rawMap is Map ? Map<String, String>.from(rawMap) : <String, String>{};
 
+    final rawUnits = data['entryUnitMap'];
+    final entryUnitMap = rawUnits is Map
+        ? Map<String, String>.from(rawUnits)
+        : <String, String>{};
+
     return _analyze(
       backupEntries: entries,
       backupVehicles: vehicles,
       backupEntryVehicleMap: entryVehicleMap,
+      backupEntryUnitMap: entryUnitMap,
       selectedVehicleId: data['selectedVehicleId'] as String?,
     );
   }
@@ -160,6 +178,7 @@ class BackupDataService {
       backupEntries: parseLegacyCsv(csvContent),
       backupVehicles: const [],
       backupEntryVehicleMap: const {},
+      backupEntryUnitMap: const {},
       selectedVehicleId: null,
     );
   }
@@ -168,16 +187,19 @@ class BackupDataService {
     required List<FuelEntry> backupEntries,
     required List<Vehicle> backupVehicles,
     required Map<String, String> backupEntryVehicleMap,
+    required Map<String, String> backupEntryUnitMap,
     required String? selectedVehicleId,
   }) async {
     return diff(
       backupEntries: backupEntries,
       backupVehicles: backupVehicles,
       backupEntryVehicleMap: backupEntryVehicleMap,
+      backupEntryUnitMap: backupEntryUnitMap,
       selectedVehicleId: selectedVehicleId,
       localEntries: await FuelStorageService.getFuelEntries(),
       localVehicles: await VehicleService.getVehicles(),
       localEntryVehicleMap: await VehicleService.getEntryVehicleMap(),
+      localEntryUnitMap: await FuelUnitService.getEntryUnitMap(),
     );
   }
 
@@ -191,6 +213,8 @@ class BackupDataService {
     required List<FuelEntry> localEntries,
     required List<Vehicle> localVehicles,
     required Map<String, String> localEntryVehicleMap,
+    Map<String, String> backupEntryUnitMap = const {},
+    Map<String, String> localEntryUnitMap = const {},
   }) {
     final localEntriesById = {for (final e in localEntries) e.id: e};
     final localVehiclesById = {for (final v in localVehicles) v.id: v};
@@ -225,7 +249,16 @@ class BackupDataService {
           ? localVehicleId
           : backupEntryVehicleMap[backup.id];
 
-      if (_entriesEqual(local, backup) && localVehicleId == backupVehicleId) {
+      // Same for units: a v1/v2 backup has no unit map, so inherit the local
+      // one rather than reporting a false change to liters.
+      final localUnit = FuelUnit.fromId(localEntryUnitMap[backup.id]);
+      final backupUnit = backupEntryUnitMap.isEmpty
+          ? localUnit
+          : FuelUnit.fromId(backupEntryUnitMap[backup.id]);
+
+      if (_entriesEqual(local, backup) &&
+          localVehicleId == backupVehicleId &&
+          localUnit == backupUnit) {
         identicalEntries++;
       } else {
         entryConflicts.add(EntryConflict(
@@ -233,6 +266,8 @@ class BackupDataService {
           backup: backup,
           localVehicleId: localVehicleId,
           backupVehicleId: backupVehicleId,
+          localUnit: localUnit,
+          backupUnit: backupUnit,
         ));
       }
     }
@@ -243,6 +278,7 @@ class BackupDataService {
       newVehicles: newVehicles,
       vehicleConflicts: vehicleConflicts,
       entryVehicleMap: backupEntryVehicleMap,
+      entryUnitMap: backupEntryUnitMap,
       selectedVehicleId: selectedVehicleId,
       identicalEntries: identicalEntries,
       identicalVehicles: identicalVehicles,
@@ -292,6 +328,15 @@ class BackupDataService {
         ..removeWhere((entryId, _) => keepLocalEntryIds.contains(entryId));
       if (mapping.isNotEmpty) {
         await VehicleService.mergeEntryVehicleMap(mapping);
+      }
+    }
+
+    // Keeping an entry local keeps its unit too.
+    if (preview.entryUnitMap.isNotEmpty) {
+      final units = Map<String, String>.from(preview.entryUnitMap)
+        ..removeWhere((entryId, _) => keepLocalEntryIds.contains(entryId));
+      if (units.isNotEmpty) {
+        await FuelUnitService.mergeEntryUnitMap(units);
       }
     }
 
@@ -358,5 +403,6 @@ class BackupDataService {
       a.name == b.name &&
       a.iconName == b.iconName &&
       a.fuelType == b.fuelType &&
-      a.tankCapacity == b.tankCapacity;
+      a.tankCapacity == b.tankCapacity &&
+      a.unitId == b.unitId;
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../models/fuel_unit.dart';
 import 'package:flutter/cupertino.dart';
 import '../models/fuel_entry.dart';
 import '../business_logic/fuel_calculations.dart';
@@ -8,7 +9,10 @@ class FuelChartDashboard extends StatefulWidget {
   final List<FuelEntry> entries;
   final String currency;
 
-  const FuelChartDashboard({super.key, required this.entries, required this.currency});
+  /// Unit for volume and efficiency labels; liters unless the scope says otherwise.
+  final FuelUnit unit;
+
+  const FuelChartDashboard({super.key, required this.entries, required this.currency, this.unit = FuelUnit.liter});
 
   @override
   State<FuelChartDashboard> createState() => _FuelChartDashboardState();
@@ -73,7 +77,7 @@ class _FuelChartDashboardState extends State<FuelChartDashboard> {
         SizedBox(height: MediaQuery.of(context).size.width < 400 ? 8 : 12),
 
         // Chart
-        FuelChart(entries: widget.entries, currency: widget.currency, chartType: _selectedChartType),
+        FuelChart(entries: widget.entries, currency: widget.currency, chartType: _selectedChartType, unit: widget.unit),
 
         const SizedBox(height: 8),
 
@@ -211,7 +215,7 @@ class _FuelChartDashboardState extends State<FuelChartDashboard> {
         }
         trend = recentAvg - olderAvg;
         trendLabel = trend > 0 ? 'Efficiency improving' : 'Efficiency declining';
-        trendValue = '${trend.abs().toStringAsFixed(1)} km/L';
+        trendValue = '${trend.abs().toStringAsFixed(1)} ${widget.unit.efficiencyLabel}';
         trendColor = trend > 0 ? Colors.green : Colors.red;
         break;
     }

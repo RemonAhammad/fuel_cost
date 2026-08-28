@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../models/fuel_unit.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../models/fuel_entry.dart';
 import '../business_logic/fuel_calculations.dart';
@@ -8,7 +9,10 @@ class FuelChart extends StatelessWidget {
   final String currency;
   final String chartType; // 'cost', 'liters', 'mileage'
 
-  const FuelChart({super.key, required this.entries, required this.currency, this.chartType = 'cost'});
+  /// Unit for the volume/efficiency axes. Liters unless the scope says otherwise.
+  final FuelUnit unit;
+
+  const FuelChart({super.key, required this.entries, required this.currency, this.chartType = 'cost', this.unit = FuelUnit.liter});
 
   @override
   Widget build(BuildContext context) {
@@ -126,9 +130,9 @@ class FuelChart extends StatelessWidget {
       case 'cost':
         return 'Cost ($currency)';
       case 'liters':
-        return 'Liters';
+        return unit.long;
       case 'mileage':
-        return 'km/L';
+        return unit.efficiencyLabel;
       default:
         return '';
     }
@@ -295,7 +299,7 @@ class FuelChart extends StatelessWidget {
       case 'liters':
         total = sortedEntries.fold(0, (sum, entry) => sum + entry.liters);
         average = total / sortedEntries.length;
-        unit = 'L';
+        unit = this.unit.short;
         break;
       case 'mileage':
         // Use business logic for consistency
@@ -307,7 +311,7 @@ class FuelChart extends StatelessWidget {
           average = totalDistance / totalFuelMinusLast;
           total = totalDistance; // Show total distance
         }
-        unit = 'km/L';
+        unit = this.unit.efficiencyLabel;
         break;
     }
 

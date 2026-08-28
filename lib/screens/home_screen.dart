@@ -9,6 +9,10 @@ import '../widgets/widgets.dart';
 import '../providers/fuel_entries_provider.dart';
 import '../providers/summary_providers.dart';
 import '../providers/vehicle_provider.dart';
+import '../business_logic/fuel_unit_resolver.dart';
+import '../business_logic/fuel_calculations.dart';
+import '../models/fuel_entry.dart';
+import '../models/fuel_unit.dart';
 import '../models/vehicle.dart';
 import 'add_fuel_screen.dart';
 import 'fuel_history_screen.dart';
@@ -248,6 +252,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
     if (totalLitersAsync.hasValue) _lastTotalLiters = totalLiters;
     if (mileageCalculationsAsync.hasValue) _lastMileageCalcs = mileageCalcs;
     if (currencyAsync.hasValue) _lastCurrency = currency;
+
+    // Quantity only aggregates within one unit — adding liters to kWh is
+    // meaningless, so a mixed scope gets a per-unit breakdown instead.
+    final unitResolver =
+        ref.watch(fuelUnitResolverProvider).valueOrNull ?? FuelUnitResolver.empty;
+    final scopeEntries = entriesAsync.valueOrNull ?? const <FuelEntry>[];
+    final scopeUnit = _selectedVehicleId != null
+        ? FuelUnitResolver.unitForVehicle(
+            _vehicles.where((v) => v.id == _selectedVehicleId).firstOrNull)
+        : (unitResolver.unitsIn(scopeEntries).length == 1
+            ? unitResolver.unitsIn(scopeEntries).first
+            : FuelUnit.liter);
+    final mixedUnits = FuelCalculations.hasMixedUnits(scopeEntries, unitResolver);
+    final quantityText = mixedUnits
+        ? FuelCalculations.formatQuantityByUnit(
+            FuelCalculations.quantityByUnit(scopeEntries, unitResolver))
+        : '${totalLiters.toStringAsFixed(1)}${scopeUnit.short}';
 
     return Scaffold(
       floatingActionButton: Showcase(
@@ -644,8 +665,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                       1,
                       4,
                       _selectedVehicleId == null
-                          ? _buildOverallSummary(totalCost, totalLiters, mileageCalcs, currency, isDark)
-                          : _buildVehicleSummary(totalCost, totalLiters, mileageCalcs, currency, isDark),
+                          ? _buildOverallSummary(totalCost, quantityText, mileageCalcs, currency, isDark)
+                          : _buildVehicleSummary(totalCost, quantityText, scopeUnit, mileageCalcs, currency, isDark),
                     ),
 
                     const SizedBox(height: 10),
@@ -656,7 +677,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                       4,
                       entriesAsync.when(
                         data: (entries) => currencyAsync.when(
-                          data: (currency) => FuelChartDashboard(entries: entries, currency: currency),
+                          data: (currency) => FuelChartDashboard(entries: entries, currency: currency, unit: scopeUnit),
                           loading: () => const CircularProgressIndicator(),
                           error: (e, _) => Text('Error: $e'),
                         ),
@@ -900,7 +921,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
 
   Widget _buildOverallSummary(
     double totalCost,
-    double totalLiters,
+    String quantityText,
     Map<String, double> mileageCalcs,
     String currency,
     bool isDark,
@@ -965,7 +986,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                   child: _buildOverallStatTile(
                     icon: Icons.local_gas_station_rounded,
                     label: 'Total Fuels',
-                    value: '${totalLiters.toStringAsFixed(1)}L',
+                    value: quantityText,
                     color: const Color(0xFF2196F3),
                     isDark: isDark,
                   ),
@@ -1040,7 +1061,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
 
   Widget _buildVehicleSummary(
     double totalCost,
-    double totalLiters,
+    String quantityText,
+    FuelUnit unit,
     Map<String, double> mileageCalcs,
     String currency,
     bool isDark,
@@ -1102,8 +1124,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
             const SizedBox(height: 16),
             _buildSummaryLine(
               icon: Icons.local_gas_station_rounded,
-              label: 'Total Liters',
-              value: '${totalLiters.toStringAsFixed(1)}L',
+              label: 'Total ${unit.long}',
+              value: quantityText,
               color: const Color(0xFF2196F3),
             ),
             const SizedBox(height: 16),
@@ -1117,28 +1139,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
             _buildSummaryLine(
               icon: Icons.directions_car_rounded,
               label: 'Last Trip Mileage',
-              value: lastTripMileage > 0 ? '${lastTripMileage.toStringAsFixed(1)} km/L' : 'N/A',
+              value: lastTripMileage > 0 ? '${lastTripMileage.toStringAsFixed(1)} ${unit.efficiencyLabel}' : 'N/A',
               color: const Color(0xFF4CAF50),
             ),
             const SizedBox(height: 16),
             _buildSummaryLine(
               icon: Icons.trending_up_rounded,
               label: 'Overall Mileage',
-              value: overallMileage > 0 ? '${overallMileage.toStringAsFixed(1)} km/L' : 'N/A',
+              value: overallMileage > 0 ? '${overallMileage.toStringAsFixed(1)} ${unit.efficiencyLabel}' : 'N/A',
               color: const Color(0xFF9C27B0),
             ),
             const SizedBox(height: 16),
             _buildSummaryLine(
               icon: Icons.keyboard_double_arrow_up_rounded,
               label: 'Max Mileage',
-              value: maxMileage > 0 ? '${maxMileage.toStringAsFixed(1)} km/L' : 'N/A',
+              value: maxMileage > 0 ? '${maxMileage.toStringAsFixed(1)} ${unit.efficiencyLabel}' : 'N/A',
               color: const Color(0xFF00C853),
             ),
             const SizedBox(height: 16),
             _buildSummaryLine(
               icon: Icons.keyboard_double_arrow_down_rounded,
               label: 'Min Mileage',
-              value: minMileage > 0 ? '${minMileage.toStringAsFixed(1)} km/L' : 'N/A',
+              value: minMileage > 0 ? '${minMileage.toStringAsFixed(1)} ${unit.efficiencyLabel}' : 'N/A',
               color: const Color(0xFFFF5722),
             ),
           ],

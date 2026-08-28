@@ -7,6 +7,7 @@ import '../services/currency_service.dart';
 import '../models/vehicle.dart';
 import '../models/fuel_entry.dart';
 import '../business_logic/fuel_calculations.dart';
+import '../models/fuel_unit.dart';
 
 const Map<String, IconData> _vehicleIconMap = {
   'directions_car': Icons.directions_car,
@@ -36,6 +37,7 @@ class _VehicleStats {
   final double overallMileage;
   final double totalDistance;
   final double costPerKm;
+  final FuelUnit unit;
 
   _VehicleStats({
     required this.vehicleId,
@@ -48,6 +50,7 @@ class _VehicleStats {
     required this.overallMileage,
     required this.totalDistance,
     required this.costPerKm,
+    required this.unit,
   });
 }
 
@@ -152,6 +155,7 @@ class _VehicleComparisonScreenState
         overallMileage: overallMileage,
         totalDistance: totalDistance,
         costPerKm: costPerKm,
+        unit: vehicle.fuelUnit,
       );
     }
 
@@ -330,7 +334,11 @@ class _VehicleComparisonScreenState
                                               vehicles))
                                           .toList(),
                                       isDark,
-                                      suffix: 'L',
+                                      suffix: _sharedUnit?.short ?? '',
+                                      mixedUnits: _sharedUnit == null,
+                                      perValueSuffix: _vehicleStats.values
+                                          .map((s) => s.unit.short)
+                                          .toList(),
                                     ),
                                     const SizedBox(height: 12),
                                     _buildComparisonCard(
@@ -364,7 +372,12 @@ class _VehicleComparisonScreenState
                                               vehicles))
                                           .toList(),
                                       isDark,
-                                      suffix: 'km/L',
+                                      suffix: _sharedUnit?.efficiencyLabel ?? '',
+                                      mixedUnits: _sharedUnit == null,
+                                      preciseValues: true,
+                                      perValueSuffix: _vehicleStats.values
+                                          .map((s) => s.unit.efficiencyLabel)
+                                          .toList(),
                                     ),
                                     const SizedBox(height: 12),
                                     _buildComparisonCard(
@@ -531,6 +544,13 @@ class _VehicleComparisonScreenState
     );
   }
 
+  /// The unit every compared vehicle shares, or null when they differ — in
+  /// which case bars measured in liters and kWh cannot be compared directly.
+  FuelUnit? get _sharedUnit {
+    final units = _vehicleStats.values.map((s) => s.unit).toSet();
+    return units.length == 1 ? units.first : null;
+  }
+
   Widget _buildComparisonCard(
     String metricName,
     List<double> values,
@@ -539,6 +559,9 @@ class _VehicleComparisonScreenState
     bool isDark, {
     String prefix = '',
     String suffix = '',
+    bool mixedUnits = false,
+    List<String>? perValueSuffix,
+    bool preciseValues = false,
   }) {
     final maxValue =
         values.isEmpty ? 1.0 : values.reduce((a, b) => a > b ? a : b);
@@ -569,15 +592,30 @@ class _VehicleComparisonScreenState
             ),
           ),
           const SizedBox(height: 12),
+          if (mixedUnits)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Text(
+                'These vehicles use different units — compare each bar to itself, not to the others.',
+                style: TextStyle(
+                  fontSize: 11.5,
+                  fontStyle: FontStyle.italic,
+                  color: isDark ? Colors.orange.shade200 : Colors.orange.shade800,
+                ),
+              ),
+            ),
           ...List.generate(values.length, (i) {
             final ratio = values[i] / safeMax;
-            final formattedValue = values[i] == values[i].roundToDouble() &&
-                    suffix != 'km/L' &&
-                    prefix.isEmpty
-                ? values[i].toInt().toString()
-                : values[i].toStringAsFixed(
-                    suffix == 'km/L' || prefix.isNotEmpty ? 2 : 1);
-            final displayValue = '$prefix$formattedValue${suffix.isNotEmpty ? ' $suffix' : ''}';
+            final precise = preciseValues || prefix.isNotEmpty;
+            final formattedValue =
+                values[i] == values[i].roundToDouble() && !precise
+                    ? values[i].toInt().toString()
+                    : values[i].toStringAsFixed(precise ? 2 : 1);
+            final unitSuffix = perValueSuffix != null && i < perValueSuffix.length
+                ? perValueSuffix[i]
+                : suffix;
+            final displayValue =
+                '$prefix$formattedValue${unitSuffix.isNotEmpty ? ' $unitSuffix' : ''}';
 
             return Padding(
               padding: const EdgeInsets.only(bottom: 10),
@@ -648,11 +686,11 @@ class _VehicleComparisonScreenState
         case 0:
           return '$_currency${s.totalCost.toStringAsFixed(2)}';
         case 1:
-          return '${s.totalLiters.toStringAsFixed(1)} L';
+          return '${s.totalLiters.toStringAsFixed(1)} ${s.unit.short}';
         case 2:
           return '${s.fillUpCount}';
         case 3:
-          return '${s.overallMileage.toStringAsFixed(2)} km/L';
+          return '${s.overallMileage.toStringAsFixed(2)} ${s.unit.efficiencyLabel}';
         case 4:
           return '$_currency${s.costPerKm.toStringAsFixed(2)}';
         case 5:

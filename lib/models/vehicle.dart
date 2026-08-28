@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'fuel_unit.dart';
+
 class Vehicle {
   final String id;
   final String name;
@@ -7,13 +9,26 @@ class Vehicle {
   final String fuelType; // petrol, diesel, cng, electric
   final double? tankCapacity;
 
+  /// Overrides the unit implied by [fuelType]. Null means "follow the fuel
+  /// type", which is what every vehicle stored before units existed.
+  final String? unitId;
+
   Vehicle({
     required this.id,
     required this.name,
     this.iconName = 'directions_car',
     this.fuelType = 'petrol',
     this.tankCapacity,
+    this.unitId,
   });
+
+  /// Unit this vehicle's fuel is measured in.
+  FuelUnit get fuelUnit =>
+      unitId != null ? FuelUnit.fromId(unitId) : FuelUnit.defaultFor(fuelType);
+
+  /// Label for a tank/battery capacity field, which is kWh for an EV.
+  String get capacityLabel =>
+      fuelUnit.isEnergy ? 'Battery Capacity (kWh)' : 'Tank Capacity (${fuelUnit.short})';
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -21,6 +36,7 @@ class Vehicle {
         'iconName': iconName,
         'fuelType': fuelType,
         'tankCapacity': tankCapacity,
+        'unitId': unitId,
       };
 
   factory Vehicle.fromJson(Map<String, dynamic> json) => Vehicle(
@@ -29,6 +45,7 @@ class Vehicle {
         iconName: json['iconName'] ?? 'directions_car',
         fuelType: json['fuelType'] ?? 'petrol',
         tankCapacity: json['tankCapacity']?.toDouble(),
+        unitId: json['unitId'],
       );
 
   static List<Vehicle> listFromJson(String jsonStr) {
@@ -45,7 +62,9 @@ class Vehicle {
     String? iconName,
     String? fuelType,
     double? tankCapacity,
+    String? unitId,
     bool clearTankCapacity = false,
+    bool clearUnitId = false,
   }) =>
       Vehicle(
         id: id,
@@ -53,6 +72,7 @@ class Vehicle {
         iconName: iconName ?? this.iconName,
         fuelType: fuelType ?? this.fuelType,
         tankCapacity: clearTankCapacity ? null : (tankCapacity ?? this.tankCapacity),
+        unitId: clearUnitId ? null : (unitId ?? this.unitId),
       );
 
   static const Map<String, String> fuelTypes = {

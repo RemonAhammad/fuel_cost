@@ -3,6 +3,7 @@ import '../models/fuel_entry.dart';
 import '../models/vehicle.dart';
 import '../services/fuel_storage_service.dart';
 import '../services/vehicle_service.dart';
+import '../business_logic/fuel_unit_resolver.dart';
 import '../services/currency_service.dart';
 import '../widgets/widgets.dart';
 import 'add_fuel_screen.dart';
@@ -22,6 +23,7 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
 
   List<Vehicle> _vehicles = [];
   Map<String, String> _entryVehicleMap = {}; // entryId -> vehicleId
+  FuelUnitResolver _unitResolver = FuelUnitResolver.empty;
   String? _selectedVehicleFilter; // null = "All"
   bool _showFilterInAppBar = false;
 
@@ -80,6 +82,7 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
     try {
       final entries = await FuelStorageService.getFuelEntries();
       final vehicles = await VehicleService.getVehicles();
+      final unitResolver = await FuelUnitResolver.load();
       final entryVehicleMap = <String, String>{};
       for (final entry in entries) {
         final vehicleId = await VehicleService.getVehicleIdForEntry(entry.id);
@@ -92,6 +95,7 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
         _entries = entries..sort((a, b) => b.dateTime.compareTo(a.dateTime));
         _vehicles = vehicles;
         _entryVehicleMap = entryVehicleMap;
+        _unitResolver = unitResolver;
       });
       _applyFilter();
       _cardAnimationController.forward();
@@ -402,6 +406,7 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
                               animation: _cardSlideAnimation,
                               vehicleIcon: _getVehicleIcon(vehicle),
                               vehicleName: vehicle?.name,
+                              unit: _unitResolver.unitFor(entry.id),
                             );
                           }, childCount: _filteredEntries.length),
                         ),

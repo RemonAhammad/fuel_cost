@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/fuel_entry.dart';
 import '../models/vehicle.dart';
+import '../models/fuel_unit.dart';
 import '../services/backup_data_service.dart';
 import '../services/currency_service.dart';
 
@@ -208,10 +209,11 @@ class _RestoreConflictsScreenState extends State<RestoreConflictsScreen> {
     if (v.iconName != other.iconName) {
       parts.add(Vehicle.vehicleIcons[v.iconName]?.label ?? v.iconName);
     }
+    if (v.unitId != other.unitId) parts.add('sold by ${v.fuelUnit.short}');
     if (v.tankCapacity != other.tankCapacity) {
       parts.add(v.tankCapacity == null
           ? 'no tank size'
-          : '${v.tankCapacity!.toStringAsFixed(0)} L tank');
+          : '${v.tankCapacity!.toStringAsFixed(0)} ${v.fuelUnit.short} tank');
     }
     return parts.isEmpty ? 'unchanged' : parts.join(' · ');
   }
@@ -221,19 +223,23 @@ class _RestoreConflictsScreenState extends State<RestoreConflictsScreen> {
     return _ConflictCard(
       isDark: isDark,
       title: _dateFormat.format(conflict.backup.dateTime),
-      subtitle: '${conflict.backup.liters.toStringAsFixed(2)} L',
+      subtitle: '${conflict.backup.liters.toStringAsFixed(2)} ${conflict.backupUnit.short}',
       keepLocal: keepLocal,
       mineDetail: _entryDetail(
         conflict.local,
         conflict.backup,
         conflict.localVehicleId,
         conflict.backupVehicleId,
+        conflict.localUnit,
+        conflict.backupUnit,
       ),
       backupDetail: _entryDetail(
         conflict.backup,
         conflict.local,
         conflict.backupVehicleId,
         conflict.localVehicleId,
+        conflict.backupUnit,
+        conflict.localUnit,
       ),
       onChanged: (mine) => setState(() {
         if (mine) {
@@ -251,14 +257,18 @@ class _RestoreConflictsScreenState extends State<RestoreConflictsScreen> {
     FuelEntry other,
     String? vehicleId,
     String? otherVehicleId,
+    FuelUnit unit,
+    FuelUnit otherUnit,
   ) {
     final parts = <String>[];
     if (e.totalCost != other.totalCost) parts.add(_money(e.totalCost));
-    if (e.liters != other.liters) {
-      parts.add('${e.liters.toStringAsFixed(2)} L');
+    // A unit change alone is worth showing with the quantity, since the same
+    // number means something different in L and kWh.
+    if (e.liters != other.liters || unit != otherUnit) {
+      parts.add('${e.liters.toStringAsFixed(2)} ${unit.short}');
     }
     if (e.pricePerLiter != other.pricePerLiter) {
-      parts.add('${_money(e.pricePerLiter)}/L');
+      parts.add('${_money(e.pricePerLiter)}/${unit.short}');
     }
     if (e.odometerReading != other.odometerReading) {
       parts.add(e.odometerReading == null

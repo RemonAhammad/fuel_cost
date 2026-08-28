@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/vehicle.dart';
+import '../models/fuel_unit.dart';
 import '../services/vehicle_service.dart';
 import '../providers/vehicle_provider.dart';
 
@@ -44,6 +45,7 @@ class _VehicleManagementScreenState extends ConsumerState<VehicleManagementScree
     final nameController = TextEditingController(text: existing?.name ?? '');
     final tankController = TextEditingController(text: existing?.tankCapacity?.toString() ?? '');
     String selectedFuelType = existing?.fuelType ?? 'petrol';
+    String? selectedUnitId = existing?.unitId;
     String selectedIcon = existing?.iconName ?? 'directions_car';
 
     String? nameError;
@@ -134,24 +136,59 @@ class _VehicleManagementScreenState extends ConsumerState<VehicleManagementScree
                         return ChoiceChip(
                           label: Text(entry.value),
                           selected: isSelected,
-                          onSelected: (_) => setDialogState(() => selectedFuelType = entry.key),
+                          onSelected: (_) => setDialogState(() {
+                            selectedFuelType = entry.key;
+                            // The old override may not be valid for the new
+                            // fuel type; fall back to that type's default.
+                            selectedUnitId = null;
+                          }),
                           selectedColor: const Color(0xFF667eea).withValues(alpha: 0.2),
                         );
                       }).toList(),
                     ),
+                    // Unit — only where there is a genuine choice. CNG is sold
+                    // by kg in some markets and by m³ in others.
+                    if (FuelUnit.optionsFor(selectedFuelType).length > 1 &&
+                        selectedFuelType != 'hybrid') ...[
+                      const SizedBox(height: 16),
+                      Text('Sold By', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: isDark ? Colors.grey.shade300 : Colors.grey.shade700)),
+                      const SizedBox(height: 8),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: FuelUnit.optionsFor(selectedFuelType).map((unit) {
+                          final effective = selectedUnitId != null
+                              ? FuelUnit.fromId(selectedUnitId)
+                              : FuelUnit.defaultFor(selectedFuelType);
+                          return ChoiceChip(
+                            label: Text(unit.short),
+                            selected: effective == unit,
+                            onSelected: (_) => setDialogState(() => selectedUnitId = unit.id),
+                            selectedColor: const Color(0xFF667eea).withValues(alpha: 0.2),
+                          );
+                        }).toList(),
+                      ),
+                    ],
                     const SizedBox(height: 16),
 
-                    // Tank Capacity
-                    TextField(
-                      controller: tankController,
-                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                      inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[0-9]*\.?[0-9]*'))],
-                      decoration: const InputDecoration(
-                        labelText: 'Tank Capacity (L) - Optional',
-                        prefixIcon: Icon(Icons.local_gas_station),
-                      ),
-                      style: TextStyle(color: isDark ? Colors.white : Colors.black87),
-                    ),
+                    // Tank / battery capacity, labelled for the chosen unit
+                    Builder(builder: (context) {
+                      final unit = selectedUnitId != null
+                          ? FuelUnit.fromId(selectedUnitId)
+                          : FuelUnit.defaultFor(selectedFuelType);
+                      return TextField(
+                        controller: tankController,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                        inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[0-9]*\.?[0-9]*'))],
+                        decoration: InputDecoration(
+                          labelText: unit.isEnergy
+                              ? 'Battery Capacity (kWh) - Optional'
+                              : 'Tank Capacity (${unit.short}) - Optional',
+                          prefixIcon: Icon(unit.isEnergy ? Icons.battery_charging_full : Icons.local_gas_station),
+                        ),
+                        style: TextStyle(color: isDark ? Colors.white : Colors.black87),
+                      );
+                    }),
                   ],
                 ),
               ),
@@ -170,6 +207,7 @@ class _VehicleManagementScreenState extends ConsumerState<VehicleManagementScree
                       iconName: selectedIcon,
                       fuelType: selectedFuelType,
                       tankCapacity: double.tryParse(tankController.text),
+                      unitId: selectedUnitId,
                     );
                     Navigator.pop(context, vehicle);
                   },
@@ -368,7 +406,7 @@ class _VehicleManagementScreenState extends ConsumerState<VehicleManagementScree
                     ),
                     if (vehicle.tankCapacity != null) ...[
                       const SizedBox(width: 8),
-                      Text('${vehicle.tankCapacity!.toStringAsFixed(0)}L tank', style: TextStyle(fontSize: 12, color: isDark ? Colors.grey.shade500 : Colors.grey.shade500)),
+                      Text('${vehicle.tankCapacity!.toStringAsFixed(0)}${vehicle.fuelUnit.short} ${vehicle.fuelUnit.isEnergy ? 'battery' : 'tank'}', style: TextStyle(fontSize: 12, color: isDark ? Colors.grey.shade500 : Colors.grey.shade500)),
                     ],
                   ],
                 ),

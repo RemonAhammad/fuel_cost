@@ -5,6 +5,9 @@ import '../models/vehicle.dart';
 import '../services/fuel_storage_service.dart';
 import '../services/currency_service.dart';
 import '../services/vehicle_service.dart';
+import '../services/fuel_unit_service.dart';
+import '../models/fuel_unit.dart';
+import '../business_logic/fuel_unit_resolver.dart';
 import '../services/drive_backup_service.dart';
 import '../widgets/widgets.dart';
 import 'vehicle_management_screen.dart';
@@ -33,6 +36,10 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
   List<Vehicle> _vehicles = [];
   String? _selectedVehicleId;
   String? _vehicleError;
+
+  /// Unit this entry is logged in. Follows the selected vehicle, except on a
+  /// hybrid where the user picks petrol or charge per entry.
+  FuelUnit _unit = FuelUnit.liter;
 
   late AnimationController _fadeAnimationController;
   late AnimationController _slideAnimationController;
@@ -83,6 +90,9 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
     if (widget.isEditing) {
       final entry = widget.existingEntry!;
       _litersController.text = entry.liters.toString();
+      FuelUnitService.getUnitForEntry(entry.id).then((unit) {
+        if (unit != null && mounted) setState(() => _unit = unit);
+      });
       _priceController.text = entry.pricePerLiter.toString();
       if (entry.odometerReading != null) {
         _odometerController.text = entry.odometerReading.toString();
@@ -133,6 +143,7 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
       setState(() {
         _vehicles = vehicles;
         _selectedVehicleId = selectedId;
+        _syncUnitToVehicle();
       });
       _loadOdometerForVehicle(selectedId);
     }
@@ -197,6 +208,91 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
     _priceController.dispose();
     _odometerController.dispose();
     super.dispose();
+  }
+
+  Widget _buildUnitSelector() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 8, bottom: 6),
+            child: Text(
+              'Fuel Type',
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: Colors.white.withValues(alpha: 0.9),
+              ),
+            ),
+          ),
+          Row(
+            children: _unitChoices.map((unit) {
+              final isSelected = _unit == unit;
+              return Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: GestureDetector(
+                  onTap: () => setState(() => _unit = unit),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: isSelected ? Colors.white : Colors.white.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          unit.isEnergy ? Icons.bolt : Icons.local_gas_station,
+                          size: 18,
+                          color: isSelected ? const Color(0xFF667eea) : Colors.white.withValues(alpha: 0.8),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          unit.isEnergy ? 'Charge' : 'Petrol',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                            color: isSelected ? const Color(0xFF667eea) : Colors.white.withValues(alpha: 0.9),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Vehicle? get _selectedVehicle {
+    if (_selectedVehicleId == null) return null;
+    for (final v in _vehicles) {
+      if (v.id == _selectedVehicleId) return v;
+    }
+    return null;
+  }
+
+  /// Options a hybrid offers; empty for single-unit vehicles so no selector shows.
+  List<FuelUnit> get _unitChoices {
+    final vehicle = _selectedVehicle;
+    if (vehicle == null) return const [];
+    final options = FuelUnit.optionsFor(vehicle.fuelType);
+    return options.length > 1 ? options : const [];
+  }
+
+  /// Re-derives the unit from the selected vehicle, keeping a hybrid's existing
+  /// choice when it is still valid.
+  void _syncUnitToVehicle() {
+    final vehicle = _selectedVehicle;
+    final choices = FuelUnit.optionsFor(vehicle?.fuelType ?? 'petrol');
+    if (choices.length > 1 && choices.contains(_unit)) return;
+    _unit = FuelUnitResolver.unitForVehicle(vehicle);
   }
 
   Future<void> _showBackupPrompt() async {
@@ -361,6 +457,7 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
         if (_selectedVehicleId != null) {
           await VehicleService.assignVehicleToEntry(entry.id, _selectedVehicleId!);
         }
+        await FuelUnitService.setUnitForEntry(entry.id, _unit);
       } else {
         final entry = FuelEntry.create(liters: liters, pricePerLiter: pricePerLiter, odometerReading: odometerReading);
         await FuelStorageService.saveFuelEntry(entry);
@@ -368,6 +465,8 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
         if (_selectedVehicleId != null) {
           await VehicleService.assignVehicleToEntry(entry.id, _selectedVehicleId!);
         }
+        // Snapshot the unit so later vehicle changes don't rewrite history.
+        await FuelUnitService.setUnitForEntry(entry.id, _unit);
       }
 
       if (mounted) {
@@ -549,6 +648,7 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
                                             setState(() {
                                               _selectedVehicleId = v.id;
                                               _vehicleError = null;
+                                              _syncUnitToVehicle();
                                             });
                                             _loadOdometerForVehicle(v.id);
                                           },
@@ -597,6 +697,9 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
                                 ),
                               ),
                             ),
+                          // Hybrids burn petrol and take charge; the entry
+                          // records which one this fill-up was.
+                          if (_unitChoices.isNotEmpty) _buildUnitSelector(),
                           if (_vehicleError != null)
                             Padding(
                               padding: const EdgeInsets.only(left: 8, bottom: 8, top: 4),
@@ -637,7 +740,7 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
                                 animation: _staggeredAnimation,
                                 child: GlassTextField(
                                   controller: _litersController,
-                                  label: 'Fuel Amount (Liters)',
+                                  label: _unit.quantityLabel,
                                   icon: Icons.local_gas_station,
                                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
                                   inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[0-9]*\.?[0-9]*'))],
@@ -659,7 +762,7 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
                                 animation: _staggeredAnimation,
                                 child: GlassTextField(
                                   controller: _priceController,
-                                  label: 'Price per Liter',
+                                  label: _unit.priceLabel,
                                   icon: Icons.attach_money,
                                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
                                   inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[0-9]*\.?[0-9]*'))],
@@ -721,6 +824,7 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
                         child: Column(
                           children: [
                             FuelSummaryCard(
+                              unit: _unit,
                               currency: _currency,
                               liters: double.tryParse(_litersController.text) ?? 0,
                               pricePerLiter: double.tryParse(_priceController.text) ?? 0,
@@ -733,6 +837,7 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
                                 delay: 0.15,
                                 animation: _staggeredAnimation,
                                 child: MileageCalculationCard(
+                                  unit: _unit,
                                   calculationDetails: _calculationDetails!,
                                   formatDate: _formatDate,
                                 ),

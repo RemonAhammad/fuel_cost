@@ -30,6 +30,7 @@
   - Monthly budget
   - Google Drive backup metadata
   - Tutorial flags (`onboarding_completed`, `tour_completed`)
+  - Per-entry fuel units (`entry_unit_map`)
 
 ### Navigation
 
@@ -47,10 +48,12 @@
 lib/
   main.dart                          # App entry, ProviderScope + MaterialApp (home: SplashScreen)
   business_logic/
-    fuel_calculations.dart           # Mileage metrics, efficiency chart data, total distance
+    fuel_calculations.dart           # Mileage metrics, efficiency chart data, total distance, per-unit quantity totals
+    fuel_unit_resolver.dart          # Resolves each entry's fuel unit (snapshot -> vehicle -> liter)
   models/
     fuel_entry.dart + .g.dart        # Isar @collection (id, liters, pricePerLiter, totalCost, dateTime, odometerReading)
-    vehicle.dart                     # Plain Dart class (id, name, iconName, fuelType, tankCapacity)
+    vehicle.dart                     # Plain Dart class (id, name, iconName, fuelType, tankCapacity, unitId)
+    fuel_unit.dart                   # FuelUnit enum (L/kg/m³/kWh) + all unit-dependent labels
     maintenance_entry.dart           # Plain Dart class (id, vehicleId, type, description, cost, mileage, etc.)
   providers/
     fuel_entries_provider.dart + .g.dart   # @riverpod FuelEntries (AsyncNotifier)
@@ -70,6 +73,7 @@ lib/
     backup_data_service.dart         # Backup payload format (v2 JSON) + merge-on-restore logic
     app_update_service.dart          # Google Play in-app update check (Android-only, via in_app_update)
     tutorial_service.dart            # Onboarding + showcase tour completion flags; resetAll() for "Replay Tutorial"
+    fuel_unit_service.dart           # Per-entry unit snapshots (entry_unit_map)
   screens/
     splash_screen.dart               # Animated splash: layered particles, gauge logo, letter reveal, road dashes (~3.6s)
     onboarding_screen.dart           # 5-page intro carousel shown once on first launch, then pushes HomeScreen
@@ -114,7 +118,7 @@ Vehicle-to-fuel-entry mapping is stored in SharedPreferences as a JSON map (`ent
 
 ### Backup Payload Versions
 
-`BackupDataService` owns the Drive payload. **v2** (`fuel_cost_backup.json`) carries `fuelEntries`, `vehicles`, `entryVehicleMap`, and `selectedVehicleId`. **v1** (`fuel_cost_backup.csv`) was fuel entries only — still read on restore, never written.
+`BackupDataService` owns the Drive payload. **v3** (`fuel_cost_backup.json`) carries `fuelEntries`, `vehicles`, `entryVehicleMap`, `entryUnitMap`, and `selectedVehicleId`; v2 was the same without `entryUnitMap`. **v1** (`fuel_cost_backup.csv`) was fuel entries only — still read on restore, never written.
 
 - The v2 Drive file id is stored under `drive_backup_json_file_id`, a *different* key from v1's `drive_backup_file_id`; sharing the key would make `files.update` write JSON into the user's `.csv` file
 - The backup's `selectedVehicleId` is applied only when the device has no selection
@@ -125,10 +129,28 @@ Vehicle-to-fuel-entry mapping is stored in SharedPreferences as a JSON map (`ent
 Restore never writes straight from the backup. `DriveBackupService.fetchRestorePreview()` downloads and calls `BackupDataService.analyzeJson` (or `analyzeLegacyCsv`), producing a `RestorePreview`; the UI resolves conflicts; `applyRestore()` writes. Abandoning the review leaves local data byte-identical.
 
 - A record is a **conflict** only when the same id exists on both sides *with different values*. Identical records are skipped silently; backup-only records are added without asking; local-only records are never touched
-- Entry equality includes **the mapped vehicle id**, so an entry reassigned to another vehicle conflicts even when its numbers match. A v1 CSV carries no mapping, so it inherits the local one rather than reporting a false reassignment
+- Entry equality includes **the mapped vehicle id and the unit**, so an entry reassigned to another vehicle — or recorded in a different unit — conflicts even when its numbers match. A backup with no mapping/unit map (v1 CSV, v2 JSON) inherits the local values rather than reporting a false change
 - `BackupDataService.diff()` is the pure comparison, deliberately free of storage calls so the rules are unit-testable without Isar (`test/restore_conflict_test.dart`)
 - "Keep mine" on an entry also keeps its vehicle assignment — `applyRestore` strips those ids from the incoming `entryVehicleMap` before merging
+- CSV export appends a `unit` column last, so parsers reading fixed indices 0-5 (including `parseLegacyCsv`) still read new files
 - `RestoreConflictsScreen` pops a `ConflictResolution` (two sets of keep-local ids) or `null` to abort. It only appears when `preview.hasConflicts`, so a clean restore stays one tap
+
+### Fuel Units
+
+`FuelEntry.liters` stores a **quantity in whatever unit the entry was logged in** — the field name is historical. The unit cannot live on the entry: `FuelEntry` is an Isar `@collection` with a pre-generated `.g.dart`, so it lives in SharedPreferences alongside the vehicle mapping.
+
+Resolution order (`FuelUnitResolver`):
+
+1. `entry_unit_map[entryId]` — snapshot written when the entry was saved
+2. else the mapped vehicle's `fuelUnit`
+3. else `FuelUnit.liter`
+
+- **Snapshot, not live lookup.** CNG conversions are common; deriving the unit from the vehicle would relabel a converted car's entire petrol history. The snapshot keeps it truthful
+- A vehicle's unit defaults from `fuelType` but `Vehicle.unitId` can override it — CNG is sold by kg in India/Pakistan and m³ in Bangladesh. `FuelUnit.optionsFor` drives the selector
+- **Hybrids choose per entry** (Petrol or Charge) in AddFuel, since one vehicle uses two units
+- The arithmetic is unit-agnostic — every efficiency figure is `distance / quantity` — so only labels and aggregation are unit-dependent
+- **Never sum across units.** Cost and distance always aggregate; quantity must go through `FuelCalculations.quantityByUnit`, and efficiency is only meaningful within one unit. Home splits the quantity tile when `hasMixedUnits`; Vehicle Comparison labels each bar with its own unit and warns that bars aren't comparable
+- Backward compatible with no migration: pre-units entries have no snapshot and resolve to liters, exactly as before
 
 ### Mileage Calculation Logic
 
@@ -148,8 +170,8 @@ Only `fuel_entries_provider` and `summary_providers` use `@riverpod` code-gen. A
 ## Features
 
 1. **Fuel Tracking** - CRUD fuel entries with liters, price, odometer, vehicle assignment
-2. **Mileage Calculation** - Automatic km/L calculation from odometer readings
-3. **Multiple Vehicles** - Add vehicles with type/icon/fuel type/tank capacity; filter entries by vehicle
+2. **Mileage Calculation** - Automatic efficiency from odometer readings, in the vehicle's own unit (km/L, km/kg, km/m³, km/kWh)
+3. **Multiple Vehicles** - Add vehicles with type/icon/fuel type/unit/tank capacity; filter entries by vehicle
 4. **Trip Cost Calculator** - Estimate fuel cost for a planned trip
 5. **Budget & Reports** - Set monthly budget, view spending bar charts (FL Chart)
 6. **Spending Comparison** - Compare 4 months side-by-side
@@ -215,6 +237,7 @@ dart run build_runner build --delete-conflicting-outputs
 ## Warnings
 
 - Do NOT modify `fuel_entry.g.dart` manually — it's Isar-generated code
+- `FuelEntry.liters` / `pricePerLiter` hold a quantity and price in the entry's **resolved unit**, not necessarily liters — never label them `L` directly, resolve via `FuelUnitResolver`
 - Do NOT add `isar_generator` to dev_dependencies (analyzer conflicts)
 - The `clearAllSharedPreferences()` in `FuelStorageService` actually clears Isar, not SharedPreferences (naming is misleading)
 - Vehicle icon map (`_vehicleIconMap`) is duplicated across 4+ files — when adding new vehicle types, update all instances

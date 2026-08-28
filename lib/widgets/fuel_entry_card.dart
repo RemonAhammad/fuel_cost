@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/fuel_entry.dart';
+import '../models/fuel_unit.dart';
 
 class FuelEntryCard extends StatelessWidget {
   final FuelEntry entry;
@@ -13,6 +14,9 @@ class FuelEntryCard extends StatelessWidget {
   final IconData? vehicleIcon;
   final String? vehicleName;
 
+  /// Unit this entry was recorded in; liters for anything logged before units.
+  final FuelUnit unit;
+
   const FuelEntryCard({
     super.key,
     required this.entry,
@@ -22,6 +26,7 @@ class FuelEntryCard extends StatelessWidget {
     this.onChangeTime,
     required this.index,
     required this.animation,
+    this.unit = FuelUnit.liter,
     this.vehicleIcon,
     this.vehicleName,
   });
@@ -67,7 +72,7 @@ class FuelEntryCard extends StatelessWidget {
                   children: [
                     Flexible(
                       child: Text(
-                        '${entry.liters.toStringAsFixed(2)} Liters',
+                        '${entry.liters.toStringAsFixed(2)} ${unit.long}',
                         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: colorScheme.onSurface),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
@@ -184,7 +189,7 @@ class FuelEntryCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${entry.liters.toStringAsFixed(2)}L',
+                          '${entry.liters.toStringAsFixed(2)}${unit.short}',
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: colorScheme.onSurface),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
@@ -201,7 +206,7 @@ class FuelEntryCard extends StatelessWidget {
                 ] else
                   Flexible(
                     child: Text(
-                      '${entry.liters.toStringAsFixed(2)}L',
+                      '${entry.liters.toStringAsFixed(2)}${unit.short}',
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: colorScheme.onSurface),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,

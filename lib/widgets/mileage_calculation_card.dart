@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import '../models/fuel_unit.dart';
 import 'fuel_calculation_row.dart';
 
 class MileageCalculationCard extends StatelessWidget {
   final Map<String, dynamic> calculationDetails;
   final String Function(DateTime) formatDate;
+  final FuelUnit unit;
 
-  const MileageCalculationCard({super.key, required this.calculationDetails, required this.formatDate});
+  const MileageCalculationCard({super.key, required this.calculationDetails, required this.formatDate, this.unit = FuelUnit.liter});
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +49,7 @@ class MileageCalculationCard extends StatelessWidget {
           FuelCalculationRow(
             label: 'Fuel Efficiency:',
             value:
-                '${calculationDetails['distance'].toStringAsFixed(1)} km ÷ ${calculationDetails['liters'].toStringAsFixed(1)} L = ${calculationDetails['mileage'].toStringAsFixed(2)} km/L',
+                '${calculationDetails['distance'].toStringAsFixed(1)} km ÷ ${calculationDetails['liters'].toStringAsFixed(1)} ${unit.short} = ${calculationDetails['mileage'].toStringAsFixed(2)} ${unit.efficiencyLabel}',
           ),
           const SizedBox(height: 12),
           Text(

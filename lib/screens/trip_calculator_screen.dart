@@ -4,6 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/summary_providers.dart';
 import '../providers/fuel_entries_provider.dart';
 import '../services/currency_service.dart';
+import '../providers/vehicle_provider.dart';
+import '../business_logic/fuel_unit_resolver.dart';
+import '../models/fuel_unit.dart';
 
 class TripCalculatorScreen extends ConsumerStatefulWidget {
   const TripCalculatorScreen({super.key});
@@ -20,6 +23,16 @@ class _TripCalculatorScreenState extends ConsumerState<TripCalculatorScreen>
   bool _useCustomPrice = false;
   bool _useCustomMileage = false;
   String _currency = '\$';
+
+  /// The calculator is standalone, so it follows whichever vehicle is selected
+  /// on Home; liters when nothing is selected.
+  FuelUnit get _unit {
+    final selectedId = ref.read(selectedVehicleIdProvider);
+    final vehicles = ref.read(vehiclesProvider).valueOrNull ?? const [];
+    if (selectedId == null) return FuelUnit.liter;
+    return FuelUnitResolver.unitForVehicle(
+        vehicles.where((v) => v.id == selectedId).firstOrNull);
+  }
 
   late AnimationController _animController;
   late Animation<double> _fadeAnimation;
@@ -179,7 +192,7 @@ class _TripCalculatorScreenState extends ConsumerState<TripCalculatorScreen>
                           const SizedBox(height: 12),
                           _buildTextField(
                             controller: _customMileageController,
-                            label: 'Mileage (km/L)',
+                            label: 'Mileage (${_unit.efficiencyLabel})',
                             icon: Icons.speed,
                             isDark: isDark,
                           ),
@@ -390,13 +403,13 @@ class _TripCalculatorScreenState extends ConsumerState<TripCalculatorScreen>
           const SizedBox(height: 24),
 
           // Details Grid
-          _buildDetailRow(Icons.local_gas_station, 'Fuel Needed', '${litersNeeded.toStringAsFixed(1)} L', const Color(0xFF2196F3), isDark),
+          _buildDetailRow(Icons.local_gas_station, _unit.isEnergy ? 'Charge Needed' : 'Fuel Needed', '${litersNeeded.toStringAsFixed(1)} ${_unit.short}', const Color(0xFF2196F3), isDark),
           const SizedBox(height: 12),
           _buildDetailRow(Icons.route_rounded, 'Distance', '${distance.toStringAsFixed(0)} km', const Color(0xFFFF9800), isDark),
           const SizedBox(height: 12),
-          _buildDetailRow(Icons.speed, 'Mileage Used', '${mileage.toStringAsFixed(1)} km/L', const Color(0xFF4CAF50), isDark),
+          _buildDetailRow(Icons.speed, 'Mileage Used', '${mileage.toStringAsFixed(1)} ${_unit.efficiencyLabel}', const Color(0xFF4CAF50), isDark),
           const SizedBox(height: 12),
-          _buildDetailRow(Icons.attach_money, 'Fuel Price', '$_currency${price.toStringAsFixed(2)}/L', const Color(0xFFE91E63), isDark),
+          _buildDetailRow(Icons.attach_money, 'Fuel Price', '$_currency${price.toStringAsFixed(2)}/${_unit.short}', const Color(0xFFE91E63), isDark),
           const SizedBox(height: 12),
           _buildDetailRow(Icons.trending_up, 'Cost per km', '$_currency${costPerKm.toStringAsFixed(2)}/km', const Color(0xFF9C27B0), isDark),
 

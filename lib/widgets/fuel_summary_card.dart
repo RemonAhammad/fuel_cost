@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import '../models/fuel_unit.dart';
 
 class FuelSummaryCard extends StatelessWidget {
   final String currency;
   final double liters;
+  final FuelUnit unit;
   final double pricePerLiter;
   final double? estimatedMileage;
 
@@ -10,6 +12,7 @@ class FuelSummaryCard extends StatelessWidget {
     super.key,
     required this.currency,
     required this.liters,
+    this.unit = FuelUnit.liter,
     required this.pricePerLiter,
     this.estimatedMileage,
   });
@@ -60,7 +63,7 @@ class FuelSummaryCard extends StatelessWidget {
                     const Text('Mileage', style: TextStyle(color: Colors.white70, fontSize: 14)),
                     const SizedBox(height: 4),
                     Text(
-                      '${estimatedMileage!.toStringAsFixed(1)} km/L',
+                      '${estimatedMileage!.toStringAsFixed(1)} ${unit.efficiencyLabel}',
                       style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
                     ),
                   ],

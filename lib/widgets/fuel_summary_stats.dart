@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import '../models/fuel_unit.dart';
 
 class FuelSummaryStats extends StatelessWidget {
   final double totalCost;
   final double totalLiters;
+
+  /// Unit for the quantity tile, or null when the scope mixes units — in which
+  /// case [quantityBreakdown] carries a per-unit split instead of a total.
+  final FuelUnit? unit;
+  final String? quantityBreakdown;
   final double averagePrice;
   final String currency;
 
@@ -10,6 +16,8 @@ class FuelSummaryStats extends StatelessWidget {
     super.key,
     required this.totalCost,
     required this.totalLiters,
+    this.unit,
+    this.quantityBreakdown,
     required this.averagePrice,
     required this.currency,
   });
@@ -94,8 +102,8 @@ class FuelSummaryStats extends StatelessWidget {
                   Expanded(
                     child: _buildSummaryCard(
                       icon: Icons.local_gas_station_rounded,
-                      title: 'Total Liters',
-                      value: '${totalLiters.toStringAsFixed(1)}L',
+                      title: quantityBreakdown != null ? 'Total Fuel' : 'Total ${(unit ?? FuelUnit.liter).long}',
+                      value: quantityBreakdown ?? '${totalLiters.toStringAsFixed(1)}${(unit ?? FuelUnit.liter).short}',
                       color: Colors.blue,
                       colorScheme: colorScheme,
                       isSmallScreen: isSmallScreen,
@@ -132,8 +140,8 @@ class FuelSummaryStats extends StatelessWidget {
             Expanded(
               child: _buildSummaryCard(
                 icon: Icons.local_gas_station_rounded,
-                title: 'Total Liters',
-                value: '${totalLiters.toStringAsFixed(1)}L',
+                title: quantityBreakdown != null ? 'Total Fuel' : 'Total ${(unit ?? FuelUnit.liter).long}',
+                value: quantityBreakdown ?? '${totalLiters.toStringAsFixed(1)}${(unit ?? FuelUnit.liter).short}',
                 color: Colors.blue,
                 colorScheme: colorScheme,
                 isSmallScreen: isSmallScreen,

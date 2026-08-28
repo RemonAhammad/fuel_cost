@@ -3,6 +3,8 @@ import 'package:isar_community/isar.dart';
 import '../models/fuel_entry.dart';
 import 'database_service.dart';
 import 'vehicle_service.dart';
+import 'fuel_unit_service.dart';
+import '../models/fuel_unit.dart';
 
 class FuelStorageService {
   static Future<List<FuelEntry>> getFuelEntries() async {
@@ -26,6 +28,11 @@ class FuelStorageService {
     await isar.writeTxn(() async {
       await isar.fuelEntrys.deleteById(id);
     });
+
+    // The vehicle and unit mappings live outside Isar, so they have to be
+    // cleaned up by hand or they accumulate for deleted entries.
+    await VehicleService.removeEntryMapping(id);
+    await FuelUnitService.removeEntryUnit(id);
   }
 
   static Future<double> getTotalFuelCost() async {
@@ -157,11 +164,15 @@ class FuelStorageService {
 
   static Future<String> exportToCsv() async {
     final entries = await getFuelEntries();
+    final units = await FuelUnitService.getEntryUnitMap();
     final buffer = StringBuffer();
-    buffer.writeln('id,liters,pricePerLiter,totalCost,dateTime,odometerReading');
+    // `unit` is appended last so older parsers, which read fixed indices 0-5,
+    // still read these files correctly.
+    buffer.writeln('id,liters,pricePerLiter,totalCost,dateTime,odometerReading,unit');
     for (final entry in entries) {
+      final unit = units[entry.id] ?? FuelUnit.liter.id;
       buffer.writeln(
-        '${entry.id},${entry.liters},${entry.pricePerLiter},${entry.totalCost},${entry.dateTime.toIso8601String()},${entry.odometerReading ?? ''}',
+        '${entry.id},${entry.liters},${entry.pricePerLiter},${entry.totalCost},${entry.dateTime.toIso8601String()},${entry.odometerReading ?? ''},$unit',
       );
     }
     return buffer.toString();

@@ -3,6 +3,7 @@ import '../models/vehicle.dart';
 import '../services/vehicle_service.dart';
 import '../models/fuel_entry.dart';
 import '../business_logic/fuel_calculations.dart';
+import '../business_logic/fuel_unit_resolver.dart';
 import 'fuel_entries_provider.dart';
 
 final vehiclesProvider = FutureProvider<List<Vehicle>>((ref) async {
@@ -10,6 +11,13 @@ final vehiclesProvider = FutureProvider<List<Vehicle>>((ref) async {
 });
 
 final selectedVehicleIdProvider = StateProvider<String?>((ref) => null);
+
+/// Resolves each entry's fuel unit. Watches entries so a newly added entry's
+/// unit snapshot is picked up.
+final fuelUnitResolverProvider = FutureProvider<FuelUnitResolver>((ref) async {
+  await ref.watch(fuelEntriesProvider.future);
+  return FuelUnitResolver.load();
+});
 
 final selectedVehicleProvider = FutureProvider<Vehicle?>((ref) async {
   final selectedId = ref.watch(selectedVehicleIdProvider);

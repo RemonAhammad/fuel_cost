@@ -1,4 +1,6 @@
 import '../models/fuel_entry.dart';
+import '../models/fuel_unit.dart';
+import 'fuel_unit_resolver.dart';
 
 class FuelCalculations {
   /// Calculate mileage metrics:
@@ -136,5 +138,37 @@ class FuelCalculations {
     }
     
     return totalDistance;
+  }
+
+  /// Totals quantity per unit. Adding liters to kWh is meaningless, so any
+  /// screen aggregating across vehicles must group rather than sum.
+  static Map<FuelUnit, double> quantityByUnit(
+    List<FuelEntry> entries,
+    FuelUnitResolver resolver,
+  ) {
+    final totals = <FuelUnit, double>{};
+    for (final entry in entries) {
+      final unit = resolver.unitFor(entry.id);
+      totals[unit] = (totals[unit] ?? 0) + entry.liters;
+    }
+    return totals;
+  }
+
+  /// True when [entries] span more than one unit, in which case a single
+  /// quantity total or efficiency figure would be fabricated.
+  static bool hasMixedUnits(
+    List<FuelEntry> entries,
+    FuelUnitResolver resolver,
+  ) =>
+      resolver.unitsIn(entries).length > 1;
+
+  /// Renders a per-unit breakdown, e.g. `120.5 L · 340.0 kWh`.
+  static String formatQuantityByUnit(Map<FuelUnit, double> totals) {
+    if (totals.isEmpty) return '0';
+    final parts = totals.entries.toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
+    return parts
+        .map((e) => '${e.value.toStringAsFixed(1)} ${e.key.short}')
+        .join(' · ');
   }
 }
