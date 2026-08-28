@@ -42,6 +42,17 @@ class VehicleService {
     }
   }
 
+  /// Merges vehicles from a backup into local storage: matching ids are
+  /// overwritten by [incoming], local-only vehicles are kept.
+  static Future<void> mergeVehicles(List<Vehicle> incoming) async {
+    final byId = {for (final v in await getVehicles()) v.id: v};
+    for (final vehicle in incoming) {
+      byId[vehicle.id] = vehicle;
+    }
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_vehiclesKey, Vehicle.listToJson(byId.values.toList()));
+  }
+
   // --- Selected Vehicle ---
 
   static Future<String?> getSelectedVehicleId() async {
@@ -71,7 +82,7 @@ class VehicleService {
 
   // --- Entry-Vehicle Mapping ---
 
-  static Future<Map<String, String>> _getEntryVehicleMap() async {
+  static Future<Map<String, String>> getEntryVehicleMap() async {
     final prefs = await SharedPreferences.getInstance();
     final json = prefs.getString(_entryVehicleMapKey);
     if (json == null || json.isEmpty) return {};
@@ -79,19 +90,19 @@ class VehicleService {
   }
 
   static Future<void> assignVehicleToEntry(String entryId, String vehicleId) async {
-    final map = await _getEntryVehicleMap();
+    final map = await getEntryVehicleMap();
     map[entryId] = vehicleId;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_entryVehicleMapKey, jsonEncode(map));
   }
 
   static Future<String?> getVehicleIdForEntry(String entryId) async {
-    final map = await _getEntryVehicleMap();
+    final map = await getEntryVehicleMap();
     return map[entryId];
   }
 
   static Future<Set<String>> getEntryIdsForVehicle(String vehicleId) async {
-    final map = await _getEntryVehicleMap();
+    final map = await getEntryVehicleMap();
     return map.entries
         .where((e) => e.value == vehicleId)
         .map((e) => e.key)
@@ -99,8 +110,17 @@ class VehicleService {
   }
 
   static Future<void> removeEntryMapping(String entryId) async {
-    final map = await _getEntryVehicleMap();
+    final map = await getEntryVehicleMap();
     map.remove(entryId);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_entryVehicleMapKey, jsonEncode(map));
+  }
+
+  /// Merges an entry-vehicle mapping from a backup: incoming keys win,
+  /// local-only mappings are kept.
+  static Future<void> mergeEntryVehicleMap(Map<String, String> incoming) async {
+    final map = await getEntryVehicleMap();
+    map.addAll(incoming);
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_entryVehicleMapKey, jsonEncode(map));
   }

@@ -5,12 +5,21 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/drive/v3.dart' as drive;
 import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'fuel_storage_service.dart';
+import 'backup_data_service.dart';
 
 class DriveBackupService {
-  static const String _backupFileName = 'fuel_cost_backup.csv';
+  /// v2 backup: fuel entries + vehicles + entry-vehicle mapping.
+  static const String _backupFileName = 'fuel_cost_backup.json';
+
+  /// v1 backup: fuel entries only. Still readable on restore, never written.
+  static const String _legacyBackupFileName = 'fuel_cost_backup.csv';
+
   static const String _lastBackupTimeKey = 'last_drive_backup_time';
-  static const String _driveFileIdKey = 'drive_backup_file_id';
+
+  /// Drive file id of the v2 backup. Deliberately a different key from the v1
+  /// 'drive_backup_file_id' — reusing that would make files.update overwrite
+  /// the user's CSV backup with JSON content under a .csv name.
+  static const String _driveFileIdKey = 'drive_backup_json_file_id';
   static const String _autoBackupKey = 'auto_backup_enabled';
 
   static Future<bool> isAutoBackupEnabled() async {
@@ -80,6 +89,7 @@ class DriveBackupService {
     await _googleSignIn.signOut();
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_driveFileIdKey);
+    await prefs.remove('drive_backup_file_id'); // stale v1 id
     await prefs.remove(_lastBackupTimeKey);
   }
 
@@ -114,8 +124,8 @@ class DriveBackupService {
 
   static Future<void> backupToDrive() async {
     final driveApi = await _getDriveApi();
-    final csvContent = await FuelStorageService.exportToCsv();
-    final bytes = utf8.encode(csvContent);
+    final jsonContent = await BackupDataService.buildBackupJson();
+    final bytes = utf8.encode(jsonContent);
     final media = drive.Media(Stream.value(bytes), bytes.length);
 
     final prefs = await SharedPreferences.getInstance();
@@ -158,23 +168,45 @@ class DriveBackupService {
 
   // --- Restore (Download) ---
 
-  static Future<int> restoreFromDrive() async {
+  /// Downloads the backup and works out what restoring it would change.
+  /// Writes nothing — pass the result to [BackupDataService.applyRestore]
+  /// once any conflicts have been resolved.
+  static Future<RestorePreview> fetchRestorePreview() async {
     final driveApi = await _getDriveApi();
 
-    // Find backup file in appDataFolder
-    final fileList = await driveApi.files.list(
-      spaces: 'appDataFolder',
-      q: "name = '$_backupFileName'",
-      $fields: 'files(id, name, modifiedTime)',
-    );
+    // Prefer the v2 JSON backup; fall back to a v1 CSV left by an older build.
+    var fileId = await _findBackupFileId(driveApi, _backupFileName);
+    final isLegacy = fileId == null;
+    fileId ??= await _findBackupFileId(driveApi, _legacyBackupFileName);
 
-    if (fileList.files == null || fileList.files!.isEmpty) {
+    if (fileId == null) {
       throw Exception('No backup found on Google Drive');
     }
 
-    final fileId = fileList.files!.first.id!;
+    final content = await _downloadFile(driveApi, fileId);
 
-    // Download file content
+    return isLegacy
+        ? await BackupDataService.analyzeLegacyCsv(content)
+        : await BackupDataService.analyzeJson(content);
+  }
+
+  static Future<String?> _findBackupFileId(
+    drive.DriveApi driveApi,
+    String name,
+  ) async {
+    final fileList = await driveApi.files.list(
+      spaces: 'appDataFolder',
+      q: "name = '$name'",
+      $fields: 'files(id, name, modifiedTime)',
+    );
+    if (fileList.files == null || fileList.files!.isEmpty) return null;
+    return fileList.files!.first.id;
+  }
+
+  static Future<String> _downloadFile(
+    drive.DriveApi driveApi,
+    String fileId,
+  ) async {
     final media = await driveApi.files.get(
       fileId,
       downloadOptions: drive.DownloadOptions.fullMedia,
@@ -184,11 +216,7 @@ class DriveBackupService {
     await for (final chunk in media.stream) {
       bytes.addAll(chunk);
     }
-    final csvContent = utf8.decode(bytes);
-
-    // Clear existing entries and import
-    await FuelStorageService.clearFuelEntries();
-    return await FuelStorageService.importFromCsv(csvContent);
+    return utf8.decode(bytes);
   }
 
   // --- Metadata ---
@@ -205,13 +233,15 @@ class DriveBackupService {
   static Future<DateTime?> getRemoteBackupTime() async {
     try {
       final driveApi = await _getDriveApi();
-      final fileList = await driveApi.files.list(
-        spaces: 'appDataFolder',
-        q: "name = '$_backupFileName'",
-        $fields: 'files(id, modifiedTime)',
-      );
-      if (fileList.files != null && fileList.files!.isNotEmpty) {
-        return fileList.files!.first.modifiedTime;
+      for (final name in [_backupFileName, _legacyBackupFileName]) {
+        final fileList = await driveApi.files.list(
+          spaces: 'appDataFolder',
+          q: "name = '$name'",
+          $fields: 'files(id, modifiedTime)',
+        );
+        if (fileList.files != null && fileList.files!.isNotEmpty) {
+          return fileList.files!.first.modifiedTime;
+        }
       }
     } catch (e) {
       print('Failed to get remote backup time: $e');

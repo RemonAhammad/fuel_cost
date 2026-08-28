@@ -10,15 +10,19 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:intl/intl.dart';
 import '../services/tutorial_service.dart';
 import 'splash_screen.dart';
+import 'restore_conflicts_screen.dart';
 import '../services/fuel_storage_service.dart';
 import '../services/currency_service.dart';
 import '../services/drive_backup_service.dart';
+import '../services/backup_data_service.dart';
 import '../services/budget_service.dart';
 import '../services/theme_service.dart';
 import '../services/vehicle_service.dart';
 import '../models/vehicle.dart';
 import '../models/fuel_entry.dart';
 import '../providers/theme_provider.dart';
+import '../providers/fuel_entries_provider.dart';
+import '../providers/vehicle_provider.dart';
 import '../widgets/widgets.dart';
 
 
@@ -584,10 +588,54 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   Future<void> _restoreFromDrive() async {
     setState(() => _loadingAction = 'restore');
     try {
-      final count = await DriveBackupService.restoreFromDrive();
+      final preview = await DriveBackupService.fetchRestorePreview();
+
+      // Nothing has been written yet. Only interrupt the user when records
+      // changed on both sides; otherwise restore stays a single tap.
+      var resolution = const ConflictResolution(
+        keepLocalEntryIds: {},
+        keepLocalVehicleIds: {},
+      );
+      if (preview.hasConflicts) {
+        if (!mounted) return;
+        final chosen = await Navigator.of(context).push<ConflictResolution>(
+          MaterialPageRoute(
+            builder: (context) => RestoreConflictsScreen(preview: preview),
+          ),
+        );
+        if (chosen == null) {
+          // Backed out of the review — leave local data untouched.
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: const Text('Restore cancelled'),
+              backgroundColor: Colors.grey.shade700,
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))));
+          }
+          return;
+        }
+        resolution = chosen;
+      }
+
+      final result = await BackupDataService.applyRestore(
+        preview,
+        keepLocalEntryIds: resolution.keepLocalEntryIds,
+        keepLocalVehicleIds: resolution.keepLocalVehicleIds,
+      );
+
+      // Restored data lives in Isar + SharedPreferences; drop the cached
+      // provider state so Home/History show it without an app restart.
+      ref.invalidate(fuelEntriesProvider);
+      ref.invalidate(vehiclesProvider);
       if (mounted) {
+        var summary = result.vehicles > 0
+            ? 'Restored ${result.entries} entries and ${result.vehicles} vehicles'
+            : 'Restored ${result.entries} entries from backup';
+        if (result.keptLocal > 0) {
+          summary += ' · ${result.keptLocal} kept yours';
+        }
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Row(children: [const Icon(Icons.cloud_done, color: Colors.white), const SizedBox(width: 12), Text('Restored $count entries from backup')]),
+          content: Row(children: [const Icon(Icons.cloud_done, color: Colors.white), const SizedBox(width: 12), Expanded(child: Text(summary))]),
           backgroundColor: Colors.green, behavior: SnackBarBehavior.floating, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))));
       }
     } catch (e) {
