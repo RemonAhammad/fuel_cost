@@ -1,8 +1,6 @@
 {
   "@@locale": "en",
-
   "appTitle": "Fuel Cost",
-
   "commonCancel": "Cancel",
   "commonSave": "Save",
   "commonDelete": "Delete",
@@ -11,13 +9,16 @@
   "commonAll": "All",
   "commonNotAvailable": "N/A",
   "commonNotSet": "Not set",
-
   "homeTotalCost": "Total Cost",
   "homeTotalFuels": "Total Fuels",
   "homeTotalDistance": "Total Distance",
   "homeTotalOf": "Total {unit}",
   "@homeTotalOf": {
-    "placeholders": { "unit": { "type": "String" } }
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
   },
   "homeLastTripMileage": "Last Trip Mileage",
   "homeOverallMileage": "Overall Mileage",
@@ -27,20 +28,31 @@
   "homeAddFuel": "Add Fuel",
   "homeHistory": "History",
   "homeSettings": "Settings",
-
   "addFuelTitle": "Add Fuel Entry",
   "addFuelEditTitle": "Edit Fuel Entry",
   "addFuelAmountLabel": "Fuel Amount ({unit})",
   "@addFuelAmountLabel": {
-    "placeholders": { "unit": { "type": "String" } }
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
   },
   "addFuelChargeAmountLabel": "Charge Amount ({unit})",
   "@addFuelChargeAmountLabel": {
-    "placeholders": { "unit": { "type": "String" } }
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
   },
   "addFuelPricePerUnit": "Price per {unit}",
   "@addFuelPricePerUnit": {
-    "placeholders": { "unit": { "type": "String" } }
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
   },
   "addFuelOdometer": "Odometer Reading",
   "addFuelVehicle": "Vehicle",
@@ -52,39 +64,52 @@
   "addFuelUpdated": "Fuel entry updated!",
   "addFuelLastRecorded": "Last recorded: {value} km",
   "@addFuelLastRecorded": {
-    "placeholders": { "value": { "type": "String" } }
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
   },
-
   "historyTitle": "Fuel History",
   "historyRecentEntries": "Recent Entries",
   "historySearchHint": "Search amount, odometer or vehicle",
   "historyExportTooltip": "Export these entries",
   "historyEntryCount": "{count, plural, =1{1 entry} other{{count} entries}}",
   "@historyEntryCount": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "historyFilteredCount": "{shown} of {total} entries",
   "@historyFilteredCount": {
     "placeholders": {
-      "shown": { "type": "int" },
-      "total": { "type": "int" }
+      "shown": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
   "historyExported": "{count, plural, =1{1 entry exported} other{{count} entries exported}}",
   "@historyExported": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "historyNoEntriesYet": "No fuel entries yet",
   "historyNoMatches": "No entries match your filters",
   "historyNoEntriesSubtitle": "Add your first fuel entry to start\ntracking your fuel costs!",
   "historyNoMatchesSubtitle": "Try a wider date range, or clear your filters",
-
   "dateAll": "All",
   "dateThisMonth": "This Month",
   "dateLastThreeMonths": "Last 3 Months",
   "dateThisYear": "This Year",
   "dateCustom": "Custom",
-
   "settingsTitle": "Settings",
   "settingsCurrency": "Currency",
   "settingsLanguage": "Language",
@@ -93,7 +118,11 @@
   "settingsMonthlyBudget": "Monthly Budget",
   "settingsBudgetPerMonth": "{amount} per month",
   "@settingsBudgetPerMonth": {
-    "placeholders": { "amount": { "type": "String" } }
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
   },
   "settingsBackupToDrive": "Backup to Google Drive",
   "settingsRestoreFromDrive": "Restore from Google Drive",
@@ -103,10 +132,305 @@
   "settingsVersion": "Version {version} (Build {build})",
   "@settingsVersion": {
     "placeholders": {
-      "version": { "type": "String" },
-      "build": { "type": "String" }
+      "version": {
+        "type": "String"
+      },
+      "build": {
+        "type": "String"
+      }
     }
   },
   "settingsRestoreCancelled": "Restore cancelled",
-  "settingsBackupSuccess": "Backup successful!"
+  "settingsBackupSuccess": "Backup successful!",
+  "commonAdd": "Add",
+  "commonUpdate": "Update",
+  "commonRemove": "Remove",
+  "commonOther": "Other",
+  "commonError": "Error: {message}",
+  "@commonError": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "commonNoData": "No data",
+  "commonTotalCost": "Total Cost",
+  "commonDistance": "Distance",
+  "commonMonth": "Month",
+  "commonLiters": "Liters",
+  "splashTagline": "TRACK  •  CALCULATE  •  SAVE",
+  "splashLoading": "Starting your journey…",
+  "splashTrackFuel": "Track Fuel",
+  "splashDriveSmart": "Drive Smart",
+  "splashSaveMoney": "Save Money",
+  "onboardingSkip": "Skip",
+  "onboardingNext": "Next",
+  "onboardingGetStarted": "Get Started",
+  "onboardingTrackTitle": "Track Every Fill-Up",
+  "onboardingTrackBody": "Log your fuel purchases with liters, price, and odometer readings. Never lose track of your fuel expenses again.",
+  "onboardingVehiclesTitle": "Multiple Vehicles",
+  "onboardingVehiclesBody": "Manage your car, bike, truck, or any vehicle separately. Switch between them anytime to see individual stats.",
+  "onboardingMileageTitle": "Smart Mileage Calculation",
+  "onboardingMileageBody": "We automatically calculate your fuel efficiency from your odometer readings. See trends over time.",
+  "onboardingBudgetTitle": "Budget & Reports",
+  "onboardingBudgetBody": "Set a monthly fuel budget and visualize your spending with beautiful charts. Stay in control of your costs.",
+  "onboardingBackupTitle": "Backup to Cloud",
+  "onboardingBackupBody": "Sync your data securely to Google Drive. Restore anytime on any device — your fuel history is always safe.",
+  "tripTitle": "Trip Cost Calculator",
+  "tripSubtitle": "Estimate your trip fuel cost",
+  "tripDetails": "Trip Details",
+  "tripDistanceLabel": "Trip Distance (km)",
+  "tripRoundTrip": "Round Trip",
+  "tripUseCustomMileage": "Use custom mileage",
+  "tripUseCustomPrice": "Use custom fuel price",
+  "tripMileageLabel": "Mileage ({unit})",
+  "@tripMileageLabel": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "tripFuelPriceLabel": "Fuel Price ({currency}/{unit})",
+  "@tripFuelPriceLabel": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "tripEstimate": "Trip Estimate",
+  "tripEstimatedTotal": "Estimated Total Cost",
+  "tripFuelNeeded": "Fuel Needed",
+  "tripChargeNeeded": "Charge Needed",
+  "tripMileageUsed": "Mileage Used",
+  "tripFuelPrice": "Fuel Price",
+  "tripCostPerKm": "Cost per km",
+  "tripEnterDistance": "Enter trip distance to calculate",
+  "tripNoPriceData": "No fuel price data available. Enter a custom price.",
+  "vehiclesTitle": "My Vehicles",
+  "vehiclesSubtitle": "Manage your vehicles",
+  "vehiclesAdd": "Add Vehicle",
+  "vehiclesEdit": "Edit Vehicle",
+  "vehiclesDelete": "Delete Vehicle",
+  "vehiclesNameLabel": "Vehicle Name",
+  "vehiclesTypeLabel": "Vehicle Type",
+  "vehiclesFuelTypeLabel": "Fuel Type",
+  "vehiclesSoldBy": "Sold By",
+  "vehiclesTankCapacity": "Tank Capacity ({unit}) - Optional",
+  "@vehiclesTankCapacity": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "vehiclesBatteryCapacity": "Battery Capacity (kWh) - Optional",
+  "vehiclesNameRequired": "Please enter a vehicle name",
+  "vehiclesEmpty": "No vehicles added yet",
+  "vehiclesEmptyHint": "Tap + to add your first vehicle",
+  "vehiclesTankSuffix": "{amount}{unit} tank",
+  "@vehiclesTankSuffix": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "vehiclesBatterySuffix": "{amount}{unit} battery",
+  "@vehiclesBatterySuffix": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "maintenanceTitle": "Maintenance Log",
+  "maintenanceSubtitle": "Track your vehicle services",
+  "maintenanceAdd": "Add Service",
+  "maintenanceEdit": "Edit Service",
+  "maintenanceDelete": "Delete Record",
+  "maintenanceDeleteConfirm": "Are you sure you want to delete \"{type}\"?",
+  "@maintenanceDeleteConfirm": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "maintenanceServiceType": "Service Type",
+  "maintenanceVehicleRequired": "Vehicle *",
+  "maintenanceSelectVehicle": "Please select a vehicle",
+  "maintenanceCostLabel": "Cost ({currency})",
+  "@maintenanceCostLabel": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "maintenanceDate": "Date",
+  "maintenanceNotes": "Notes (optional)",
+  "maintenanceNotesHint": "Any additional notes...",
+  "maintenanceSummary": "Summary",
+  "maintenanceRecords": "Records",
+  "maintenanceLastService": "Last Service",
+  "maintenanceEmpty": "No maintenance records yet",
+  "maintenanceEmptyHint": "Tap + to add your first service record",
+  "budgetTitle": "Budget & Reports",
+  "budgetSubtitle": "Track your fuel spending",
+  "budgetSetTitle": "Set Monthly Budget",
+  "budgetSetAction": "Set Budget",
+  "budgetRemove": "Remove Budget",
+  "budgetAmountLabel": "Budget ({currency})",
+  "@budgetAmountLabel": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "budgetSpent": "Spent",
+  "budgetAvgPerDay": "Avg/Day",
+  "budgetFills": "Fills",
+  "budgetMonthlySpending": "Monthly Spending",
+  "budgetWeeklyBreakdown": "Weekly Breakdown",
+  "budgetMonthlyComparison": "Monthly Comparison",
+  "budgetDayRange": "Day {range}",
+  "@budgetDayRange": {
+    "placeholders": {
+      "range": {
+        "type": "String"
+      }
+    }
+  },
+  "budgetOverBy": "{amount} over budget",
+  "@budgetOverBy": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "budgetRemaining": "{amount} remaining",
+  "@budgetRemaining": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "spendingTitle": "Spending Comparison",
+  "spendingSubtitle": "Compare periods side by side",
+  "spendingDetailed": "Detailed Comparison",
+  "spendingMetric": "Metric",
+  "spendingTotalSpent": "Total Spent",
+  "spendingTotalLiters": "Total Liters",
+  "spendingFillUps": "Fill-ups",
+  "spendingAvgPerFill": "Avg/Fill",
+  "spendingSelectPeriod": "Select {label}",
+  "@spendingSelectPeriod": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "spendingPeriod": "Period {letter}",
+  "@spendingPeriod": {
+    "placeholders": {
+      "letter": {
+        "type": "String"
+      }
+    }
+  },
+  "comparisonTitle": "Compare Vehicles",
+  "comparisonNeedTwo": "Add at least 2 vehicles to compare",
+  "comparisonMaintenance": "Maintenance",
+  "comparisonTotalFuel": "Total Fuel",
+  "comparisonFillUps": "Fill-ups",
+  "comparisonEfficiency": "Efficiency",
+  "comparisonCostPerKmAllIn": "Cost per km · all-in",
+  "comparisonCostPerKmNote": "fuel + maintenance ÷ distance",
+  "comparisonCostPerKmShort": "Cost/km",
+  "comparisonMixedUnits": "These vehicles use different units — compare each bar to itself, not to the others.",
+  "howToTitle": "How to Use",
+  "howToWelcome": "Welcome to Fuel Cost!",
+  "howToWelcomeBody": "Track your fuel consumption, costs, and calculate efficiency with ease.",
+  "howToGettingStarted": "How to Get Started",
+  "howToStep1": "Add your first fuel entry by tapping \"Add Fuel Entry\"",
+  "howToStep2": "Enter fuel amount and price per unit",
+  "howToStep3": "Optionally add your odometer reading for mileage tracking",
+  "howToStep4": "View your fuel history and statistics on the main screen",
+  "howToMileageTitle": "How Mileage Calculation Works",
+  "howToMileageFormulaTitle": "Mileage Formula",
+  "howToMileageFormula": "Mileage = Distance Traveled ÷ Fuel Added",
+  "howToDistanceFormula": "Distance = Current Odometer - Previous Odometer",
+  "howToExample": "Example Calculation:",
+  "howToPreviousOdometer": "Previous Odometer:",
+  "howToCurrentOdometer": "Current Odometer:",
+  "howToDistanceTraveled": "Distance Traveled:",
+  "howToFuelAdded": "Fuel Added:",
+  "howToMileageResult": "Mileage:",
+  "howToKeyFeatures": "Key Features",
+  "howToFeatureDashboard": "Smart Dashboard",
+  "howToFeatureDashboardBody": "View total costs, fuel consumption, and efficiency at a glance",
+  "howToFeatureHistory": "Detailed History",
+  "howToFeatureHistoryBody": "Track all your fuel entries with dates, amounts, and costs",
+  "howToFeatureEfficiency": "Efficiency Tracking",
+  "howToFeatureEfficiencyBody": "Monitor your vehicle's fuel efficiency over time",
+  "howToFeatureData": "Data Management",
+  "howToFeatureDataBody": "Easily manage and clear your fuel data when needed",
+  "howToTips": "Tips for Better Tracking",
+  "howToTip1": "Always fill up your tank completely for accurate measurements",
+  "howToTip2": "Record your odometer reading after each fuel entry",
+  "howToTip3": "Add fuel entries immediately after filling up",
+  "howToTip4": "Check your efficiency trends regularly to identify patterns",
+  "howToTip5": "Use the pull-to-refresh feature to update your data",
+  "restoreTitle": "Review Conflicts",
+  "restoreConfirm": "CONFIRM",
+  "restoreUseBackupAll": "Use backup for all",
+  "restoreKeepAllMine": "Keep all mine",
+  "restoreMine": "Mine",
+  "restoreBackup": "Backup",
+  "restoreExplainer": "These records changed on both sides. Pick which version to keep — new records are added automatically.",
+  "restoreSectionVehicles": "Vehicles",
+  "restoreSectionSettings": "Settings",
+  "restoreSectionMaintenance": "Maintenance",
+  "restoreSectionEntries": "Fuel Entries",
+  "restoreUnchanged": "unchanged",
+  "restoreConflictCount": "{count, plural, =1{1 conflict} other{{count} conflicts}}",
+  "@restoreConflictCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "restoreNewCount": "{count} new",
+  "@restoreNewCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "restoreUnchangedCount": "{count} unchanged",
+  "@restoreUnchangedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

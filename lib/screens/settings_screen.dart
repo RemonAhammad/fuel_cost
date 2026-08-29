@@ -728,8 +728,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             colors: isDark
                 ? [const Color(0xFF1a1a2e), const Color(0xFF16213e), const Color(0xFF0f3460)]
                 : [const Color(0xFF667eea), const Color(0xFF764ba2), const Color(0xFF2196F3)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            begin: AlignmentDirectional.topStart,
+            end: AlignmentDirectional.bottomEnd,
           ),
         ),
         child: SafeArea(
@@ -759,8 +759,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       colors: isDark
                           ? [const Color(0xFF1E1E1E).withValues(alpha: 0.98), const Color(0xFF1E1E1E).withValues(alpha: 0.92)]
                           : [Colors.white.withValues(alpha: 0.98), Colors.white.withValues(alpha: 0.92)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+                      begin: AlignmentDirectional.topStart,
+                      end: AlignmentDirectional.bottomEnd,
                     ),
                     borderRadius: BorderRadius.circular(28),
                     border: Border.all(color: isDark ? Colors.grey.shade800 : Colors.white.withValues(alpha: 0.4), width: 1.5),

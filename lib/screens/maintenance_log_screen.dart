@@ -6,6 +6,7 @@ import '../providers/maintenance_provider.dart';
 import '../services/maintenance_service.dart';
 import '../services/vehicle_service.dart';
 import '../models/maintenance_entry.dart';
+import '../l10n/app_localizations.dart';
 import '../models/vehicle.dart';
 import '../services/currency_service.dart';
 
@@ -110,8 +111,8 @@ class _MaintenanceLogScreenState extends ConsumerState<MaintenanceLogScreen>
                     const Color(0xFF764ba2),
                     const Color(0xFF2196F3)
                   ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            begin: AlignmentDirectional.topStart,
+            end: AlignmentDirectional.bottomEnd,
           ),
         ),
         child: SafeArea(
@@ -140,12 +141,12 @@ class _MaintenanceLogScreenState extends ConsumerState<MaintenanceLogScreen>
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Maintenance Log',
+                          Text(AppLocalizations.of(context).maintenanceTitle,
                               style: TextStyle(
                                   fontSize: 22,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white)),
-                          Text('Track your vehicle services',
+                          Text(AppLocalizations.of(context).maintenanceSubtitle,
                               style: TextStyle(
                                   fontSize: 14,
                                   color:
@@ -161,7 +162,7 @@ class _MaintenanceLogScreenState extends ConsumerState<MaintenanceLogScreen>
                       child: IconButton(
                         icon: const Icon(Icons.add, color: Colors.white),
                         onPressed: () => _showMaintenanceDialog(),
-                        tooltip: 'Add Service',
+                        tooltip: AppLocalizations.of(context).maintenanceAdd,
                       ),
                     ),
                   ],
@@ -225,7 +226,7 @@ class _MaintenanceLogScreenState extends ConsumerState<MaintenanceLogScreen>
               size: 80,
               color: isDark ? Colors.grey.shade600 : Colors.grey.shade400),
           const SizedBox(height: 16),
-          Text('No maintenance records yet',
+          Text(AppLocalizations.of(context).maintenanceEmpty,
               style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
@@ -233,7 +234,7 @@ class _MaintenanceLogScreenState extends ConsumerState<MaintenanceLogScreen>
                       ? Colors.grey.shade400
                       : Colors.grey.shade600)),
           const SizedBox(height: 8),
-          Text('Tap + to add your first service record',
+          Text(AppLocalizations.of(context).maintenanceEmptyHint,
               style: TextStyle(
                   fontSize: 14,
                   color: isDark
@@ -266,7 +267,7 @@ class _MaintenanceLogScreenState extends ConsumerState<MaintenanceLogScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Summary',
+          Text(AppLocalizations.of(context).maintenanceSummary,
               style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -279,7 +280,7 @@ class _MaintenanceLogScreenState extends ConsumerState<MaintenanceLogScreen>
               scrollDirection: Axis.horizontal,
               children: [
                 _buildFilterChip(
-                  label: 'All',
+                  label: AppLocalizations.of(context).commonAll,
                   isSelected: _selectedFilterVehicleId == null,
                   isDark: isDark,
                   onTap: () => setState(() => _selectedFilterVehicleId = null),
@@ -298,14 +299,14 @@ class _MaintenanceLogScreenState extends ConsumerState<MaintenanceLogScreen>
             children: [
               Expanded(
                 child: _buildSummaryTile(
-                    'Total Cost',
+                    AppLocalizations.of(context).commonTotalCost,
                     '$_currency${totalCost.toStringAsFixed(0)}',
                     const Color(0xFFE91E63),
                     isDark),
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: _buildSummaryTile('Records', '$recordCount',
+                child: _buildSummaryTile(AppLocalizations.of(context).maintenanceRecords, '$recordCount',
                     const Color(0xFF2196F3), isDark),
               ),
             ],
@@ -315,10 +316,10 @@ class _MaintenanceLogScreenState extends ConsumerState<MaintenanceLogScreen>
             children: [
               Expanded(
                 child: _buildSummaryTile(
-                    'Last Service',
+                    AppLocalizations.of(context).maintenanceLastService,
                     mostRecent != null
                         ? DateFormat('MMM d, yyyy').format(mostRecent)
-                        : 'N/A',
+                        : AppLocalizations.of(context).commonNotAvailable,
                     const Color(0xFF9C27B0),
                     isDark),
               ),
@@ -336,7 +337,7 @@ class _MaintenanceLogScreenState extends ConsumerState<MaintenanceLogScreen>
     required VoidCallback onTap,
   }) {
     return Padding(
-      padding: const EdgeInsets.only(right: 8),
+      padding: const EdgeInsetsDirectional.only(end: 8),
       child: GestureDetector(
         onTap: onTap,
         child: AnimatedContainer(
@@ -533,16 +534,16 @@ class _MaintenanceLogScreenState extends ConsumerState<MaintenanceLogScreen>
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Record'),
-        content: Text('Are you sure you want to delete "$typeLabel"?'),
+        title: Text(AppLocalizations.of(context).maintenanceDelete),
+        content: Text(AppLocalizations.of(context).maintenanceDeleteConfirm(typeLabel)),
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel')),
+              child: Text(AppLocalizations.of(context).commonCancel)),
           TextButton(
               onPressed: () => Navigator.pop(context, true),
               child:
-                  const Text('Delete', style: TextStyle(color: Colors.red))),
+                  Text(AppLocalizations.of(context).commonDelete, style: TextStyle(color: Colors.red))),
         ],
       ),
     );
@@ -575,7 +576,7 @@ class _MaintenanceLogScreenState extends ConsumerState<MaintenanceLogScreen>
               final typeIcon =
                   _maintenanceIconMap[e.key] ?? Icons.handyman;
               return Padding(
-                padding: const EdgeInsets.only(right: 6),
+                padding: const EdgeInsetsDirectional.only(end: 6),
                 child: GestureDetector(
                   onTap: () => onSelect(e.key),
                   child: AnimatedContainer(
@@ -656,14 +657,14 @@ class _MaintenanceLogScreenState extends ConsumerState<MaintenanceLogScreen>
         return StatefulBuilder(
           builder: (context, setDialogState) {
             return AlertDialog(
-              title: Text(isEditing ? 'Edit Service' : 'Add Service'),
+              title: Text(isEditing ? AppLocalizations.of(context).maintenanceEdit : AppLocalizations.of(context).maintenanceAdd),
               content: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Type selector
-                    Text('Service Type',
+                    Text(AppLocalizations.of(context).maintenanceServiceType,
                         style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
@@ -697,7 +698,7 @@ class _MaintenanceLogScreenState extends ConsumerState<MaintenanceLogScreen>
                             RegExp(r'^[0-9]*\.?[0-9]*'))
                       ],
                       decoration: InputDecoration(
-                        labelText: 'Cost ($_currency)',
+                        labelText: AppLocalizations.of(context).maintenanceCostLabel(_currency),
                         prefixIcon: const Icon(Icons.attach_money),
                         hintText: 'e.g. 150',
                       ),
@@ -721,8 +722,8 @@ class _MaintenanceLogScreenState extends ConsumerState<MaintenanceLogScreen>
                         }
                       },
                       child: InputDecorator(
-                        decoration: const InputDecoration(
-                          labelText: 'Date',
+                        decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context).maintenanceDate,
                           prefixIcon: Icon(Icons.calendar_today),
                         ),
                         child: Text(
@@ -739,10 +740,10 @@ class _MaintenanceLogScreenState extends ConsumerState<MaintenanceLogScreen>
                     DropdownButtonFormField<String>(
                       initialValue: selectedVehicleId,
                       decoration: InputDecoration(
-                        labelText: 'Vehicle *',
+                        labelText: AppLocalizations.of(context).maintenanceVehicleRequired,
                         prefixIcon: const Icon(Icons.directions_car),
                         errorText: selectedVehicleId == null
-                            ? 'Please select a vehicle'
+                            ? AppLocalizations.of(context).maintenanceSelectVehicle
                             : null,
                       ),
                       items: _vehicles.map((v) => DropdownMenuItem<String>(
@@ -761,10 +762,10 @@ class _MaintenanceLogScreenState extends ConsumerState<MaintenanceLogScreen>
                     TextField(
                       controller: notesController,
                       maxLines: 2,
-                      decoration: const InputDecoration(
-                        labelText: 'Notes (optional)',
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context).maintenanceNotes,
                         prefixIcon: Icon(Icons.notes),
-                        hintText: 'Any additional notes...',
+                        hintText: AppLocalizations.of(context).maintenanceNotesHint,
                       ),
                       style: TextStyle(
                           color: isDark ? Colors.white : Colors.black87),
@@ -775,7 +776,7 @@ class _MaintenanceLogScreenState extends ConsumerState<MaintenanceLogScreen>
               actions: [
                 TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: const Text('Cancel')),
+                    child: Text(AppLocalizations.of(context).commonCancel)),
                 FilledButton(
                   onPressed: selectedVehicleId == null
                       ? null
@@ -799,7 +800,7 @@ class _MaintenanceLogScreenState extends ConsumerState<MaintenanceLogScreen>
                     ref.invalidate(maintenanceEntriesProvider);
                     if (context.mounted) Navigator.pop(context);
                   },
-                  child: Text(isEditing ? 'Update' : 'Save'),
+                  child: Text(isEditing ? AppLocalizations.of(context).commonUpdate : AppLocalizations.of(context).commonSave),
                 ),
               ],
             );

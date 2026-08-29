@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../services/tutorial_service.dart';
+import '../l10n/app_localizations.dart';
 import 'home_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -11,49 +12,47 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
+  static const int _pageCount = 5;
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
-  static const List<_OnboardingPage> _pages = [
+  /// Built per-locale rather than held const — localized strings are not
+  /// compile-time constants.
+  List<_OnboardingPage> _buildPages(AppLocalizations l10n) => [
     _OnboardingPage(
       icon: Icons.local_gas_station_rounded,
-      iconColor: Color(0xFF4CAF50),
-      title: 'Track Every Fill-Up',
-      description:
-          'Log your fuel purchases with liters, price, and odometer readings. Never lose track of your fuel expenses again.',
-      gradient: [Color(0xFF667eea), Color(0xFF764ba2)],
+      iconColor: const Color(0xFF4CAF50),
+      title: l10n.onboardingTrackTitle,
+      description: l10n.onboardingTrackBody,
+      gradient: const [Color(0xFF667eea), Color(0xFF764ba2)],
     ),
     _OnboardingPage(
       icon: Icons.directions_car_rounded,
-      iconColor: Color(0xFF2196F3),
-      title: 'Multiple Vehicles',
-      description:
-          'Manage your car, bike, truck, or any vehicle separately. Switch between them anytime to see individual stats.',
-      gradient: [Color(0xFF2196F3), Color(0xFF21CBF3)],
+      iconColor: const Color(0xFF2196F3),
+      title: l10n.onboardingVehiclesTitle,
+      description: l10n.onboardingVehiclesBody,
+      gradient: const [Color(0xFF2196F3), Color(0xFF21CBF3)],
     ),
     _OnboardingPage(
       icon: Icons.speed_rounded,
-      iconColor: Color(0xFFFF9800),
-      title: 'Smart Mileage Calculation',
-      description:
-          'We automatically calculate your fuel efficiency (km/L) from your odometer readings. See trends over time.',
-      gradient: [Color(0xFFFF9800), Color(0xFFFFC107)],
+      iconColor: const Color(0xFFFF9800),
+      title: l10n.onboardingMileageTitle,
+      description: l10n.onboardingMileageBody,
+      gradient: const [Color(0xFFFF9800), Color(0xFFFFC107)],
     ),
     _OnboardingPage(
       icon: Icons.bar_chart_rounded,
-      iconColor: Color(0xFFE91E63),
-      title: 'Budget & Reports',
-      description:
-          'Set a monthly fuel budget and visualize your spending with beautiful charts. Stay in control of your costs.',
-      gradient: [Color(0xFFE91E63), Color(0xFFF06292)],
+      iconColor: const Color(0xFFE91E63),
+      title: l10n.onboardingBudgetTitle,
+      description: l10n.onboardingBudgetBody,
+      gradient: const [Color(0xFFE91E63), Color(0xFFF06292)],
     ),
     _OnboardingPage(
       icon: Icons.cloud_done_rounded,
-      iconColor: Color(0xFF00BCD4),
-      title: 'Backup to Cloud',
-      description:
-          'Sync your data securely to Google Drive. Restore anytime on any device — your fuel history is always safe.',
-      gradient: [Color(0xFF00BCD4), Color(0xFF4DD0E1)],
+      iconColor: const Color(0xFF00BCD4),
+      title: l10n.onboardingBackupTitle,
+      description: l10n.onboardingBackupBody,
+      gradient: const [Color(0xFF00BCD4), Color(0xFF4DD0E1)],
     ),
   ];
 
@@ -78,7 +77,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _nextPage() {
-    if (_currentPage < _pages.length - 1) {
+    if (_currentPage < _pageCount - 1) {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 400),
         curve: Curves.easeOutCubic,
@@ -90,7 +89,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isLastPage = _currentPage == _pages.length - 1;
+    final l10n = AppLocalizations.of(context);
+    final pages = _buildPages(l10n);
+    final isLastPage = _currentPage == pages.length - 1;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
@@ -100,7 +101,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           children: [
             // Skip button (top right)
             Align(
-              alignment: Alignment.topRight,
+              alignment: AlignmentDirectional.topEnd,
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: AnimatedOpacity(
@@ -109,7 +110,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   child: TextButton(
                     onPressed: isLastPage ? null : _completeOnboarding,
                     child: Text(
-                      'Skip',
+                      l10n.onboardingSkip,
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
@@ -126,15 +127,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               child: PageView.builder(
                 controller: _pageController,
                 onPageChanged: (i) => setState(() => _currentPage = i),
-                itemCount: _pages.length,
-                itemBuilder: (context, i) => _OnboardingPageView(page: _pages[i], isDark: isDark),
+                itemCount: pages.length,
+                itemBuilder: (context, i) => _OnboardingPageView(page: pages[i], isDark: isDark),
               ),
             ),
 
             // Page indicators
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(_pages.length, (i) {
+              children: List.generate(pages.length, (i) {
                 final isActive = i == _currentPage;
                 return AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
@@ -143,7 +144,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   width: isActive ? 28 : 8,
                   decoration: BoxDecoration(
                     color: isActive
-                        ? _pages[_currentPage].gradient[0]
+                        ? pages[_currentPage].gradient[0]
                         : (isDark ? Colors.grey.shade700 : Colors.grey.shade300),
                     borderRadius: BorderRadius.circular(4),
                   ),
@@ -164,13 +165,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
                     gradient: LinearGradient(
-                      colors: _pages[_currentPage].gradient,
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+                      colors: pages[_currentPage].gradient,
+                      begin: AlignmentDirectional.topStart,
+                      end: AlignmentDirectional.bottomEnd,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: _pages[_currentPage].gradient[0].withValues(alpha: 0.4),
+                        color: pages[_currentPage].gradient[0].withValues(alpha: 0.4),
                         blurRadius: 18,
                         offset: const Offset(0, 8),
                       ),
@@ -186,7 +187,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              isLastPage ? 'Get Started' : 'Next',
+                              isLastPage ? l10n.onboardingGetStarted : l10n.onboardingNext,
                               style: const TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold,
@@ -259,8 +260,8 @@ class _OnboardingPageView extends StatelessWidget {
                     shape: BoxShape.circle,
                     gradient: LinearGradient(
                       colors: page.gradient,
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+                      begin: AlignmentDirectional.topStart,
+                      end: AlignmentDirectional.bottomEnd,
                     ),
                     boxShadow: [
                       BoxShadow(

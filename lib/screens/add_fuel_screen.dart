@@ -218,7 +218,7 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 8, bottom: 6),
+            padding: const EdgeInsetsDirectional.only(start: 8, bottom: 6),
             child: Text(
               AppLocalizations.of(context).addFuelFuelType,
               style: TextStyle(
@@ -232,7 +232,7 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
             children: _unitChoices.map((unit) {
               final isSelected = _unit == unit;
               return Padding(
-                padding: const EdgeInsets.only(right: 8),
+                padding: const EdgeInsetsDirectional.only(end: 8),
                 child: GestureDetector(
                   onTap: () => setState(() => _unit = unit),
                   child: AnimatedContainer(
@@ -509,8 +509,8 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xFF667eea), Color(0xFF764ba2), Color(0xFF2196F3)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            begin: AlignmentDirectional.topStart,
+            end: AlignmentDirectional.bottomEnd,
           ),
         ),
         child: SafeArea(
@@ -647,7 +647,7 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
                                       final isSelected = _selectedVehicleId == v.id;
                                       final iconData = _vehicleSegmentIcon(v.iconName);
                                       return Padding(
-                                        padding: const EdgeInsets.only(right: 8),
+                                        padding: const EdgeInsetsDirectional.only(end: 8),
                                         child: GestureDetector(
                                           onTap: () {
                                             setState(() {
@@ -707,7 +707,7 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
                           if (_unitChoices.isNotEmpty) _buildUnitSelector(),
                           if (_vehicleError != null)
                             Padding(
-                              padding: const EdgeInsets.only(left: 8, bottom: 8, top: 4),
+                              padding: const EdgeInsetsDirectional.only(start: 8, bottom: 8, top: 4),
                               child: Text(
                                 _vehicleError!,
                                 style: const TextStyle(color: Colors.redAccent, fontSize: 12, fontWeight: FontWeight.w500),

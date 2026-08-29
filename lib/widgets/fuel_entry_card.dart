@@ -334,8 +334,8 @@ class FuelEntryCard extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+                  begin: AlignmentDirectional.topStart,
+                  end: AlignmentDirectional.bottomEnd,
                   colors: isDark
                       ? [const Color(0xFF1E1E1E), const Color(0xFF252525)]
                       : [Colors.white, Colors.grey[50]!],

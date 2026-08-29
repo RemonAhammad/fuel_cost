@@ -6,7 +6,7 @@
 
 - **Package**: `com.blackshadowsoftwareltd.fuel_cost`
 - **Version**: 1.0.1+5
-- **Languages**: English + Bangla (`lib/l10n/*.arb`, `flutter gen-l10n`)
+- **Languages**: 7 — English, Bangla, Spanish, French, Portuguese, Arabic, Persian (`lib/l10n/*.arb`, `flutter gen-l10n`). Arabic and Persian are RTL
 - **Min SDK**: Dart ^3.8.1
 - **Platforms**: Android, iOS (portrait-only)
 - **Repo extras**: `assets/` (registered in pubspec — `img.png`, `fuel_entries_fixed.csv` sample), `privacy_policy.html` at the repo root (published policy for the store listing)
@@ -167,10 +167,13 @@ Resolution order (`FuelUnitResolver`):
 ARB files in `lib/l10n/` (`app_en.arb` is the template, `app_bn.arb` is Bangla); `l10n.yaml` drives `flutter gen-l10n`, which generates `lib/l10n/app_localizations*.dart` at build time.
 
 - **`flutter gen-l10n` is unrelated to `build_runner`** — it never touches the Riverpod or Isar `.g.dart` files, so the standing regeneration warning does not apply
-- **Numbers and every input field stay Latin digits.** `intl`'s `bn` locale renders Bengali numerals (০১২৩) by default; AddFuel parses inputs with `double.parse`, which would throw on those. Translate text, localize dates, leave numeric formatting alone
+- **Numbers and every input field stay Latin digits.** `intl` renders native digits for `bn` (০১২৩), `ar` (٠١٢٣) and `fa` (۰۱۲۳); AddFuel, the budget dialog and tank capacity all parse with `double.parse`, which throws on those. Translate text, localize dates, leave numeric formatting alone
 - `DateFormat` must be given `Localizations.localeOf(context).toLanguageTag()` or a Bangla UI shows English month names
 - Language is stored in `app_language` (null = follow device) and is carried in the backup `settings` map like currency and theme
-- Adding a locale means: a new ARB, a code in `LanguageService.supportedCodes`, and a `languageNames` entry
+- Adding a locale means: a new ARB, a code in `LanguageService.supportedCodes`, and a `languageNames` entry (an endonym — the language in its own script). Add to `rtlCodes` if right-to-left
+- **RTL**: Flutter flips `Directionality` from the locale, but raw `EdgeInsets.only(left:)` / `Alignment.centerLeft` / `TextAlign.left` do **not** mirror — always use `EdgeInsetsDirectional.only(start:)`, `AlignmentDirectional.*Start`, `TextAlign.start`. The splash custom painters draw in raw coordinates and are deliberately left unmirrored (decorative and near-symmetric)
+- **Arabic plurals need all six ICU categories** (`zero`, `one`, `two`, `few`, `many`, `other`); two would render counts wrongly. `test/localization_test.dart` enforces this, plus key parity and placeholder parity across all 7 languages
+- Native-speaker review is still advisable before release — the non-English strings were not written by native speakers
 - Untranslated keys fall back to English, so partial translation is safe — screens outside Phase 1 are still English
 
 ### Running Cost vs Fuel Cost

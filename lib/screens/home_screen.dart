@@ -327,8 +327,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
             colors: isDark
                 ? [const Color(0xFF3D8BFF), const Color(0xFF2563EB), const Color(0xFF1D4ED8)]
                 : [const Color(0xFF38BDF8), const Color(0xFF2EA1FE), const Color(0xFF1565C0)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            begin: AlignmentDirectional.topStart,
+            end: AlignmentDirectional.bottomEnd,
           ),
           border: Border.all(color: Colors.white.withValues(alpha: 0.15), width: 1.5),
           boxShadow: [
@@ -357,7 +357,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
               ref.invalidate(fuelEntriesProvider);
             },
             child: Padding(
-              padding: const EdgeInsets.only(left: 6, right: 16, top: 6, bottom: 6),
+              padding: const EdgeInsetsDirectional.only(start: 6, end: 16, top: 6, bottom: 6),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -369,8 +369,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                       shape: BoxShape.circle,
                       gradient: LinearGradient(
                         colors: [Colors.white.withValues(alpha: 0.25), Colors.white.withValues(alpha: 0.08)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
+                        begin: AlignmentDirectional.topStart,
+                        end: AlignmentDirectional.bottomEnd,
                       ),
                       border: Border.all(color: Colors.white.withValues(alpha: 0.2), width: 1.5),
                       boxShadow: [
@@ -648,8 +648,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                                           const Color(0xFF764ba2).withValues(alpha: 0.3),
                                         ]
                                       : [const Color(0xFF667eea), const Color(0xFF764ba2)],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
+                                  begin: AlignmentDirectional.topStart,
+                                  end: AlignmentDirectional.bottomEnd,
                                 ),
                                 borderRadius: BorderRadius.circular(20),
                                 boxShadow: [
@@ -877,8 +877,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                   const Color(0xFFFFF8E1),
                   const Color(0xFFFFECB3),
                 ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+          begin: AlignmentDirectional.topStart,
+          end: AlignmentDirectional.bottomEnd,
         ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
@@ -936,7 +936,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                   children: List.generate(3, (i) {
                     final filled = i < entryCount;
                     return Padding(
-                      padding: const EdgeInsets.only(right: 6),
+                      padding: const EdgeInsetsDirectional.only(end: 6),
                       child: Container(
                         width: 24,
                         height: 5,
@@ -1219,7 +1219,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
   }) {
     final primaryColor = Theme.of(context).colorScheme.primary;
     return Padding(
-      padding: const EdgeInsets.only(right: 8),
+      padding: const EdgeInsetsDirectional.only(end: 8),
       child: GestureDetector(
         onTap: () {
           if (_selectedVehicleId == id) return;

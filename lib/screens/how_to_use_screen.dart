@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 
 class HowToUseScreen extends StatelessWidget {
   const HowToUseScreen({super.key});
@@ -11,8 +12,8 @@ class HowToUseScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: colorScheme.surface,
       appBar: AppBar(
-        title: const Text(
-          'How to Use',
+        title: Text(
+          AppLocalizations.of(context).howToTitle,
           style: TextStyle(
             fontWeight: FontWeight.w600,
             letterSpacing: 0.5,
@@ -45,8 +46,8 @@ class HowToUseScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
+                    begin: AlignmentDirectional.topStart,
+                    end: AlignmentDirectional.bottomEnd,
                     colors: [
                       colorScheme.primaryContainer,
                       colorScheme.primaryContainer.withValues(alpha: 0.8),
@@ -70,7 +71,7 @@ class HowToUseScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'Welcome to Fuel Cost!',
+                      AppLocalizations.of(context).howToWelcome,
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -80,7 +81,7 @@ class HowToUseScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Track your fuel consumption, costs, and calculate efficiency with ease.',
+                      AppLocalizations.of(context).howToWelcomeBody,
                       style: TextStyle(
                         fontSize: 16,
                         color: colorScheme.onPrimaryContainer.withValues(alpha: 0.8),
@@ -97,14 +98,14 @@ class HowToUseScreen extends StatelessWidget {
               _buildSectionCard(
                 colorScheme,
                 icon: Icons.play_circle_outline_rounded,
-                title: 'How to Get Started',
+                title: AppLocalizations.of(context).howToGettingStarted,
                 content: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildStepItem('1', 'Add your first fuel entry by tapping "Add Fuel Entry"', Icons.local_gas_station_rounded),
-                    _buildStepItem('2', 'Enter fuel amount (liters) and price per liter', Icons.attach_money_rounded),
-                    _buildStepItem('3', 'Optionally add your odometer reading for mileage tracking', Icons.speed_rounded),
-                    _buildStepItem('4', 'View your fuel history and statistics on the main screen', Icons.analytics_rounded),
+                    _buildStepItem('1', AppLocalizations.of(context).howToStep1, Icons.local_gas_station_rounded),
+                    _buildStepItem('2', AppLocalizations.of(context).howToStep2, Icons.attach_money_rounded),
+                    _buildStepItem('3', AppLocalizations.of(context).howToStep3, Icons.speed_rounded),
+                    _buildStepItem('4', AppLocalizations.of(context).howToStep4, Icons.analytics_rounded),
                   ],
                 ),
               ),
@@ -115,7 +116,7 @@ class HowToUseScreen extends StatelessWidget {
               _buildSectionCard(
                 colorScheme,
                 icon: Icons.calculate_rounded,
-                title: 'How Mileage Calculation Works',
+                title: AppLocalizations.of(context).howToMileageTitle,
                 content: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -144,7 +145,7 @@ class HowToUseScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            'Mileage Formula',
+                            AppLocalizations.of(context).howToMileageFormulaTitle,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -153,7 +154,7 @@ class HowToUseScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            'Mileage (km/L) = Distance Traveled ÷ Fuel Added',
+                            AppLocalizations.of(context).howToMileageFormula,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -163,7 +164,7 @@ class HowToUseScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Distance = Current Odometer - Previous Odometer',
+                            AppLocalizations.of(context).howToDistanceFormula,
                             style: TextStyle(
                               fontSize: 14,
                               color: colorScheme.onSurface.withValues(alpha: 0.7),
@@ -178,7 +179,7 @@ class HowToUseScreen extends StatelessWidget {
                     const SizedBox(height: 16),
                     
                     // Example Calculation
-                    _buildExampleCalculation(colorScheme),
+                    _buildExampleCalculation(context, colorScheme),
                   ],
                 ),
               ),
@@ -189,31 +190,31 @@ class HowToUseScreen extends StatelessWidget {
               _buildSectionCard(
                 colorScheme,
                 icon: Icons.star_rounded,
-                title: 'Key Features',
+                title: AppLocalizations.of(context).howToKeyFeatures,
                 content: Column(
                   children: [
                     _buildFeatureItem(
                       Icons.dashboard_rounded,
-                      'Smart Dashboard',
-                      'View total costs, fuel consumption, and efficiency at a glance',
+                      AppLocalizations.of(context).howToFeatureDashboard,
+                      AppLocalizations.of(context).howToFeatureDashboardBody,
                       colorScheme,
                     ),
                     _buildFeatureItem(
                       Icons.history_rounded,
-                      'Detailed History',
-                      'Track all your fuel entries with dates, amounts, and costs',
+                      AppLocalizations.of(context).howToFeatureHistory,
+                      AppLocalizations.of(context).howToFeatureHistoryBody,
                       colorScheme,
                     ),
                     _buildFeatureItem(
                       Icons.trending_up_rounded,
-                      'Efficiency Tracking',
+                      AppLocalizations.of(context).howToFeatureEfficiency,
                       'Monitor your vehicle\'s fuel efficiency over time',
                       colorScheme,
                     ),
                     _buildFeatureItem(
                       Icons.settings_rounded,
-                      'Data Management',
-                      'Easily manage and clear your fuel data when needed',
+                      AppLocalizations.of(context).howToFeatureData,
+                      AppLocalizations.of(context).howToFeatureDataBody,
                       colorScheme,
                     ),
                   ],
@@ -226,15 +227,15 @@ class HowToUseScreen extends StatelessWidget {
               _buildSectionCard(
                 colorScheme,
                 icon: Icons.lightbulb_rounded,
-                title: 'Tips for Better Tracking',
+                title: AppLocalizations.of(context).howToTips,
                 content: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildTipItem('🚗', 'Always fill up your tank completely for accurate measurements'),
-                    _buildTipItem('📝', 'Record your odometer reading after each fuel entry'),
-                    _buildTipItem('⏰', 'Add fuel entries immediately after filling up'),
-                    _buildTipItem('📊', 'Check your efficiency trends regularly to identify patterns'),
-                    _buildTipItem('🔄', 'Use the pull-to-refresh feature to update your data'),
+                    _buildTipItem('🚗', AppLocalizations.of(context).howToTip1),
+                    _buildTipItem('📝', AppLocalizations.of(context).howToTip2),
+                    _buildTipItem('⏰', AppLocalizations.of(context).howToTip3),
+                    _buildTipItem('📊', AppLocalizations.of(context).howToTip4),
+                    _buildTipItem('🔄', AppLocalizations.of(context).howToTip5),
                   ],
                 ),
               ),
@@ -356,7 +357,7 @@ class HowToUseScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildExampleCalculation(ColorScheme colorScheme) {
+  Widget _buildExampleCalculation(BuildContext context, ColorScheme colorScheme) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -371,7 +372,7 @@ class HowToUseScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Example Calculation:',
+            AppLocalizations.of(context).howToExample,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
@@ -379,13 +380,13 @@ class HowToUseScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          _buildCalculationStep('Previous Odometer:', '45,000 km'),
-          _buildCalculationStep('Current Odometer:', '45,500 km'),
-          _buildCalculationStep('Distance Traveled:', '45,500 - 45,000 = 500 km'),
-          _buildCalculationStep('Fuel Added:', '40 liters'),
+          _buildCalculationStep(AppLocalizations.of(context).howToPreviousOdometer, '45,000 km'),
+          _buildCalculationStep(AppLocalizations.of(context).howToCurrentOdometer, '45,500 km'),
+          _buildCalculationStep(AppLocalizations.of(context).howToDistanceTraveled, '45,500 - 45,000 = 500 km'),
+          _buildCalculationStep(AppLocalizations.of(context).howToFuelAdded, '40 liters'),
           const Divider(height: 24),
           _buildCalculationStep(
-            'Mileage:',
+            AppLocalizations.of(context).howToMileageResult,
             '500 km ÷ 40 L = 12.5 km/L',
             isResult: true,
           ),

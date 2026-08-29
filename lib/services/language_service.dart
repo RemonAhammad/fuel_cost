@@ -8,12 +8,27 @@ class LanguageService {
   static const String _languageKey = 'app_language';
 
   /// Locales the app ships translations for.
-  static const List<String> supportedCodes = ['en', 'bn'];
+  static const List<String> supportedCodes = [
+    'en', 'bn', 'es', 'fr', 'pt', 'ar', 'fa',
+  ];
 
+  /// Endonyms — each language named in its own script, which is what users
+  /// scanning a list actually recognise.
   static const Map<String, String> languageNames = {
     'en': 'English',
     'bn': 'বাংলা',
+    'es': 'Español',
+    'fr': 'Français',
+    'pt': 'Português',
+    'ar': 'العربية',
+    'fa': 'فارسی',
   };
+
+  /// Locales that lay out right-to-left. Flutter flips Directionality itself;
+  /// this is for anything that needs to know explicitly.
+  static const Set<String> rtlCodes = {'ar', 'fa'};
+
+  static bool isRtl(String? code) => code != null && rtlCodes.contains(code);
 
   /// Stored code, or null when following the device. Also the raw getter the
   /// backup restore needs to tell "never set" from "set to English".

@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../services/tutorial_service.dart';
+import '../l10n/app_localizations.dart';
 import 'home_screen.dart';
 import 'onboarding_screen.dart';
 
@@ -35,11 +36,15 @@ class _SplashScreenState extends State<SplashScreen>
   // Particles for the background — generated once
   late final List<_Particle> _particleList;
 
-  static const _featurePills = [
-    _Feature(Icons.local_gas_station_rounded, 'Track Fuel'),
-    _Feature(Icons.savings_rounded, 'Save Money'),
-    _Feature(Icons.speed_rounded, 'Drive Smart'),
-  ];
+  /// Built per-locale rather than const — localized strings need a context.
+  List<_Feature> _featurePillsFor(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return [
+      _Feature(Icons.local_gas_station_rounded, l10n.splashTrackFuel),
+      _Feature(Icons.savings_rounded, l10n.splashSaveMoney),
+      _Feature(Icons.speed_rounded, l10n.splashDriveSmart),
+    ];
+  }
 
   @override
   void initState() {
@@ -516,7 +521,7 @@ class _SplashScreenState extends State<SplashScreen>
               ),
             ),
             child: Text(
-              'TRACK  •  CALCULATE  •  SAVE',
+              AppLocalizations.of(context).splashTagline,
               style: TextStyle(
                 fontSize: 12,
                 color: Colors.white.withValues(alpha: 0.95),
@@ -539,13 +544,13 @@ class _SplashScreenState extends State<SplashScreen>
       builder: (context, _) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(_featurePills.length, (i) {
+          children: List.generate(_featurePillsFor(context).length, (i) {
             final start = i * 0.25;
             final end = start + 0.55;
             final t =
                 ((_chipsReveal.value - start) / (end - start)).clamp(0.0, 1.0);
             final eased = Curves.easeOutCubic.transform(t);
-            final pill = _featurePills[i];
+            final pill = _featurePillsFor(context)[i];
 
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6),
@@ -659,7 +664,7 @@ class _SplashScreenState extends State<SplashScreen>
 
           const SizedBox(height: 14),
           Text(
-            'Starting your journey…',
+            AppLocalizations.of(context).splashLoading,
             style: TextStyle(
               fontSize: 12,
               color: Colors.white.withValues(alpha: 0.75),

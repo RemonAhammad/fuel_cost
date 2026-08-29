@@ -5,6 +5,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
 import '../providers/fuel_entries_provider.dart';
 import '../services/budget_service.dart';
+import '../l10n/app_localizations.dart';
 import '../services/currency_service.dart';
 
 class BudgetReportScreen extends ConsumerStatefulWidget {
@@ -56,13 +57,13 @@ class _BudgetReportScreenState extends ConsumerState<BudgetReportScreen>
       builder: (context) {
         final isDark = Theme.of(context).brightness == Brightness.dark;
         return AlertDialog(
-          title: const Text('Set Monthly Budget'),
+          title: Text(AppLocalizations.of(context).budgetSetTitle),
           content: TextField(
             controller: controller,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[0-9]*\.?[0-9]*'))],
             decoration: InputDecoration(
-              labelText: 'Budget ($_currency)',
+              labelText: AppLocalizations.of(context).budgetAmountLabel(_currency),
               prefixIcon: const Icon(Icons.account_balance_wallet),
               hintText: 'e.g. 5000',
             ),
@@ -72,15 +73,15 @@ class _BudgetReportScreenState extends ConsumerState<BudgetReportScreen>
             if (_monthlyBudget != null)
               TextButton(
                 onPressed: () => Navigator.pop(context, -1.0),
-                child: const Text('Remove Budget', style: TextStyle(color: Colors.red)),
+                child: Text(AppLocalizations.of(context).budgetRemove, style: TextStyle(color: Colors.red)),
               ),
-            TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+            TextButton(onPressed: () => Navigator.pop(context), child: Text(AppLocalizations.of(context).commonCancel)),
             FilledButton(
               onPressed: () {
                 final value = double.tryParse(controller.text);
                 Navigator.pop(context, value);
               },
-              child: const Text('Save'),
+              child: Text(AppLocalizations.of(context).commonSave),
             ),
           ],
         );
@@ -110,8 +111,8 @@ class _BudgetReportScreenState extends ConsumerState<BudgetReportScreen>
             colors: isDark
                 ? [const Color(0xFF1a1a2e), const Color(0xFF16213e), const Color(0xFF0f3460)]
                 : [const Color(0xFF667eea), const Color(0xFF764ba2), const Color(0xFF2196F3)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            begin: AlignmentDirectional.topStart,
+            end: AlignmentDirectional.bottomEnd,
           ),
         ),
         child: SafeArea(
@@ -138,8 +139,8 @@ class _BudgetReportScreenState extends ConsumerState<BudgetReportScreen>
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Budget & Reports', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white)),
-                          Text('Track your fuel spending', style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.8))),
+                          Text(AppLocalizations.of(context).budgetTitle, style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white)),
+                          Text(AppLocalizations.of(context).budgetSubtitle, style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.8))),
                         ],
                       ),
                     ),
@@ -151,7 +152,7 @@ class _BudgetReportScreenState extends ConsumerState<BudgetReportScreen>
                       child: IconButton(
                         icon: const Icon(Icons.account_balance_wallet, color: Colors.white),
                         onPressed: _showBudgetDialog,
-                        tooltip: 'Set Budget',
+                        tooltip: AppLocalizations.of(context).budgetSetAction,
                       ),
                     ),
                   ],
@@ -257,7 +258,7 @@ class _BudgetReportScreenState extends ConsumerState<BudgetReportScreen>
                     child: Icon(Icons.account_balance_wallet, color: progressColor, size: 20),
                   ),
                   const SizedBox(width: 10),
-                  Text('Monthly Budget', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: isDark ? Colors.white : Colors.grey.shade800)),
+                  Text(AppLocalizations.of(context).settingsMonthlyBudget, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: isDark ? Colors.white : Colors.grey.shade800)),
                 ],
               ),
               IconButton(icon: const Icon(Icons.edit, size: 18), onPressed: _showBudgetDialog),
@@ -332,15 +333,15 @@ class _BudgetReportScreenState extends ConsumerState<BudgetReportScreen>
           const SizedBox(height: 16),
           Row(
             children: [
-              Expanded(child: _buildStatTile('Spent', '$_currency${spending.toStringAsFixed(0)}', const Color(0xFFE91E63), isDark)),
+              Expanded(child: _buildStatTile(AppLocalizations.of(context).budgetSpent, '$_currency${spending.toStringAsFixed(0)}', const Color(0xFFE91E63), isDark)),
               const SizedBox(width: 12),
-              Expanded(child: _buildStatTile('Liters', '${liters.toStringAsFixed(1)}L', const Color(0xFF2196F3), isDark)),
+              Expanded(child: _buildStatTile(AppLocalizations.of(context).commonLiters, '${liters.toStringAsFixed(1)}L', const Color(0xFF2196F3), isDark)),
             ],
           ),
           const SizedBox(height: 12),
           Row(
             children: [
-              Expanded(child: _buildStatTile('Avg/Day', '$_currency${avgDaily.toStringAsFixed(0)}', const Color(0xFF9C27B0), isDark)),
+              Expanded(child: _buildStatTile(AppLocalizations.of(context).budgetAvgPerDay, '$_currency${avgDaily.toStringAsFixed(0)}', const Color(0xFF9C27B0), isDark)),
               const SizedBox(width: 12),
               Expanded(
                 child: _buildStatTile(
@@ -392,7 +393,7 @@ class _BudgetReportScreenState extends ConsumerState<BudgetReportScreen>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Monthly Spending', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: isDark ? Colors.white : Colors.grey.shade800)),
+              Text(AppLocalizations.of(context).budgetMonthlySpending, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: isDark ? Colors.white : Colors.grey.shade800)),
               DropdownButton<int>(
                 value: _selectedMonthsBack,
                 underline: const SizedBox(),
@@ -407,7 +408,7 @@ class _BudgetReportScreenState extends ConsumerState<BudgetReportScreen>
           SizedBox(
             height: 200,
             child: data.isEmpty || maxY == 0
-                ? Center(child: Text('No data', style: TextStyle(color: isDark ? Colors.grey.shade500 : Colors.grey.shade500)))
+                ? Center(child: Text(AppLocalizations.of(context).commonNoData, style: TextStyle(color: isDark ? Colors.grey.shade500 : Colors.grey.shade500)))
                 : BarChart(
                     BarChartData(
                       maxY: maxY,
@@ -487,7 +488,7 @@ class _BudgetReportScreenState extends ConsumerState<BudgetReportScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Weekly Breakdown', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: isDark ? Colors.white : Colors.grey.shade800)),
+          Text(AppLocalizations.of(context).budgetWeeklyBreakdown, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: isDark ? Colors.white : Colors.grey.shade800)),
           Text(DateFormat('MMMM').format(now), style: TextStyle(fontSize: 13, color: isDark ? Colors.grey.shade400 : Colors.grey.shade600)),
           const SizedBox(height: 16),
           ...List.generate(weeks.length, (i) {
@@ -513,7 +514,7 @@ class _BudgetReportScreenState extends ConsumerState<BudgetReportScreen>
                           ),
                         ),
                         const SizedBox(height: 2),
-                        Text('Day $dayRange', style: TextStyle(fontSize: 10, color: isDark ? Colors.grey.shade500 : Colors.grey.shade500)),
+                        Text(AppLocalizations.of(context).budgetDayRange(dayRange), style: TextStyle(fontSize: 10, color: isDark ? Colors.grey.shade500 : Colors.grey.shade500)),
                       ],
                     ),
                   ),
@@ -546,15 +547,15 @@ class _BudgetReportScreenState extends ConsumerState<BudgetReportScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Monthly Comparison', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: isDark ? Colors.white : Colors.grey.shade800)),
+          Text(AppLocalizations.of(context).budgetMonthlyComparison, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: isDark ? Colors.white : Colors.grey.shade800)),
           const SizedBox(height: 16),
           // Table Header
           Row(
             children: [
-              Expanded(flex: 2, child: Text('Month', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: isDark ? Colors.grey.shade400 : Colors.grey.shade600))),
-              Expanded(child: Text('Spent', textAlign: TextAlign.end, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: isDark ? Colors.grey.shade400 : Colors.grey.shade600))),
-              Expanded(child: Text('Liters', textAlign: TextAlign.end, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: isDark ? Colors.grey.shade400 : Colors.grey.shade600))),
-              Expanded(child: Text('Fills', textAlign: TextAlign.end, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: isDark ? Colors.grey.shade400 : Colors.grey.shade600))),
+              Expanded(flex: 2, child: Text(AppLocalizations.of(context).commonMonth, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: isDark ? Colors.grey.shade400 : Colors.grey.shade600))),
+              Expanded(child: Text(AppLocalizations.of(context).budgetSpent, textAlign: TextAlign.end, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: isDark ? Colors.grey.shade400 : Colors.grey.shade600))),
+              Expanded(child: Text(AppLocalizations.of(context).commonLiters, textAlign: TextAlign.end, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: isDark ? Colors.grey.shade400 : Colors.grey.shade600))),
+              Expanded(child: Text(AppLocalizations.of(context).budgetFills, textAlign: TextAlign.end, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: isDark ? Colors.grey.shade400 : Colors.grey.shade600))),
             ],
           ),
           Divider(color: isDark ? Colors.grey.shade800 : Colors.grey.shade300),

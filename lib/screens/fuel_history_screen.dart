@@ -340,7 +340,7 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
                     ? '${DateFormat('MMM d', locale).format(_customRange!.start)} – ${DateFormat('MMM d', locale).format(_customRange!.end)}'
                     : _presetLabel(preset, l10n);
                 return Padding(
-                  padding: const EdgeInsets.only(right: 8),
+                  padding: const EdgeInsetsDirectional.only(end: 8),
                   child: ChoiceChip(
                     label: Text(label, style: const TextStyle(fontSize: 12.5)),
                     selected: isSelected,
@@ -506,8 +506,8 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
         flexibleSpace: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+              begin: AlignmentDirectional.topStart,
+              end: AlignmentDirectional.bottomEnd,
               colors: [
                 const Color(0xFF667eea),
                 const Color(0xFF764ba2),
@@ -690,7 +690,7 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
     required VoidCallback onTap,
   }) {
     return Padding(
-      padding: const EdgeInsets.only(right: 8),
+      padding: const EdgeInsetsDirectional.only(end: 8),
       child: GestureDetector(
         onTap: onTap,
         child: AnimatedContainer(
@@ -732,7 +732,7 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
     required ColorScheme colorScheme,
   }) {
     return Padding(
-      padding: const EdgeInsets.only(right: 8),
+      padding: const EdgeInsetsDirectional.only(end: 8),
       child: GestureDetector(
         onTap: onTap,
         child: AnimatedContainer(

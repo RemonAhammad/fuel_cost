@@ -6,6 +6,7 @@ import '../models/fuel_unit.dart';
 import '../models/maintenance_entry.dart';
 import '../services/backup_data_service.dart';
 import '../services/currency_service.dart';
+import '../l10n/app_localizations.dart';
 
 /// Result of the review: which conflicts the user chose to keep local.
 class ConflictResolution {
@@ -101,11 +102,11 @@ class _RestoreConflictsScreenState extends State<RestoreConflictsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Review Conflicts'),
+        title: Text(AppLocalizations.of(context).restoreTitle),
         actions: [
           TextButton(
             onPressed: _confirm,
-            child: const Text('CONFIRM'),
+            child: Text(AppLocalizations.of(context).restoreConfirm),
           ),
         ],
       ),
@@ -117,26 +118,26 @@ class _RestoreConflictsScreenState extends State<RestoreConflictsScreen> {
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
               children: [
                 if (preview.vehicleConflicts.isNotEmpty) ...[
-                  _sectionHeader('Vehicles', preview.vehicleConflicts.length),
+                  _sectionHeader(AppLocalizations.of(context).restoreSectionVehicles, preview.vehicleConflicts.length),
                   ...preview.vehicleConflicts
                       .map((c) => _buildVehicleConflict(c, isDark)),
                   const SizedBox(height: 8),
                 ],
                 if (preview.settingConflicts.isNotEmpty) ...[
-                  _sectionHeader('Settings', preview.settingConflicts.length),
+                  _sectionHeader(AppLocalizations.of(context).restoreSectionSettings, preview.settingConflicts.length),
                   ...preview.settingConflicts
                       .map((c) => _buildSettingConflict(c, isDark)),
                   const SizedBox(height: 8),
                 ],
                 if (preview.maintenanceConflicts.isNotEmpty) ...[
                   _sectionHeader(
-                      'Maintenance', preview.maintenanceConflicts.length),
+                      AppLocalizations.of(context).restoreSectionMaintenance, preview.maintenanceConflicts.length),
                   ...preview.maintenanceConflicts
                       .map((c) => _buildMaintenanceConflict(c, isDark)),
                   const SizedBox(height: 8),
                 ],
                 if (preview.entryConflicts.isNotEmpty) ...[
-                  _sectionHeader('Fuel Entries', preview.entryConflicts.length),
+                  _sectionHeader(AppLocalizations.of(context).restoreSectionEntries, preview.entryConflicts.length),
                   ...preview.entryConflicts
                       .map((c) => _buildEntryConflict(c, isDark)),
                 ],
@@ -169,8 +170,7 @@ class _RestoreConflictsScreenState extends State<RestoreConflictsScreen> {
           ),
           const SizedBox(height: 4),
           Text(
-            'These records changed on both sides. Pick which version to keep — '
-            'new records are added automatically.',
+            AppLocalizations.of(context).restoreExplainer,
             style: TextStyle(
               fontSize: 12.5,
               color: isDark ? Colors.white70 : Colors.black54,
@@ -182,14 +182,14 @@ class _RestoreConflictsScreenState extends State<RestoreConflictsScreen> {
               Expanded(
                 child: OutlinedButton(
                   onPressed: _useBackupForAll,
-                  child: const Text('Use backup for all'),
+                  child: Text(AppLocalizations.of(context).restoreUseBackupAll),
                 ),
               ),
               const SizedBox(width: 10),
               Expanded(
                 child: OutlinedButton(
                   onPressed: _keepAllMine,
-                  child: const Text('Keep all mine'),
+                  child: Text(AppLocalizations.of(context).restoreKeepAllMine),
                 ),
               ),
             ],
@@ -245,7 +245,7 @@ class _RestoreConflictsScreenState extends State<RestoreConflictsScreen> {
           ? 'no tank size'
           : '${v.tankCapacity!.toStringAsFixed(0)} ${v.fuelUnit.short} tank');
     }
-    return parts.isEmpty ? 'unchanged' : parts.join(' · ');
+    return parts.isEmpty ? AppLocalizations.of(context).restoreUnchanged : parts.join(' · ');
   }
 
   Widget _buildSettingConflict(SettingConflict conflict, bool isDark) {
@@ -323,7 +323,7 @@ class _RestoreConflictsScreenState extends State<RestoreConflictsScreen> {
     if (m.vehicleId != other.vehicleId) {
       parts.add(m.vehicleId == null ? 'unassigned' : 'different vehicle');
     }
-    return parts.isEmpty ? 'unchanged' : parts.join(' · ');
+    return parts.isEmpty ? AppLocalizations.of(context).restoreUnchanged : parts.join(' · ');
   }
 
   Widget _buildEntryConflict(EntryConflict conflict, bool isDark) {
@@ -389,7 +389,7 @@ class _RestoreConflictsScreenState extends State<RestoreConflictsScreen> {
     if (vehicleId != otherVehicleId) {
       parts.add(vehicleId == null ? 'unassigned' : 'different vehicle');
     }
-    return parts.isEmpty ? 'unchanged' : parts.join(' · ');
+    return parts.isEmpty ? AppLocalizations.of(context).restoreUnchanged : parts.join(' · ');
   }
 }
 
@@ -441,7 +441,7 @@ class _ConflictCard extends StatelessWidget {
             const SizedBox(height: 8),
             _option(
               context,
-              label: 'Mine',
+              label: AppLocalizations.of(context).restoreMine,
               detail: mineDetail,
               selected: keepLocal,
               onTap: () => onChanged(true),
@@ -449,7 +449,7 @@ class _ConflictCard extends StatelessWidget {
             const SizedBox(height: 6),
             _option(
               context,
-              label: 'Backup',
+              label: AppLocalizations.of(context).restoreBackup,
               detail: backupDetail,
               selected: !keepLocal,
               onTap: () => onChanged(false),

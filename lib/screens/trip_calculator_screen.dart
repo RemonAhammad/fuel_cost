@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/summary_providers.dart';
 import '../providers/fuel_entries_provider.dart';
 import '../services/currency_service.dart';
+import '../l10n/app_localizations.dart';
 import '../providers/vehicle_provider.dart';
 import '../business_logic/fuel_unit_resolver.dart';
 import '../models/fuel_unit.dart';
@@ -76,8 +77,8 @@ class _TripCalculatorScreenState extends ConsumerState<TripCalculatorScreen>
                   colors: isDark
                       ? [const Color(0xFF1a1a2e), const Color(0xFF16213e), const Color(0xFF0f3460)]
                       : [const Color(0xFF667eea), const Color(0xFF764ba2), const Color(0xFF2196F3)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+                  begin: AlignmentDirectional.topStart,
+                  end: AlignmentDirectional.bottomEnd,
                 ),
               ),
             ),
@@ -110,12 +111,12 @@ class _TripCalculatorScreenState extends ConsumerState<TripCalculatorScreen>
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Trip Cost Calculator',
+                          Text(
+                            AppLocalizations.of(context).tripTitle,
                             style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
                           ),
                           Text(
-                            'Estimate your trip fuel cost',
+                            AppLocalizations.of(context).tripSubtitle,
                             style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.8)),
                           ),
                         ],
@@ -143,7 +144,7 @@ class _TripCalculatorScreenState extends ConsumerState<TripCalculatorScreen>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Trip Details',
+                          AppLocalizations.of(context).tripDetails,
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -155,7 +156,7 @@ class _TripCalculatorScreenState extends ConsumerState<TripCalculatorScreen>
                         // Distance Input
                         _buildTextField(
                           controller: _distanceController,
-                          label: 'Trip Distance (km)',
+                          label: AppLocalizations.of(context).tripDistanceLabel,
                           icon: Icons.route_rounded,
                           isDark: isDark,
                         ),
@@ -164,7 +165,7 @@ class _TripCalculatorScreenState extends ConsumerState<TripCalculatorScreen>
 
                         // Custom Price Toggle
                         _buildToggleRow(
-                          label: 'Use custom fuel price',
+                          label: AppLocalizations.of(context).tripUseCustomPrice,
                           value: _useCustomPrice,
                           onChanged: (v) => setState(() => _useCustomPrice = v),
                           isDark: isDark,
@@ -173,7 +174,7 @@ class _TripCalculatorScreenState extends ConsumerState<TripCalculatorScreen>
                           const SizedBox(height: 12),
                           _buildTextField(
                             controller: _customPriceController,
-                            label: 'Fuel Price ($_currency/L)',
+                            label: AppLocalizations.of(context).tripFuelPriceLabel(_currency, _unit.short),
                             icon: Icons.attach_money,
                             isDark: isDark,
                           ),
@@ -183,7 +184,7 @@ class _TripCalculatorScreenState extends ConsumerState<TripCalculatorScreen>
 
                         // Custom Mileage Toggle
                         _buildToggleRow(
-                          label: 'Use custom mileage',
+                          label: AppLocalizations.of(context).tripUseCustomMileage,
                           value: _useCustomMileage,
                           onChanged: (v) => setState(() => _useCustomMileage = v),
                           isDark: isDark,
@@ -192,7 +193,7 @@ class _TripCalculatorScreenState extends ConsumerState<TripCalculatorScreen>
                           const SizedBox(height: 12),
                           _buildTextField(
                             controller: _customMileageController,
-                            label: 'Mileage (${_unit.efficiencyLabel})',
+                            label: AppLocalizations.of(context).tripMileageLabel(_unit.efficiencyLabel),
                             icon: Icons.speed,
                             isDark: isDark,
                           ),
@@ -230,7 +231,7 @@ class _TripCalculatorScreenState extends ConsumerState<TripCalculatorScreen>
                             : avgPrice;
 
                         if (price <= 0) {
-                          return _buildNoDataCard('No fuel price data available. Enter a custom price.', isDark);
+                          return _buildNoDataCard(AppLocalizations.of(context).tripNoPriceData, isDark);
                         }
 
                         final litersNeeded = distance / mileage;
@@ -317,7 +318,7 @@ class _TripCalculatorScreenState extends ConsumerState<TripCalculatorScreen>
           Icon(Icons.calculate_rounded, size: 48, color: Colors.grey.shade400),
           const SizedBox(height: 12),
           Text(
-            'Enter trip distance to calculate',
+            AppLocalizations.of(context).tripEnterDistance,
             style: TextStyle(fontSize: 16, color: isDark ? Colors.grey.shade400 : Colors.grey.shade600),
           ),
         ],
@@ -372,7 +373,7 @@ class _TripCalculatorScreenState extends ConsumerState<TripCalculatorScreen>
                 child: const Icon(Icons.check_circle_rounded, color: Color(0xFF4CAF50), size: 24),
               ),
               const SizedBox(width: 12),
-              Text('Trip Estimate', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: isDark ? Colors.white : Colors.grey.shade800)),
+              Text(AppLocalizations.of(context).tripEstimate, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: isDark ? Colors.white : Colors.grey.shade800)),
             ],
           ),
           const SizedBox(height: 20),
@@ -393,7 +394,7 @@ class _TripCalculatorScreenState extends ConsumerState<TripCalculatorScreen>
                   ),
                 ),
                 Text(
-                  'Estimated Total Cost',
+                  AppLocalizations.of(context).tripEstimatedTotal,
                   style: TextStyle(fontSize: 14, color: isDark ? Colors.grey.shade400 : Colors.grey.shade600),
                 ),
               ],
@@ -403,15 +404,15 @@ class _TripCalculatorScreenState extends ConsumerState<TripCalculatorScreen>
           const SizedBox(height: 24),
 
           // Details Grid
-          _buildDetailRow(Icons.local_gas_station, _unit.isEnergy ? 'Charge Needed' : 'Fuel Needed', '${litersNeeded.toStringAsFixed(1)} ${_unit.short}', const Color(0xFF2196F3), isDark),
+          _buildDetailRow(Icons.local_gas_station, _unit.isEnergy ? AppLocalizations.of(context).tripChargeNeeded : AppLocalizations.of(context).tripFuelNeeded, '${litersNeeded.toStringAsFixed(1)} ${_unit.short}', const Color(0xFF2196F3), isDark),
           const SizedBox(height: 12),
-          _buildDetailRow(Icons.route_rounded, 'Distance', '${distance.toStringAsFixed(0)} km', const Color(0xFFFF9800), isDark),
+          _buildDetailRow(Icons.route_rounded, AppLocalizations.of(context).commonDistance, '${distance.toStringAsFixed(0)} km', const Color(0xFFFF9800), isDark),
           const SizedBox(height: 12),
-          _buildDetailRow(Icons.speed, 'Mileage Used', '${mileage.toStringAsFixed(1)} ${_unit.efficiencyLabel}', const Color(0xFF4CAF50), isDark),
+          _buildDetailRow(Icons.speed, AppLocalizations.of(context).tripMileageUsed, '${mileage.toStringAsFixed(1)} ${_unit.efficiencyLabel}', const Color(0xFF4CAF50), isDark),
           const SizedBox(height: 12),
-          _buildDetailRow(Icons.attach_money, 'Fuel Price', '$_currency${price.toStringAsFixed(2)}/${_unit.short}', const Color(0xFFE91E63), isDark),
+          _buildDetailRow(Icons.attach_money, AppLocalizations.of(context).tripFuelPrice, '$_currency${price.toStringAsFixed(2)}/${_unit.short}', const Color(0xFFE91E63), isDark),
           const SizedBox(height: 12),
-          _buildDetailRow(Icons.trending_up, 'Cost per km', '$_currency${costPerKm.toStringAsFixed(2)}/km', const Color(0xFF9C27B0), isDark),
+          _buildDetailRow(Icons.trending_up, AppLocalizations.of(context).tripCostPerKm, '$_currency${costPerKm.toStringAsFixed(2)}/km', const Color(0xFF9C27B0), isDark),
 
           const SizedBox(height: 20),
 
@@ -431,7 +432,7 @@ class _TripCalculatorScreenState extends ConsumerState<TripCalculatorScreen>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Round Trip', style: TextStyle(fontWeight: FontWeight.w600, color: isDark ? Colors.white : Colors.grey.shade800)),
+                      Text(AppLocalizations.of(context).tripRoundTrip, style: TextStyle(fontWeight: FontWeight.w600, color: isDark ? Colors.white : Colors.grey.shade800)),
                       Text(
                         '$_currency${(estimatedCost * 2).toStringAsFixed(2)} for ${(distance * 2).toStringAsFixed(0)} km',
                         style: TextStyle(fontSize: 13, color: isDark ? Colors.grey.shade400 : Colors.grey.shade600),

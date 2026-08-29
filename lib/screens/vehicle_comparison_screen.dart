@@ -8,6 +8,7 @@ import '../models/vehicle.dart';
 import '../models/fuel_entry.dart';
 import '../business_logic/fuel_calculations.dart';
 import '../models/fuel_unit.dart';
+import '../l10n/app_localizations.dart';
 import '../services/maintenance_service.dart';
 
 const Map<String, IconData> _vehicleIconMap = {
@@ -223,8 +224,8 @@ class _VehicleComparisonScreenState
                     const Color(0xFF764ba2),
                     const Color(0xFF2196F3),
                   ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            begin: AlignmentDirectional.topStart,
+            end: AlignmentDirectional.bottomEnd,
           ),
         ),
         child: SafeArea(
@@ -253,8 +254,8 @@ class _VehicleComparisonScreenState
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Compare Vehicles',
+                          Text(
+                            AppLocalizations.of(context).comparisonTitle,
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
@@ -328,7 +329,7 @@ class _VehicleComparisonScreenState
                                     )
                                   else ...[
                                     _buildComparisonCard(
-                                      'Total Cost',
+                                      AppLocalizations.of(context).commonTotalCost,
                                       _vehicleStats.values
                                           .map((s) => s.totalCost)
                                           .toList(),
@@ -345,7 +346,7 @@ class _VehicleComparisonScreenState
                                     ),
                                     const SizedBox(height: 12),
                                     _buildComparisonCard(
-                                      'Maintenance',
+                                      AppLocalizations.of(context).comparisonMaintenance,
                                       _vehicleStats.values
                                           .map((s) => s.maintenanceCost)
                                           .toList(),
@@ -362,7 +363,7 @@ class _VehicleComparisonScreenState
                                     ),
                                     const SizedBox(height: 12),
                                     _buildComparisonCard(
-                                      'Total Fuel',
+                                      AppLocalizations.of(context).comparisonTotalFuel,
                                       _vehicleStats.values
                                           .map((s) => s.totalLiters)
                                           .toList(),
@@ -383,7 +384,7 @@ class _VehicleComparisonScreenState
                                     ),
                                     const SizedBox(height: 12),
                                     _buildComparisonCard(
-                                      'Fill-ups',
+                                      AppLocalizations.of(context).comparisonFillUps,
                                       _vehicleStats.values
                                           .map((s) =>
                                               s.fillUpCount.toDouble())
@@ -400,7 +401,7 @@ class _VehicleComparisonScreenState
                                     ),
                                     const SizedBox(height: 12),
                                     _buildComparisonCard(
-                                      'Efficiency',
+                                      AppLocalizations.of(context).comparisonEfficiency,
                                       _vehicleStats.values
                                           .map((s) => s.overallMileage)
                                           .toList(),
@@ -422,7 +423,7 @@ class _VehicleComparisonScreenState
                                     ),
                                     const SizedBox(height: 12),
                                     _buildComparisonCard(
-                                      'Cost per km · all-in',
+                                      AppLocalizations.of(context).comparisonCostPerKmAllIn,
                                       _vehicleStats.values
                                           .map((s) => s.costPerKm)
                                           .toList(),
@@ -436,7 +437,7 @@ class _VehicleComparisonScreenState
                                           .toList(),
                                       isDark,
                                       prefix: _currency,
-                                      note: 'fuel + maintenance ÷ distance',
+                                      note: AppLocalizations.of(context).comparisonCostPerKmNote,
                                       perValueSuffix: _vehicleStats.values
                                           .map((s) => s.maintenanceCost > 0
                                               ? '(fuel $_currency${s.fuelCostPerKm.toStringAsFixed(2)})'
@@ -501,7 +502,7 @@ class _VehicleComparisonScreenState
             ),
             const SizedBox(height: 16),
             Text(
-              'Add at least 2 vehicles to compare',
+              AppLocalizations.of(context).comparisonNeedTwo,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 18,
@@ -655,7 +656,7 @@ class _VehicleComparisonScreenState
             Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: Text(
-                'These vehicles use different units — compare each bar to itself, not to the others.',
+                AppLocalizations.of(context).comparisonMixedUnits,
                 style: TextStyle(
                   fontSize: 11.5,
                   fontStyle: FontStyle.italic,
@@ -732,13 +733,13 @@ class _VehicleComparisonScreenState
     const double vehicleColumnWidth = 110;
 
     final metrics = [
-      'Total Cost',
-      'Maintenance',
-      'Total Fuel',
-      'Fill-ups',
-      'Efficiency',
-      'Cost/km',
-      'Distance',
+      AppLocalizations.of(context).commonTotalCost,
+      AppLocalizations.of(context).comparisonMaintenance,
+      AppLocalizations.of(context).comparisonTotalFuel,
+      AppLocalizations.of(context).comparisonFillUps,
+      AppLocalizations.of(context).comparisonEfficiency,
+      AppLocalizations.of(context).comparisonCostPerKmShort,
+      AppLocalizations.of(context).commonDistance,
     ];
 
     String valueForMetric(_VehicleStats s, int metricIndex) {

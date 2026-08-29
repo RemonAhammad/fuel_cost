@@ -30,8 +30,8 @@ class StatCard extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [backgroundColor.withValues(alpha: 0.8), backgroundColor.withValues(alpha: 0.6)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+              begin: AlignmentDirectional.topStart,
+              end: AlignmentDirectional.bottomEnd,
             ),
             borderRadius: BorderRadius.circular(20),
             boxShadow: [

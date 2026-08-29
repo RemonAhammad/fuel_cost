@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../providers/fuel_entries_provider.dart';
 import '../services/budget_service.dart';
+import '../l10n/app_localizations.dart';
 import '../services/currency_service.dart';
 
 class SpendingComparisonScreen extends ConsumerStatefulWidget {
@@ -135,7 +136,7 @@ class _SpendingComparisonScreenState
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Text(
-                  'Select $label',
+                  AppLocalizations.of(context).spendingSelectPeriod(label),
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -203,8 +204,8 @@ class _SpendingComparisonScreenState
                     const Color(0xFF764ba2),
                     const Color(0xFF2196F3)
                   ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            begin: AlignmentDirectional.topStart,
+            end: AlignmentDirectional.bottomEnd,
           ),
         ),
         child: SafeArea(
@@ -233,8 +234,8 @@ class _SpendingComparisonScreenState
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Spending Comparison',
+                          Text(
+                            AppLocalizations.of(context).spendingTitle,
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
@@ -242,7 +243,7 @@ class _SpendingComparisonScreenState
                             ),
                           ),
                           Text(
-                            'Compare periods side by side',
+                            AppLocalizations.of(context).spendingSubtitle,
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.white.withValues(alpha: 0.8),
@@ -434,7 +435,7 @@ class _SpendingComparisonScreenState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Spending Comparison',
+            AppLocalizations.of(context).spendingTitle,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
@@ -453,28 +454,28 @@ class _SpendingComparisonScreenState
           ),
           const SizedBox(height: 20),
           _buildComparisonBarRow(
-            label: 'Total Cost',
+            label: AppLocalizations.of(context).commonTotalCost,
             values: spending,
             formatValue: (v) => '$_currency${v.toStringAsFixed(0)}',
             isDark: isDark,
           ),
           const SizedBox(height: 16),
           _buildComparisonBarRow(
-            label: 'Liters',
+            label: AppLocalizations.of(context).commonLiters,
             values: liters,
             formatValue: (v) => '${v.toStringAsFixed(1)}L',
             isDark: isDark,
           ),
           const SizedBox(height: 16),
           _buildComparisonBarRow(
-            label: 'Fill-ups',
+            label: AppLocalizations.of(context).spendingFillUps,
             values: fills,
             formatValue: (v) => v.toInt().toString(),
             isDark: isDark,
           ),
           const SizedBox(height: 16),
           _buildComparisonBarRow(
-            label: 'Avg/Day',
+            label: AppLocalizations.of(context).budgetAvgPerDay,
             values: avgDaily,
             formatValue: (v) => '$_currency${v.toStringAsFixed(0)}',
             isDark: isDark,
@@ -589,7 +590,7 @@ class _SpendingComparisonScreenState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Detailed Comparison',
+            AppLocalizations.of(context).spendingDetailed,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
@@ -609,7 +610,7 @@ class _SpendingComparisonScreenState
                       SizedBox(
                         width: 90,
                         child: Text(
-                          'Metric',
+                          AppLocalizations.of(context).spendingMetric,
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
@@ -635,15 +636,15 @@ class _SpendingComparisonScreenState
                     ],
                   ),
                   Divider(color: isDark ? Colors.grey.shade800 : Colors.grey.shade300),
-                  _buildComparisonRow('Total Spent',
+                  _buildComparisonRow(AppLocalizations.of(context).spendingTotalSpent,
                       spending.map((v) => '$_currency${v.toStringAsFixed(0)}').toList(), isDark),
-                  _buildComparisonRow('Total Liters',
+                  _buildComparisonRow(AppLocalizations.of(context).spendingTotalLiters,
                       liters.map((v) => '${v.toStringAsFixed(1)}L').toList(), isDark),
-                  _buildComparisonRow('Fill-ups',
+                  _buildComparisonRow(AppLocalizations.of(context).spendingFillUps,
                       fills.map((v) => v.toString()).toList(), isDark),
-                  _buildComparisonRow('Avg/Day',
+                  _buildComparisonRow(AppLocalizations.of(context).budgetAvgPerDay,
                       avgDaily.map((v) => '$_currency${v.toStringAsFixed(0)}').toList(), isDark),
-                  _buildComparisonRow('Avg/Fill',
+                  _buildComparisonRow(AppLocalizations.of(context).spendingAvgPerFill,
                       avgPerFill.map((v) => '$_currency${v.toStringAsFixed(0)}').toList(), isDark),
                 ],
               ),

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/vehicle.dart';
 import '../models/fuel_unit.dart';
+import '../l10n/app_localizations.dart';
 import '../services/vehicle_service.dart';
 import '../providers/vehicle_provider.dart';
 
@@ -58,7 +59,7 @@ class _VehicleManagementScreenState extends ConsumerState<VehicleManagementScree
           builder: (context, setDialogState) {
             return AlertDialog(
               title: Text(
-                existing != null ? 'Edit Vehicle' : 'Add Vehicle',
+                existing != null ? AppLocalizations.of(context).vehiclesEdit : AppLocalizations.of(context).vehiclesAdd,
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   color: isDark ? Colors.white : Colors.black87,
@@ -79,7 +80,7 @@ class _VehicleManagementScreenState extends ConsumerState<VehicleManagementScree
                         }
                       },
                       decoration: InputDecoration(
-                        labelText: 'Vehicle Name',
+                        labelText: AppLocalizations.of(context).vehiclesNameLabel,
                         hintText: 'e.g. My Car',
                         prefixIcon: const Icon(Icons.label),
                         labelStyle: TextStyle(color: isDark ? Colors.grey.shade400 : null),
@@ -91,7 +92,7 @@ class _VehicleManagementScreenState extends ConsumerState<VehicleManagementScree
                     const SizedBox(height: 16),
 
                     // Icon Selection
-                    Text('Vehicle Type', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: isDark ? Colors.grey.shade300 : Colors.grey.shade700)),
+                    Text(AppLocalizations.of(context).vehiclesTypeLabel, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: isDark ? Colors.grey.shade300 : Colors.grey.shade700)),
                     const SizedBox(height: 8),
                     Wrap(
                       spacing: 8,
@@ -126,7 +127,7 @@ class _VehicleManagementScreenState extends ConsumerState<VehicleManagementScree
                     const SizedBox(height: 16),
 
                     // Fuel Type
-                    Text('Fuel Type', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: isDark ? Colors.grey.shade300 : Colors.grey.shade700)),
+                    Text(AppLocalizations.of(context).vehiclesFuelTypeLabel, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: isDark ? Colors.grey.shade300 : Colors.grey.shade700)),
                     const SizedBox(height: 8),
                     Wrap(
                       spacing: 8,
@@ -151,7 +152,7 @@ class _VehicleManagementScreenState extends ConsumerState<VehicleManagementScree
                     if (FuelUnit.optionsFor(selectedFuelType).length > 1 &&
                         selectedFuelType != 'hybrid') ...[
                       const SizedBox(height: 16),
-                      Text('Sold By', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: isDark ? Colors.grey.shade300 : Colors.grey.shade700)),
+                      Text(AppLocalizations.of(context).vehiclesSoldBy, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: isDark ? Colors.grey.shade300 : Colors.grey.shade700)),
                       const SizedBox(height: 8),
                       Wrap(
                         spacing: 8,
@@ -182,8 +183,8 @@ class _VehicleManagementScreenState extends ConsumerState<VehicleManagementScree
                         inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[0-9]*\.?[0-9]*'))],
                         decoration: InputDecoration(
                           labelText: unit.isEnergy
-                              ? 'Battery Capacity (kWh) - Optional'
-                              : 'Tank Capacity (${unit.short}) - Optional',
+                              ? AppLocalizations.of(context).vehiclesBatteryCapacity
+                              : AppLocalizations.of(context).vehiclesTankCapacity(unit.short),
                           prefixIcon: Icon(unit.isEnergy ? Icons.battery_charging_full : Icons.local_gas_station),
                         ),
                         style: TextStyle(color: isDark ? Colors.white : Colors.black87),
@@ -193,12 +194,12 @@ class _VehicleManagementScreenState extends ConsumerState<VehicleManagementScree
                 ),
               ),
               actions: [
-                TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+                TextButton(onPressed: () => Navigator.pop(context), child: Text(AppLocalizations.of(context).commonCancel)),
                 FilledButton(
                   onPressed: () {
                     final name = nameController.text.trim();
                     if (name.isEmpty) {
-                      setDialogState(() => nameError = 'Please enter a vehicle name');
+                      setDialogState(() => nameError = AppLocalizations.of(context).vehiclesNameRequired);
                       return;
                     }
                     final vehicle = Vehicle(
@@ -211,7 +212,7 @@ class _VehicleManagementScreenState extends ConsumerState<VehicleManagementScree
                     );
                     Navigator.pop(context, vehicle);
                   },
-                  child: Text(existing != null ? 'Update' : 'Add'),
+                  child: Text(existing != null ? AppLocalizations.of(context).commonUpdate : AppLocalizations.of(context).commonAdd),
                 ),
               ],
             );
@@ -230,14 +231,14 @@ class _VehicleManagementScreenState extends ConsumerState<VehicleManagementScree
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Vehicle'),
+        title: Text(AppLocalizations.of(context).vehiclesDelete),
         content: Text('Are you sure you want to delete "${vehicle.name}"? Fuel entries will not be deleted.'),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancel')),
+          TextButton(onPressed: () => Navigator.pop(context, false), child: Text(AppLocalizations.of(context).commonCancel)),
           FilledButton(
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Delete'),
+            child: Text(AppLocalizations.of(context).commonDelete),
           ),
         ],
       ),
@@ -261,8 +262,8 @@ class _VehicleManagementScreenState extends ConsumerState<VehicleManagementScree
             colors: isDark
                 ? [const Color(0xFF1a1a2e), const Color(0xFF16213e), const Color(0xFF0f3460)]
                 : [const Color(0xFF667eea), const Color(0xFF764ba2), const Color(0xFF2196F3)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            begin: AlignmentDirectional.topStart,
+            end: AlignmentDirectional.bottomEnd,
           ),
         ),
         child: SafeArea(
@@ -285,12 +286,12 @@ class _VehicleManagementScreenState extends ConsumerState<VehicleManagementScree
                       ),
                     ),
                     const SizedBox(width: 16),
-                    const Expanded(
+                    Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('My Vehicles', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white)),
-                          Text('Manage your vehicles', style: TextStyle(fontSize: 14, color: Colors.white70)),
+                          Text(AppLocalizations.of(context).vehiclesTitle, style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white)),
+                          Text(AppLocalizations.of(context).vehiclesSubtitle, style: TextStyle(fontSize: 14, color: Colors.white70)),
                         ],
                       ),
                     ),
@@ -326,14 +327,14 @@ class _VehicleManagementScreenState extends ConsumerState<VehicleManagementScree
                               children: [
                                 Icon(Icons.directions_car_outlined, size: 64, color: Colors.grey.shade400),
                                 const SizedBox(height: 16),
-                                Text('No vehicles added yet', style: TextStyle(fontSize: 18, color: isDark ? Colors.grey.shade400 : Colors.grey.shade600)),
+                                Text(AppLocalizations.of(context).vehiclesEmpty, style: TextStyle(fontSize: 18, color: isDark ? Colors.grey.shade400 : Colors.grey.shade600)),
                                 const SizedBox(height: 8),
-                                Text('Tap + to add your first vehicle', style: TextStyle(fontSize: 14, color: isDark ? Colors.grey.shade500 : Colors.grey.shade500)),
+                                Text(AppLocalizations.of(context).vehiclesEmptyHint, style: TextStyle(fontSize: 14, color: isDark ? Colors.grey.shade500 : Colors.grey.shade500)),
                                 const SizedBox(height: 24),
                                 FilledButton.icon(
                                   onPressed: () => _showVehicleDialog(),
                                   icon: const Icon(Icons.add),
-                                  label: const Text('Add Vehicle'),
+                                  label: Text(AppLocalizations.of(context).vehiclesAdd),
                                 ),
                               ],
                             ),
