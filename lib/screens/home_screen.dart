@@ -835,22 +835,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
         ? null
         : _vehicles.firstWhere(
             (v) => v.id == _selectedVehicleId,
-            orElse: () => Vehicle(id: '', name: 'this vehicle'),
+            orElse: () => Vehicle(id: '', name: AppLocalizations.of(context).homeThisVehicle),
           ).name;
 
     final String title;
     final String message;
     if (entryCount == 0) {
-      title = 'No entries yet';
+      title = AppLocalizations.of(context).homeNoEntriesYet;
       message = isAll
-          ? 'Add your first fuel entry to start tracking mileage, costs, and efficiency trends.'
-          : 'No entries for $vehicleName yet. Add one to see its stats and mileage.';
+          ? AppLocalizations.of(context).homeAddFirstEntryHint
+          : AppLocalizations.of(context).homeNoEntriesForVehicle(vehicleName ?? AppLocalizations.of(context).homeThisVehicle);
     } else {
-      title = entryCount == 1 ? 'Just getting started' : 'Almost there!';
+      title = entryCount == 1 ? AppLocalizations.of(context).homeJustStarted : AppLocalizations.of(context).homeAlmostThere;
       final remaining = 3 - entryCount;
       message = isAll
-          ? 'Add $remaining more ${remaining == 1 ? "entry" : "entries"} for a better overview of your fuel efficiency, costs, and trends.'
-          : 'Add $remaining more ${remaining == 1 ? "entry" : "entries"} for $vehicleName to unlock accurate mileage and trend charts.';
+          ? AppLocalizations.of(context).homeAddMoreEntries(remaining)
+          : AppLocalizations.of(context).homeAddMoreEntriesForVehicle(remaining, vehicleName ?? AppLocalizations.of(context).homeThisVehicle);
     }
 
     return Container(

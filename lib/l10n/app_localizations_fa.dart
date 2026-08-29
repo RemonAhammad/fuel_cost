@@ -1491,4 +1491,186 @@ class AppLocalizationsFa extends AppLocalizations {
   String chartCostAxis(String currency) {
     return 'هزینه ($currency)';
   }
+
+  @override
+  String get trendCostsUp => 'هزینه‌ها رو به افزایش';
+
+  @override
+  String get trendCostsDown => 'هزینه‌ها رو به کاهش';
+
+  @override
+  String get trendVolumeUp => 'مقدار رو به افزایش';
+
+  @override
+  String get trendVolumeDown => 'مقدار رو به کاهش';
+
+  @override
+  String get trendEfficiencyUp => 'بازدهی رو به بهبود';
+
+  @override
+  String get trendEfficiencyDown => 'بازدهی رو به کاهش';
+
+  @override
+  String get addFuelSaveButton => 'ذخیره سوخت‌گیری';
+
+  @override
+  String get addFuelUpdateButton => 'به‌روزرسانی رکورد';
+
+  @override
+  String get addFuelSubtitle => 'مصرف سوخت خود را پیگیری کنید';
+
+  @override
+  String get addFuelEditSubtitle => 'رکورد سوخت‌گیری را به‌روز کنید';
+
+  @override
+  String get addFuelAmountRequired => 'لطفاً مقدار سوخت را وارد کنید';
+
+  @override
+  String get addFuelPriceRequired => 'لطفاً قیمت هر واحد را وارد کنید';
+
+  @override
+  String get addFuelPositiveNumber => 'لطفاً یک عدد مثبت معتبر وارد کنید';
+
+  @override
+  String get addFuelCurrentOdometer => 'کیلومترشمار فعلی (کیلومتر)';
+
+  @override
+  String get addFuelOdometerOptional => 'کیلومترشمار (کیلومتر) - اختیاری';
+
+  @override
+  String addFuelOdometerTooLow(String value) {
+    return 'کیلومترشمار نمی‌تواند کمتر از آخرین ثبت ($value کیلومتر) باشد';
+  }
+
+  @override
+  String get addFuelBackupTitle => 'پشتیبان‌گیری داده';
+
+  @override
+  String get addFuelBackupCloudTitle => 'پشتیبان‌گیری ابری';
+
+  @override
+  String get addFuelBackupPrompt =>
+      'آیا می‌خواهید داده‌هایتان را در Google Drive پشتیبان بگیرید؟';
+
+  @override
+  String get addFuelConnectPrompt =>
+      'برای پشتیبان‌گیری در Google Drive، Gmail خود را متصل کنید.';
+
+  @override
+  String get addFuelConnectGmail => 'اتصال Gmail';
+
+  @override
+  String get dateToday => 'امروز';
+
+  @override
+  String get dateYesterday => 'دیروز';
+
+  @override
+  String get themeLight => 'روشن';
+
+  @override
+  String get themeDark => 'تیره';
+
+  @override
+  String get themeSystem => 'سیستم';
+
+  @override
+  String get commonLoading => 'در حال بارگذاری...';
+
+  @override
+  String get settingsConnected => 'متصل';
+
+  @override
+  String get settingsConnectDrive => 'اتصال Google Drive';
+
+  @override
+  String get settingsSignInPrompt =>
+      'برای پشتیبان‌گیری در Google Drive وارد شوید';
+
+  @override
+  String get exportShareText => 'خروجی Fuel Cost';
+
+  @override
+  String get homeJustStarted => 'تازه شروع کرده‌اید';
+
+  @override
+  String get homeAlmostThere => 'تقریباً آماده است!';
+
+  @override
+  String get homeAddFirstEntryHint =>
+      'برای شروع پیگیری مصرف، هزینه و روندها، اولین سوخت‌گیری خود را ثبت کنید.';
+
+  @override
+  String homeNoEntriesForVehicle(String vehicle) {
+    return 'هنوز رکوردی برای $vehicle نیست. یکی اضافه کنید تا آمارش را ببینید.';
+  }
+
+  @override
+  String homeAddMoreEntries(int count) {
+    return 'برای دید بهتر از بازدهی، هزینه و روندها، $count رکورد دیگر اضافه کنید.';
+  }
+
+  @override
+  String homeAddMoreEntriesForVehicle(int count, String vehicle) {
+    return 'برای دریافت مصرف و نمودارهای دقیق $vehicle، $count رکورد دیگر اضافه کنید.';
+  }
+
+  @override
+  String get homeThisVehicle => 'این خودرو';
+
+  @override
+  String get spendingPeriodA => 'دوره ۱';
+
+  @override
+  String get spendingPeriodB => 'دوره ۲';
+
+  @override
+  String get spendingPeriodC => 'دوره ۳';
+
+  @override
+  String get spendingPeriodD => 'دوره ۴';
+
+  @override
+  String comparisonFuelOnly(String amount) {
+    return '(سوخت $amount)';
+  }
+
+  @override
+  String get restoreNoDescription => 'بدون توضیح';
+
+  @override
+  String get restoreNoNotes => 'بدون یادداشت';
+
+  @override
+  String get restoreNotesChanged => 'یادداشت‌ها تغییر کرد';
+
+  @override
+  String get restoreNoOdometer => 'بدون کیلومترشمار';
+
+  @override
+  String restoreOdometerValue(String value) {
+    return 'کیلومتر $value';
+  }
+
+  @override
+  String get restoreNoTankSize => 'بدون ظرفیت باک';
+
+  @override
+  String get restoreNoNextDueDate => 'بدون تاریخ بعدی';
+
+  @override
+  String restoreNextDueDate(String date) {
+    return 'سررسید $date';
+  }
+
+  @override
+  String get restoreNoNextDueOdometer => 'بدون کیلومتر بعدی';
+
+  @override
+  String restoreNextDueOdometer(String value) {
+    return 'سررسید در $value';
+  }
+
+  @override
+  String get homeNoEntriesYet => 'هنوز رکوردی نیست';
 }

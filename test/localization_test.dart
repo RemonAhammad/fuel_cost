@@ -42,22 +42,23 @@ void main() {
       }
     });
 
-    test('placeholders match English in every language', () {
-      final placeholder = RegExp(r'\{(\w+)\}');
-      for (final code in LanguageService.supportedCodes) {
-        final other = arb(code);
-        for (final key in enKeys) {
-          final want = placeholder
-              .allMatches(en[key] as String)
-              .map((m) => m.group(1))
-              .where((p) => p != 'count')
-              .toSet();
-          final got = placeholder
-              .allMatches(other[key] as String)
-              .map((m) => m.group(1))
-              .where((p) => p != 'count')
-              .toSet();
-          expect(got, want, reason: '$code/$key placeholder mismatch');
+    test('every declared placeholder is used in every language', () {
+      // Compare against the placeholders English *declares* in its @metadata.
+      // Scanning for bare {name} would also match ICU plural branches like
+      // `=1{entry}`, which are sub-messages, not placeholders — languages that
+      // need no plural inflection legitimately omit them.
+      for (final key in enKeys) {
+        final meta = en['@$key'];
+        if (meta is! Map) continue;
+        final declared = (meta['placeholders'] as Map?)?.keys.cast<String>();
+        if (declared == null) continue;
+
+        for (final code in LanguageService.supportedCodes) {
+          final value = arb(code)[key] as String;
+          for (final name in declared) {
+            expect(value, contains('{$name'),
+                reason: '$code/$key never uses {$name}');
+          }
         }
       }
     });

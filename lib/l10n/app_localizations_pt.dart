@@ -1506,4 +1506,197 @@ class AppLocalizationsPt extends AppLocalizations {
   String chartCostAxis(String currency) {
     return 'Custo ($currency)';
   }
+
+  @override
+  String get trendCostsUp => 'Custos a subir';
+
+  @override
+  String get trendCostsDown => 'Custos a descer';
+
+  @override
+  String get trendVolumeUp => 'Volume a subir';
+
+  @override
+  String get trendVolumeDown => 'Volume a descer';
+
+  @override
+  String get trendEfficiencyUp => 'Eficiência a melhorar';
+
+  @override
+  String get trendEfficiencyDown => 'Eficiência a piorar';
+
+  @override
+  String get addFuelSaveButton => 'Guardar abastecimento';
+
+  @override
+  String get addFuelUpdateButton => 'Atualizar registo';
+
+  @override
+  String get addFuelSubtitle => 'Acompanhe o seu consumo';
+
+  @override
+  String get addFuelEditSubtitle => 'Atualize o seu abastecimento';
+
+  @override
+  String get addFuelAmountRequired => 'Introduza a quantidade';
+
+  @override
+  String get addFuelPriceRequired => 'Introduza o preço por unidade';
+
+  @override
+  String get addFuelPositiveNumber => 'Introduza um número positivo válido';
+
+  @override
+  String get addFuelCurrentOdometer => 'Leitura atual do odómetro (km)';
+
+  @override
+  String get addFuelOdometerOptional => 'Leitura do odómetro (km) - opcional';
+
+  @override
+  String addFuelOdometerTooLow(String value) {
+    return 'A leitura não pode ser inferior à última ($value km)';
+  }
+
+  @override
+  String get addFuelBackupTitle => 'Cópia de dados';
+
+  @override
+  String get addFuelBackupCloudTitle => 'Cópia na nuvem';
+
+  @override
+  String get addFuelBackupPrompt => 'Quer fazer uma cópia no Google Drive?';
+
+  @override
+  String get addFuelConnectPrompt =>
+      'Ligue o seu Gmail para guardar os dados no Google Drive.';
+
+  @override
+  String get addFuelConnectGmail => 'Ligar Gmail';
+
+  @override
+  String get dateToday => 'Hoje';
+
+  @override
+  String get dateYesterday => 'Ontem';
+
+  @override
+  String get themeLight => 'Claro';
+
+  @override
+  String get themeDark => 'Escuro';
+
+  @override
+  String get themeSystem => 'Sistema';
+
+  @override
+  String get commonLoading => 'A carregar...';
+
+  @override
+  String get settingsConnected => 'Ligado';
+
+  @override
+  String get settingsConnectDrive => 'Ligar Google Drive';
+
+  @override
+  String get settingsSignInPrompt =>
+      'Inicie sessão para guardar os dados no Google Drive';
+
+  @override
+  String get exportShareText => 'Exportação do Fuel Cost';
+
+  @override
+  String get homeJustStarted => 'Está a começar';
+
+  @override
+  String get homeAlmostThere => 'Quase lá!';
+
+  @override
+  String get homeAddFirstEntryHint =>
+      'Adicione o seu primeiro abastecimento para acompanhar consumo, custos e tendências.';
+
+  @override
+  String homeNoEntriesForVehicle(String vehicle) {
+    return 'Ainda não há registos de $vehicle. Adicione um para ver as estatísticas.';
+  }
+
+  @override
+  String homeAddMoreEntries(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'registos',
+      one: 'registo',
+    );
+    return 'Adicione mais $count $_temp0 para uma melhor visão da sua eficiência, custos e tendências.';
+  }
+
+  @override
+  String homeAddMoreEntriesForVehicle(int count, String vehicle) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'registos',
+      one: 'registo',
+    );
+    return 'Adicione mais $count $_temp0 de $vehicle para obter consumo e gráficos precisos.';
+  }
+
+  @override
+  String get homeThisVehicle => 'este veículo';
+
+  @override
+  String get spendingPeriodA => 'Período A';
+
+  @override
+  String get spendingPeriodB => 'Período B';
+
+  @override
+  String get spendingPeriodC => 'Período C';
+
+  @override
+  String get spendingPeriodD => 'Período D';
+
+  @override
+  String comparisonFuelOnly(String amount) {
+    return '(combustível $amount)';
+  }
+
+  @override
+  String get restoreNoDescription => 'sem descrição';
+
+  @override
+  String get restoreNoNotes => 'sem notas';
+
+  @override
+  String get restoreNotesChanged => 'notas alteradas';
+
+  @override
+  String get restoreNoOdometer => 'sem odómetro';
+
+  @override
+  String restoreOdometerValue(String value) {
+    return 'odóm. $value';
+  }
+
+  @override
+  String get restoreNoTankSize => 'sem capacidade';
+
+  @override
+  String get restoreNoNextDueDate => 'sem próxima data';
+
+  @override
+  String restoreNextDueDate(String date) {
+    return 'vence $date';
+  }
+
+  @override
+  String get restoreNoNextDueOdometer => 'sem próximo odómetro';
+
+  @override
+  String restoreNextDueOdometer(String value) {
+    return 'vence aos $value';
+  }
+
+  @override
+  String get homeNoEntriesYet => 'Ainda não há registos';
 }

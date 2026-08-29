@@ -190,9 +190,9 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
     final difference = now.difference(date);
 
     if (difference.inDays == 0) {
-      return 'Today';
+      return AppLocalizations.of(context).dateToday;
     } else if (difference.inDays == 1) {
-      return 'Yesterday';
+      return AppLocalizations.of(context).dateYesterday;
     } else if (difference.inDays < 7) {
       return '${difference.inDays} days ago';
     } else {
@@ -346,13 +346,13 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
                     color: isSignedIn ? Colors.green : const Color(0xFF4285F4),
                   ),
                   const SizedBox(width: 10),
-                  Text(isSignedIn ? 'Backup Data' : 'Backup to Cloud'),
+                  Text(isSignedIn ? AppLocalizations.of(context).addFuelBackupTitle : AppLocalizations.of(context).addFuelBackupCloudTitle),
                 ],
               ),
               content: Text(
                 isSignedIn
-                    ? 'Would you like to backup your data to Google Drive?'
-                    : 'Connect your Gmail to backup your fuel data to Google Drive.',
+                    ? AppLocalizations.of(context).addFuelBackupPrompt
+                    : AppLocalizations.of(context).addFuelConnectPrompt,
               ),
               actions: [
                 TextButton(
@@ -421,7 +421,7 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
                   ),
                   child: isBackingUp
                       ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                      : Text(isSignedIn ? 'Backup Now' : 'Connect Gmail'),
+                      : Text(isSignedIn ? AppLocalizations.of(context).settingsBackupNow : AppLocalizations.of(context).addFuelConnectGmail),
                 ),
               ],
             );
@@ -553,7 +553,7 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  widget.isEditing ? 'Edit Fuel Entry' : 'Add Fuel Entry',
+                                  widget.isEditing ? AppLocalizations.of(context).addFuelEditTitle : AppLocalizations.of(context).addFuelTitle,
                                   style: TextStyle(
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold,
@@ -562,7 +562,7 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
                                   ),
                                 ),
                                 Text(
-                                  widget.isEditing ? 'Update your fuel entry' : 'Track your fuel consumption',
+                                  widget.isEditing ? AppLocalizations.of(context).addFuelEditSubtitle : AppLocalizations.of(context).addFuelSubtitle,
                                   style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.8)),
                                 ),
                               ],
@@ -754,11 +754,11 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
                                   inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[0-9]*\.?[0-9]*'))],
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Please enter fuel amount';
+                                      return AppLocalizations.of(context).addFuelAmountRequired;
                                     }
                                     final number = double.tryParse(value);
                                     if (number == null || number <= 0) {
-                                      return 'Please enter a valid positive number';
+                                      return AppLocalizations.of(context).addFuelPositiveNumber;
                                     }
                                     return null;
                                   },
@@ -776,11 +776,11 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
                                   inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[0-9]*\.?[0-9]*'))],
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Please enter price per liter';
+                                      return AppLocalizations.of(context).addFuelPriceRequired;
                                     }
                                     final number = double.tryParse(value);
                                     if (number == null || number <= 0) {
-                                      return 'Please enter a valid positive number';
+                                      return AppLocalizations.of(context).addFuelPositiveNumber;
                                     }
                                     return null;
                                   },
@@ -793,22 +793,22 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
                                 child: GlassTextField(
                                   controller: _odometerController,
                                   label: _currentOdometer != null
-                                      ? 'Current Odometer Reading (km)'
-                                      : 'Odometer Reading (km) - Optional',
+                                      ? AppLocalizations.of(context).addFuelCurrentOdometer
+                                      : AppLocalizations.of(context).addFuelOdometerOptional,
                                   icon: Icons.speed,
                                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
                                   inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[0-9]*\.?[0-9]*'))],
                                   helperText: _currentOdometer != null
-                                      ? 'Last recorded: ${_currentOdometer!.toStringAsFixed(0)} km'
+                                      ? AppLocalizations.of(context).addFuelLastRecorded(_currentOdometer!.toStringAsFixed(0))
                                       : null,
                                   validator: (value) {
                                     if (value != null && value.isNotEmpty) {
                                       final number = double.tryParse(value);
                                       if (number == null || number < 0) {
-                                        return 'Please enter a valid positive number';
+                                        return AppLocalizations.of(context).addFuelPositiveNumber;
                                       }
                                       if (!widget.isEditing && _currentOdometer != null && number < _currentOdometer!) {
-                                        return 'Odometer reading cannot be less than last recorded (${_currentOdometer!.toStringAsFixed(0)} km)';
+                                        return AppLocalizations.of(context).addFuelOdometerTooLow(_currentOdometer!.toStringAsFixed(0));
                                       }
                                     }
                                     return null;
@@ -904,7 +904,7 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
                                       const Icon(Icons.save, color: Colors.white, size: 24),
                                       const SizedBox(width: 12),
                                       Text(
-                                        widget.isEditing ? 'Update Entry' : 'Save Fuel Entry',
+                                        widget.isEditing ? AppLocalizations.of(context).addFuelUpdateButton : AppLocalizations.of(context).addFuelSaveButton,
                                         style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.w600,

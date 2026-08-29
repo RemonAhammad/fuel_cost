@@ -83,7 +83,7 @@ class _FuelChartDashboardState extends State<FuelChartDashboard> {
         const SizedBox(height: 8),
 
         // Quick stats row
-        _buildQuickStats(isDark),
+        _buildQuickStats(context, isDark),
       ],
     );
   }
@@ -164,7 +164,7 @@ class _FuelChartDashboardState extends State<FuelChartDashboard> {
     }
   }
 
-  Widget _buildQuickStats(bool isDark) {
+  Widget _buildQuickStats(BuildContext context, bool isDark) {
     if (widget.entries.length < 2) {
       return const SizedBox();
     }
@@ -188,7 +188,7 @@ class _FuelChartDashboardState extends State<FuelChartDashboard> {
         recentAvg = recent.isEmpty ? 0.0 : recent.fold(0.0, (sum, e) => sum + e.totalCost) / recent.length;
         olderAvg = older.isEmpty ? 0.0 : older.fold(0.0, (sum, e) => sum + e.totalCost) / older.length;
         trend = recentAvg - olderAvg;
-        trendLabel = trend > 0 ? 'Costs trending up' : 'Costs trending down';
+        trendLabel = trend > 0 ? AppLocalizations.of(context).trendCostsUp : AppLocalizations.of(context).trendCostsDown;
         trendValue = '${widget.currency}${trend.abs().toStringAsFixed(1)}';
         trendColor = trend > 0 ? Colors.red : Colors.green;
         break;
@@ -197,7 +197,7 @@ class _FuelChartDashboardState extends State<FuelChartDashboard> {
         recentAvg = recent.isEmpty ? 0.0 : recent.fold(0.0, (sum, e) => sum + e.liters) / recent.length;
         olderAvg = older.isEmpty ? 0.0 : older.fold(0.0, (sum, e) => sum + e.liters) / older.length;
         trend = recentAvg - olderAvg;
-        trendLabel = trend > 0 ? 'Volume trending up' : 'Volume trending down';
+        trendLabel = trend > 0 ? AppLocalizations.of(context).trendVolumeUp : AppLocalizations.of(context).trendVolumeDown;
         trendValue = '${trend.abs().toStringAsFixed(1)}L';
         trendColor = trend > 0 ? Colors.red : Colors.green;
         break;
@@ -215,7 +215,7 @@ class _FuelChartDashboardState extends State<FuelChartDashboard> {
           olderAvg = olderMileageData['overallMileage'] ?? 0.0;
         }
         trend = recentAvg - olderAvg;
-        trendLabel = trend > 0 ? 'Efficiency improving' : 'Efficiency declining';
+        trendLabel = trend > 0 ? AppLocalizations.of(context).trendEfficiencyUp : AppLocalizations.of(context).trendEfficiencyDown;
         trendValue = '${trend.abs().toStringAsFixed(1)} ${widget.unit.efficiencyLabel}';
         trendColor = trend > 0 ? Colors.green : Colors.red;
         break;

@@ -1494,4 +1494,185 @@ class AppLocalizationsBn extends AppLocalizations {
   String chartCostAxis(String currency) {
     return 'খরচ ($currency)';
   }
+
+  @override
+  String get trendCostsUp => 'খরচ বাড়ছে';
+
+  @override
+  String get trendCostsDown => 'খরচ কমছে';
+
+  @override
+  String get trendVolumeUp => 'পরিমাণ বাড়ছে';
+
+  @override
+  String get trendVolumeDown => 'পরিমাণ কমছে';
+
+  @override
+  String get trendEfficiencyUp => 'দক্ষতা বাড়ছে';
+
+  @override
+  String get trendEfficiencyDown => 'দক্ষতা কমছে';
+
+  @override
+  String get addFuelSaveButton => 'জ্বালানি এন্ট্রি সংরক্ষণ';
+
+  @override
+  String get addFuelUpdateButton => 'এন্ট্রি হালনাগাদ';
+
+  @override
+  String get addFuelSubtitle => 'আপনার জ্বালানি ব্যবহারের হিসাব';
+
+  @override
+  String get addFuelEditSubtitle => 'আপনার এন্ট্রি হালনাগাদ করুন';
+
+  @override
+  String get addFuelAmountRequired => 'জ্বালানির পরিমাণ লিখুন';
+
+  @override
+  String get addFuelPriceRequired => 'প্রতি এককের দাম লিখুন';
+
+  @override
+  String get addFuelPositiveNumber => 'একটি বৈধ ধনাত্মক সংখ্যা লিখুন';
+
+  @override
+  String get addFuelCurrentOdometer => 'বর্তমান ওডোমিটার রিডিং (কিমি)';
+
+  @override
+  String get addFuelOdometerOptional => 'ওডোমিটার রিডিং (কিমি) - ঐচ্ছিক';
+
+  @override
+  String addFuelOdometerTooLow(String value) {
+    return 'ওডোমিটার রিডিং সর্বশেষ রেকর্ডের ($value কিমি) চেয়ে কম হতে পারে না';
+  }
+
+  @override
+  String get addFuelBackupTitle => 'তথ্য ব্যাকআপ';
+
+  @override
+  String get addFuelBackupCloudTitle => 'ক্লাউডে ব্যাকআপ';
+
+  @override
+  String get addFuelBackupPrompt =>
+      'আপনি কি গুগল ড্রাইভে তথ্য ব্যাকআপ করতে চান?';
+
+  @override
+  String get addFuelConnectPrompt =>
+      'গুগল ড্রাইভে ব্যাকআপ করতে আপনার জিমেইল সংযুক্ত করুন।';
+
+  @override
+  String get addFuelConnectGmail => 'জিমেইল সংযুক্ত করুন';
+
+  @override
+  String get dateToday => 'আজ';
+
+  @override
+  String get dateYesterday => 'গতকাল';
+
+  @override
+  String get themeLight => 'হালকা';
+
+  @override
+  String get themeDark => 'গাঢ়';
+
+  @override
+  String get themeSystem => 'সিস্টেম';
+
+  @override
+  String get commonLoading => 'লোড হচ্ছে...';
+
+  @override
+  String get settingsConnected => 'সংযুক্ত';
+
+  @override
+  String get settingsConnectDrive => 'গুগল ড্রাইভ সংযুক্ত করুন';
+
+  @override
+  String get settingsSignInPrompt => 'গুগল ড্রাইভে ব্যাকআপ করতে সাইন ইন করুন';
+
+  @override
+  String get exportShareText => 'Fuel Cost এক্সপোর্ট';
+
+  @override
+  String get homeJustStarted => 'সবে শুরু';
+
+  @override
+  String get homeAlmostThere => 'প্রায় শেষ!';
+
+  @override
+  String get homeAddFirstEntryHint =>
+      'মাইলেজ, খরচ ও দক্ষতার হিসাব শুরু করতে আপনার প্রথম এন্ট্রি যোগ করুন।';
+
+  @override
+  String homeNoEntriesForVehicle(String vehicle) {
+    return '$vehicle-এর জন্য এখনও কোনো এন্ট্রি নেই। পরিসংখ্যান দেখতে একটি যোগ করুন।';
+  }
+
+  @override
+  String homeAddMoreEntries(int count) {
+    return 'জ্বালানি দক্ষতা, খরচ ও ধারা ভালোভাবে দেখতে আরও $countটি এন্ট্রি যোগ করুন।';
+  }
+
+  @override
+  String homeAddMoreEntriesForVehicle(int count, String vehicle) {
+    return 'সঠিক মাইলেজ ও ধারার চার্ট পেতে $vehicle-এর জন্য আরও $countটি এন্ট্রি যোগ করুন।';
+  }
+
+  @override
+  String get homeThisVehicle => 'এই যানবাহন';
+
+  @override
+  String get spendingPeriodA => 'সময়কাল ক';
+
+  @override
+  String get spendingPeriodB => 'সময়কাল খ';
+
+  @override
+  String get spendingPeriodC => 'সময়কাল গ';
+
+  @override
+  String get spendingPeriodD => 'সময়কাল ঘ';
+
+  @override
+  String comparisonFuelOnly(String amount) {
+    return '(জ্বালানি $amount)';
+  }
+
+  @override
+  String get restoreNoDescription => 'কোনো বিবরণ নেই';
+
+  @override
+  String get restoreNoNotes => 'কোনো নোট নেই';
+
+  @override
+  String get restoreNotesChanged => 'নোট পরিবর্তিত';
+
+  @override
+  String get restoreNoOdometer => 'ওডোমিটার নেই';
+
+  @override
+  String restoreOdometerValue(String value) {
+    return 'ওডো $value';
+  }
+
+  @override
+  String get restoreNoTankSize => 'ট্যাংক আকার নেই';
+
+  @override
+  String get restoreNoNextDueDate => 'পরবর্তী তারিখ নেই';
+
+  @override
+  String restoreNextDueDate(String date) {
+    return '$date-এ প্রাপ্য';
+  }
+
+  @override
+  String get restoreNoNextDueOdometer => 'পরবর্তী ওডোমিটার নেই';
+
+  @override
+  String restoreNextDueOdometer(String value) {
+    return '$value-এ প্রাপ্য';
+  }
+
+  @override
+  String get homeNoEntriesYet => 'এখনও কোনো এন্ট্রি নেই';
 }

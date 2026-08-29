@@ -863,5 +863,118 @@
         "type": "String"
       }
     }
-  }
+  },
+  "trendCostsUp": "Costs trending up",
+  "trendCostsDown": "Costs trending down",
+  "trendVolumeUp": "Volume trending up",
+  "trendVolumeDown": "Volume trending down",
+  "trendEfficiencyUp": "Efficiency improving",
+  "trendEfficiencyDown": "Efficiency declining",
+  "addFuelSaveButton": "Save Fuel Entry",
+  "addFuelUpdateButton": "Update Entry",
+  "addFuelSubtitle": "Track your fuel consumption",
+  "addFuelEditSubtitle": "Update your fuel entry",
+  "addFuelAmountRequired": "Please enter fuel amount",
+  "addFuelPriceRequired": "Please enter price per unit",
+  "addFuelPositiveNumber": "Please enter a valid positive number",
+  "addFuelCurrentOdometer": "Current Odometer Reading (km)",
+  "addFuelOdometerOptional": "Odometer Reading (km) - Optional",
+  "addFuelOdometerTooLow": "Odometer reading cannot be less than last recorded ({value} km)",
+  "@addFuelOdometerTooLow": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "addFuelBackupTitle": "Backup Data",
+  "addFuelBackupCloudTitle": "Backup to Cloud",
+  "addFuelBackupPrompt": "Would you like to backup your data to Google Drive?",
+  "addFuelConnectPrompt": "Connect your Gmail to backup your fuel data to Google Drive.",
+  "addFuelConnectGmail": "Connect Gmail",
+  "dateToday": "Today",
+  "dateYesterday": "Yesterday",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "themeSystem": "System",
+  "commonLoading": "Loading...",
+  "settingsConnected": "Connected",
+  "settingsConnectDrive": "Connect Google Drive",
+  "settingsSignInPrompt": "Sign in to backup your data to Google Drive",
+  "exportShareText": "Fuel Cost Export",
+  "homeJustStarted": "Just getting started",
+  "homeAlmostThere": "Almost there!",
+  "homeAddFirstEntryHint": "Add your first fuel entry to start tracking mileage, costs, and efficiency trends.",
+  "homeNoEntriesForVehicle": "No entries for {vehicle} yet. Add one to see its stats and mileage.",
+  "@homeNoEntriesForVehicle": {
+    "placeholders": {
+      "vehicle": {
+        "type": "String"
+      }
+    }
+  },
+  "homeAddMoreEntries": "Add {count} more {count, plural, =1{entry} other{entries}} for a better overview of your fuel efficiency, costs, and trends.",
+  "@homeAddMoreEntries": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "homeAddMoreEntriesForVehicle": "Add {count} more {count, plural, =1{entry} other{entries}} for {vehicle} to unlock accurate mileage and trend charts.",
+  "@homeAddMoreEntriesForVehicle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "vehicle": {
+        "type": "String"
+      }
+    }
+  },
+  "homeThisVehicle": "this vehicle",
+  "spendingPeriodA": "Period A",
+  "spendingPeriodB": "Period B",
+  "spendingPeriodC": "Period C",
+  "spendingPeriodD": "Period D",
+  "comparisonFuelOnly": "(fuel {amount})",
+  "@comparisonFuelOnly": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "restoreNoDescription": "no description",
+  "restoreNoNotes": "no notes",
+  "restoreNotesChanged": "notes changed",
+  "restoreNoOdometer": "no odometer",
+  "restoreOdometerValue": "odo {value}",
+  "@restoreOdometerValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "restoreNoTankSize": "no tank size",
+  "restoreNoNextDueDate": "no next-due date",
+  "restoreNextDueDate": "due {date}",
+  "@restoreNextDueDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "restoreNoNextDueOdometer": "no next-due odometer",
+  "restoreNextDueOdometer": "due at {value}",
+  "@restoreNextDueOdometer": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "homeNoEntriesYet": "No entries yet"
 }

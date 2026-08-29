@@ -21,10 +21,12 @@ enum FuelUnit {
   /// Compact suffix for values, e.g. `45.0 kWh`.
   final String short;
 
-  /// Plural noun for input labels, e.g. `Fuel Amount (Liters)`.
+  /// English plural noun. **Not for display** — use `unitLongLabel(context, unit)`
+  /// in `business_logic/type_labels.dart`, which is localized. Kept as the
+  /// English fallback and for tests.
   final String long;
 
-  /// Singular form used in per-unit price labels.
+  /// English singular form. **Not for display** — use `unitPriceWord(context, unit)`.
   final String priceUnit;
 
   /// Efficiency label, e.g. `km/kWh`.
@@ -37,13 +39,6 @@ enum FuelUnit {
     this.priceUnit,
     this.efficiencyLabel,
   );
-
-  /// Label for the quantity input field.
-  String get quantityLabel =>
-      this == kilowattHour ? 'Charge Amount ($long)' : 'Fuel Amount ($long)';
-
-  /// Label for the per-unit price input field.
-  String get priceLabel => 'Price per $priceUnit';
 
   /// Electricity is charged, not filled — lets copy adapt without every screen
   /// branching on the enum itself.

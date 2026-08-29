@@ -243,7 +243,7 @@ class _RestoreConflictsScreenState extends State<RestoreConflictsScreen> {
     if (v.unitId != other.unitId) parts.add('sold by ${v.fuelUnit.short}');
     if (v.tankCapacity != other.tankCapacity) {
       parts.add(v.tankCapacity == null
-          ? 'no tank size'
+          ? AppLocalizations.of(context).restoreNoTankSize
           : '${v.tankCapacity!.toStringAsFixed(0)} ${v.fuelUnit.short} tank');
     }
     return parts.isEmpty ? AppLocalizations.of(context).restoreUnchanged : parts.join(' · ');
@@ -294,31 +294,31 @@ class _RestoreConflictsScreenState extends State<RestoreConflictsScreen> {
     final parts = <String>[];
     if (m.cost != other.cost) parts.add(_money(m.cost));
     if (m.description != other.description) {
-      parts.add(m.description.isEmpty ? 'no description' : m.description);
+      parts.add(m.description.isEmpty ? AppLocalizations.of(context).restoreNoDescription : m.description);
     }
     if (m.type != other.type) {
       parts.add(maintenanceTypeLabel(context, m.type));
     }
     if (m.mileage != other.mileage) {
       parts.add(m.mileage == null
-          ? 'no odometer'
-          : 'odo ${m.mileage!.toStringAsFixed(0)}');
+          ? AppLocalizations.of(context).restoreNoOdometer
+          : AppLocalizations.of(context).restoreOdometerValue(m.mileage!.toStringAsFixed(0)));
     }
     if (!m.dateTime.isAtSameMomentAs(other.dateTime)) {
       parts.add(_dateFormat.format(m.dateTime));
     }
     if (m.notes != other.notes) {
-      parts.add((m.notes == null || m.notes!.isEmpty) ? 'no notes' : 'notes changed');
+      parts.add((m.notes == null || m.notes!.isEmpty) ? AppLocalizations.of(context).restoreNoNotes : AppLocalizations.of(context).restoreNotesChanged);
     }
     if (m.nextDueMileage != other.nextDueMileage) {
       parts.add(m.nextDueMileage == null
-          ? 'no next-due odometer'
-          : 'due at ${m.nextDueMileage!.toStringAsFixed(0)}');
+          ? AppLocalizations.of(context).restoreNoNextDueOdometer
+          : AppLocalizations.of(context).restoreNextDueOdometer(m.nextDueMileage!.toStringAsFixed(0)));
     }
     if (m.nextDueDate != other.nextDueDate) {
       parts.add(m.nextDueDate == null
-          ? 'no next-due date'
-          : 'due ${_dateFormat.format(m.nextDueDate!)}');
+          ? AppLocalizations.of(context).restoreNoNextDueDate
+          : AppLocalizations.of(context).restoreNextDueDate(_dateFormat.format(m.nextDueDate!)));
     }
     if (m.vehicleId != other.vehicleId) {
       parts.add(m.vehicleId == null ? 'unassigned' : 'different vehicle');
@@ -380,8 +380,8 @@ class _RestoreConflictsScreenState extends State<RestoreConflictsScreen> {
     }
     if (e.odometerReading != other.odometerReading) {
       parts.add(e.odometerReading == null
-          ? 'no odometer'
-          : 'odo ${e.odometerReading!.toStringAsFixed(0)}');
+          ? AppLocalizations.of(context).restoreNoOdometer
+          : AppLocalizations.of(context).restoreOdometerValue(e.odometerReading!.toStringAsFixed(0)));
     }
     if (!e.dateTime.isAtSameMomentAs(other.dateTime)) {
       parts.add(DateFormat('MMM dd, HH:mm').format(e.dateTime));

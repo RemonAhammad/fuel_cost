@@ -26,10 +26,6 @@ class Vehicle {
   FuelUnit get fuelUnit =>
       unitId != null ? FuelUnit.fromId(unitId) : FuelUnit.defaultFor(fuelType);
 
-  /// Label for a tank/battery capacity field, which is kWh for an EV.
-  String get capacityLabel =>
-      fuelUnit.isEnergy ? 'Battery Capacity (kWh)' : 'Tank Capacity (${fuelUnit.short})';
-
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,

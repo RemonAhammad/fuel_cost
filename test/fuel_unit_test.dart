@@ -89,20 +89,20 @@ void main() {
           reason: 'clearing falls back to the cng default');
     });
 
-    test('capacity label follows the unit', () {
-      expect(Vehicle(id: 'v', name: 'EV', fuelType: 'electric').capacityLabel,
-          'Battery Capacity (kWh)');
-      expect(Vehicle(id: 'v', name: 'Car').capacityLabel, 'Tank Capacity (L)');
-    });
-  });
+});
 
   group('labels', () {
-    test('quantity and price labels adapt per unit', () {
-      expect(FuelUnit.liter.quantityLabel, 'Fuel Amount (Liters)');
-      expect(FuelUnit.liter.priceLabel, 'Price per Liter');
-      expect(FuelUnit.kilowattHour.quantityLabel, 'Charge Amount (Kilowatt-hours)');
-      expect(FuelUnit.kilowattHour.priceLabel, 'Price per kWh');
+    test('English unit words are the fallback behind the localized lookup', () {
+      // Display goes through unitLongLabel/unitPriceWord; these constants are
+      // the English source values those keys were seeded from.
+      expect(FuelUnit.liter.long, 'Liters');
+      expect(FuelUnit.liter.priceUnit, 'Liter');
+      expect(FuelUnit.kilowattHour.long, 'Kilowatt-hours');
+    });
+
+    test('efficiency labels stay as international symbols', () {
       expect(FuelUnit.cubicMeter.efficiencyLabel, 'km/m³');
+      expect(FuelUnit.liter.efficiencyLabel, 'km/L');
     });
   });
 }

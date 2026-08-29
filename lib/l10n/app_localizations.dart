@@ -2735,6 +2735,330 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cost ({currency})'**
   String chartCostAxis(String currency);
+
+  /// No description provided for @trendCostsUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Costs trending up'**
+  String get trendCostsUp;
+
+  /// No description provided for @trendCostsDown.
+  ///
+  /// In en, this message translates to:
+  /// **'Costs trending down'**
+  String get trendCostsDown;
+
+  /// No description provided for @trendVolumeUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Volume trending up'**
+  String get trendVolumeUp;
+
+  /// No description provided for @trendVolumeDown.
+  ///
+  /// In en, this message translates to:
+  /// **'Volume trending down'**
+  String get trendVolumeDown;
+
+  /// No description provided for @trendEfficiencyUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Efficiency improving'**
+  String get trendEfficiencyUp;
+
+  /// No description provided for @trendEfficiencyDown.
+  ///
+  /// In en, this message translates to:
+  /// **'Efficiency declining'**
+  String get trendEfficiencyDown;
+
+  /// No description provided for @addFuelSaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Fuel Entry'**
+  String get addFuelSaveButton;
+
+  /// No description provided for @addFuelUpdateButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Entry'**
+  String get addFuelUpdateButton;
+
+  /// No description provided for @addFuelSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Track your fuel consumption'**
+  String get addFuelSubtitle;
+
+  /// No description provided for @addFuelEditSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update your fuel entry'**
+  String get addFuelEditSubtitle;
+
+  /// No description provided for @addFuelAmountRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter fuel amount'**
+  String get addFuelAmountRequired;
+
+  /// No description provided for @addFuelPriceRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter price per unit'**
+  String get addFuelPriceRequired;
+
+  /// No description provided for @addFuelPositiveNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid positive number'**
+  String get addFuelPositiveNumber;
+
+  /// No description provided for @addFuelCurrentOdometer.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Odometer Reading (km)'**
+  String get addFuelCurrentOdometer;
+
+  /// No description provided for @addFuelOdometerOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Odometer Reading (km) - Optional'**
+  String get addFuelOdometerOptional;
+
+  /// No description provided for @addFuelOdometerTooLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Odometer reading cannot be less than last recorded ({value} km)'**
+  String addFuelOdometerTooLow(String value);
+
+  /// No description provided for @addFuelBackupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup Data'**
+  String get addFuelBackupTitle;
+
+  /// No description provided for @addFuelBackupCloudTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup to Cloud'**
+  String get addFuelBackupCloudTitle;
+
+  /// No description provided for @addFuelBackupPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Would you like to backup your data to Google Drive?'**
+  String get addFuelBackupPrompt;
+
+  /// No description provided for @addFuelConnectPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect your Gmail to backup your fuel data to Google Drive.'**
+  String get addFuelConnectPrompt;
+
+  /// No description provided for @addFuelConnectGmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect Gmail'**
+  String get addFuelConnectGmail;
+
+  /// No description provided for @dateToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get dateToday;
+
+  /// No description provided for @dateYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get dateYesterday;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeLight;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeDark;
+
+  /// No description provided for @themeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get themeSystem;
+
+  /// No description provided for @commonLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get commonLoading;
+
+  /// No description provided for @settingsConnected.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected'**
+  String get settingsConnected;
+
+  /// No description provided for @settingsConnectDrive.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect Google Drive'**
+  String get settingsConnectDrive;
+
+  /// No description provided for @settingsSignInPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to backup your data to Google Drive'**
+  String get settingsSignInPrompt;
+
+  /// No description provided for @exportShareText.
+  ///
+  /// In en, this message translates to:
+  /// **'Fuel Cost Export'**
+  String get exportShareText;
+
+  /// No description provided for @homeJustStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Just getting started'**
+  String get homeJustStarted;
+
+  /// No description provided for @homeAlmostThere.
+  ///
+  /// In en, this message translates to:
+  /// **'Almost there!'**
+  String get homeAlmostThere;
+
+  /// No description provided for @homeAddFirstEntryHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first fuel entry to start tracking mileage, costs, and efficiency trends.'**
+  String get homeAddFirstEntryHint;
+
+  /// No description provided for @homeNoEntriesForVehicle.
+  ///
+  /// In en, this message translates to:
+  /// **'No entries for {vehicle} yet. Add one to see its stats and mileage.'**
+  String homeNoEntriesForVehicle(String vehicle);
+
+  /// No description provided for @homeAddMoreEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'Add {count} more {count, plural, =1{entry} other{entries}} for a better overview of your fuel efficiency, costs, and trends.'**
+  String homeAddMoreEntries(int count);
+
+  /// No description provided for @homeAddMoreEntriesForVehicle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add {count} more {count, plural, =1{entry} other{entries}} for {vehicle} to unlock accurate mileage and trend charts.'**
+  String homeAddMoreEntriesForVehicle(int count, String vehicle);
+
+  /// No description provided for @homeThisVehicle.
+  ///
+  /// In en, this message translates to:
+  /// **'this vehicle'**
+  String get homeThisVehicle;
+
+  /// No description provided for @spendingPeriodA.
+  ///
+  /// In en, this message translates to:
+  /// **'Period A'**
+  String get spendingPeriodA;
+
+  /// No description provided for @spendingPeriodB.
+  ///
+  /// In en, this message translates to:
+  /// **'Period B'**
+  String get spendingPeriodB;
+
+  /// No description provided for @spendingPeriodC.
+  ///
+  /// In en, this message translates to:
+  /// **'Period C'**
+  String get spendingPeriodC;
+
+  /// No description provided for @spendingPeriodD.
+  ///
+  /// In en, this message translates to:
+  /// **'Period D'**
+  String get spendingPeriodD;
+
+  /// No description provided for @comparisonFuelOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'(fuel {amount})'**
+  String comparisonFuelOnly(String amount);
+
+  /// No description provided for @restoreNoDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'no description'**
+  String get restoreNoDescription;
+
+  /// No description provided for @restoreNoNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'no notes'**
+  String get restoreNoNotes;
+
+  /// No description provided for @restoreNotesChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'notes changed'**
+  String get restoreNotesChanged;
+
+  /// No description provided for @restoreNoOdometer.
+  ///
+  /// In en, this message translates to:
+  /// **'no odometer'**
+  String get restoreNoOdometer;
+
+  /// No description provided for @restoreOdometerValue.
+  ///
+  /// In en, this message translates to:
+  /// **'odo {value}'**
+  String restoreOdometerValue(String value);
+
+  /// No description provided for @restoreNoTankSize.
+  ///
+  /// In en, this message translates to:
+  /// **'no tank size'**
+  String get restoreNoTankSize;
+
+  /// No description provided for @restoreNoNextDueDate.
+  ///
+  /// In en, this message translates to:
+  /// **'no next-due date'**
+  String get restoreNoNextDueDate;
+
+  /// No description provided for @restoreNextDueDate.
+  ///
+  /// In en, this message translates to:
+  /// **'due {date}'**
+  String restoreNextDueDate(String date);
+
+  /// No description provided for @restoreNoNextDueOdometer.
+  ///
+  /// In en, this message translates to:
+  /// **'no next-due odometer'**
+  String get restoreNoNextDueOdometer;
+
+  /// No description provided for @restoreNextDueOdometer.
+  ///
+  /// In en, this message translates to:
+  /// **'due at {value}'**
+  String restoreNextDueOdometer(String value);
+
+  /// No description provided for @homeNoEntriesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No entries yet'**
+  String get homeNoEntriesYet;
 }
 
 class _AppLocalizationsDelegate

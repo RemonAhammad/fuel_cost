@@ -232,7 +232,7 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
       final box = context.findRenderObject() as RenderBox?;
       await Share.shareXFiles(
         [XFile(file.path)],
-        text: 'Fuel Cost Export',
+        text: AppLocalizations.of(context).exportShareText,
         sharePositionOrigin: box != null
             ? box.localToGlobal(Offset.zero) & box.size
             : const Rect.fromLTWH(0, 0, 100, 100),

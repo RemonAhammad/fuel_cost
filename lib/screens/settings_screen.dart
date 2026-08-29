@@ -356,7 +356,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       final file = File('${dir.path}/$fileName');
       await file.writeAsString(csv);
       final box = context.findRenderObject() as RenderBox?;
-      await Share.shareXFiles([XFile(file.path)], text: 'Fuel Cost Export',
+      await Share.shareXFiles([XFile(file.path)], text: AppLocalizations.of(context).exportShareText,
         sharePositionOrigin: box != null ? box.localToGlobal(Offset.zero) & box.size : const Rect.fromLTWH(0, 0, 100, 100));
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -832,7 +832,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                     CustomCupertinoListTile(
                                       icon: Icons.account_balance_wallet,
                                       title: AppLocalizations.of(context).settingsMonthlyBudget,
-                                      subtitle: _monthlyBudget != null ? '$_selectedCurrency${_monthlyBudget!.toStringAsFixed(0)} per month' : 'Not set',
+                                      subtitle: _monthlyBudget != null ? '$_selectedCurrency${_monthlyBudget!.toStringAsFixed(0)} per month' : AppLocalizations.of(context).commonNotSet,
                                       onTap: _showBudgetDialog,
                                       iconColor: const Color(0xFFFF9800),
                                       isLast: true, isLoading: false,
@@ -860,10 +860,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                   children: [
                                     CustomCupertinoListTile(
                                       icon: _isGoogleSignedIn ? Icons.cloud_done : Icons.cloud_outlined,
-                                      title: _isGoogleSignedIn ? 'Connected' : 'Connect Google Drive',
+                                      title: _isGoogleSignedIn ? AppLocalizations.of(context).settingsConnected : AppLocalizations.of(context).settingsConnectDrive,
                                       subtitle: _isGoogleSignedIn
                                           ? '${_googleEmail ?? ''}\nLast backup: ${_lastBackupTime != null ? _formatBackupTime(_lastBackupTime!) : "Never"}'
-                                          : 'Sign in to backup your data to Google Drive',
+                                          : AppLocalizations.of(context).settingsSignInPrompt,
                                       onTap: _isGoogleSignedIn ? () {} : _googleSignIn,
                                       iconColor: _isGoogleSignedIn ? Colors.green : const Color(0xFF4285F4),
                                       isFirst: true, isLast: !_isGoogleSignedIn, isLoading: _loadingAction == 'googleSignIn',
@@ -960,8 +960,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                       icon: Icons.info_outline,
                                       title: AppLocalizations.of(context).settingsAppVersion,
                                       subtitle: _appVersion.isEmpty
-                                          ? 'Loading...'
-                                          : 'Version $_appVersion (Build $_buildNumber)',
+                                          ? AppLocalizations.of(context).commonLoading
+                                          : AppLocalizations.of(context).settingsVersion(_appVersion, _buildNumber),
                                       iconColor: Colors.blue,
                                       isLast: true,
                                       onTap: () {},
@@ -1014,9 +1014,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   String _getThemeLabel(ThemeMode mode) {
     switch (mode) {
-      case ThemeMode.light: return 'Light';
-      case ThemeMode.dark: return 'Dark';
-      case ThemeMode.system: return 'System';
+      case ThemeMode.light: return AppLocalizations.of(context).themeLight;
+      case ThemeMode.dark: return AppLocalizations.of(context).themeDark;
+      case ThemeMode.system: return AppLocalizations.of(context).themeSystem;
     }
   }
 

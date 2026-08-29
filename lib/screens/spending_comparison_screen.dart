@@ -72,11 +72,11 @@ class _SpendingComparisonScreenState
 
   String _labelForPeriod(int period) {
     switch (period) {
-      case 0: return 'Period A';
-      case 1: return 'Period B';
-      case 2: return 'Period C';
-      case 3: return 'Period D';
-      default: return 'Period A';
+      case 0: return AppLocalizations.of(context).spendingPeriodA;
+      case 1: return AppLocalizations.of(context).spendingPeriodB;
+      case 2: return AppLocalizations.of(context).spendingPeriodC;
+      case 3: return AppLocalizations.of(context).spendingPeriodD;
+      default: return AppLocalizations.of(context).spendingPeriodA;
     }
   }
 

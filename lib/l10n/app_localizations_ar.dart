@@ -1492,4 +1492,185 @@ class AppLocalizationsAr extends AppLocalizations {
   String chartCostAxis(String currency) {
     return 'التكلفة ($currency)';
   }
+
+  @override
+  String get trendCostsUp => 'التكاليف في ارتفاع';
+
+  @override
+  String get trendCostsDown => 'التكاليف في انخفاض';
+
+  @override
+  String get trendVolumeUp => 'الكمية في ارتفاع';
+
+  @override
+  String get trendVolumeDown => 'الكمية في انخفاض';
+
+  @override
+  String get trendEfficiencyUp => 'الكفاءة تتحسن';
+
+  @override
+  String get trendEfficiencyDown => 'الكفاءة تتراجع';
+
+  @override
+  String get addFuelSaveButton => 'حفظ التعبئة';
+
+  @override
+  String get addFuelUpdateButton => 'تحديث السجل';
+
+  @override
+  String get addFuelSubtitle => 'تابع استهلاكك للوقود';
+
+  @override
+  String get addFuelEditSubtitle => 'حدّث سجل التعبئة';
+
+  @override
+  String get addFuelAmountRequired => 'يرجى إدخال كمية الوقود';
+
+  @override
+  String get addFuelPriceRequired => 'يرجى إدخال السعر لكل وحدة';
+
+  @override
+  String get addFuelPositiveNumber => 'يرجى إدخال رقم موجب صالح';
+
+  @override
+  String get addFuelCurrentOdometer => 'قراءة العداد الحالية (كم)';
+
+  @override
+  String get addFuelOdometerOptional => 'قراءة العداد (كم) - اختياري';
+
+  @override
+  String addFuelOdometerTooLow(String value) {
+    return 'لا يمكن أن تكون قراءة العداد أقل من آخر قراءة ($value كم)';
+  }
+
+  @override
+  String get addFuelBackupTitle => 'نسخ البيانات';
+
+  @override
+  String get addFuelBackupCloudTitle => 'النسخ إلى السحابة';
+
+  @override
+  String get addFuelBackupPrompt => 'هل تريد نسخ بياناتك إلى Google Drive؟';
+
+  @override
+  String get addFuelConnectPrompt =>
+      'اربط بريد Gmail لنسخ بيانات الوقود إلى Google Drive.';
+
+  @override
+  String get addFuelConnectGmail => 'ربط Gmail';
+
+  @override
+  String get dateToday => 'اليوم';
+
+  @override
+  String get dateYesterday => 'أمس';
+
+  @override
+  String get themeLight => 'فاتح';
+
+  @override
+  String get themeDark => 'داكن';
+
+  @override
+  String get themeSystem => 'النظام';
+
+  @override
+  String get commonLoading => 'جارٍ التحميل...';
+
+  @override
+  String get settingsConnected => 'متصل';
+
+  @override
+  String get settingsConnectDrive => 'ربط Google Drive';
+
+  @override
+  String get settingsSignInPrompt =>
+      'سجّل الدخول لنسخ بياناتك إلى Google Drive';
+
+  @override
+  String get exportShareText => 'تصدير Fuel Cost';
+
+  @override
+  String get homeJustStarted => 'البداية للتو';
+
+  @override
+  String get homeAlmostThere => 'اقتربت!';
+
+  @override
+  String get homeAddFirstEntryHint =>
+      'أضف أول تعبئة لتبدأ بتتبع الاستهلاك والتكاليف والاتجاهات.';
+
+  @override
+  String homeNoEntriesForVehicle(String vehicle) {
+    return 'لا توجد سجلات لـ $vehicle بعد. أضف واحداً لعرض إحصاءاتها.';
+  }
+
+  @override
+  String homeAddMoreEntries(int count) {
+    return 'أضف $count سجلاً آخر للحصول على نظرة أفضل على كفاءتك وتكاليفك واتجاهاتك.';
+  }
+
+  @override
+  String homeAddMoreEntriesForVehicle(int count, String vehicle) {
+    return 'أضف $count سجلاً آخر لـ $vehicle للحصول على استهلاك ورسوم بيانية دقيقة.';
+  }
+
+  @override
+  String get homeThisVehicle => 'هذه المركبة';
+
+  @override
+  String get spendingPeriodA => 'الفترة أ';
+
+  @override
+  String get spendingPeriodB => 'الفترة ب';
+
+  @override
+  String get spendingPeriodC => 'الفترة ج';
+
+  @override
+  String get spendingPeriodD => 'الفترة د';
+
+  @override
+  String comparisonFuelOnly(String amount) {
+    return '(الوقود $amount)';
+  }
+
+  @override
+  String get restoreNoDescription => 'بدون وصف';
+
+  @override
+  String get restoreNoNotes => 'بدون ملاحظات';
+
+  @override
+  String get restoreNotesChanged => 'تغيّرت الملاحظات';
+
+  @override
+  String get restoreNoOdometer => 'بدون عداد';
+
+  @override
+  String restoreOdometerValue(String value) {
+    return 'عداد $value';
+  }
+
+  @override
+  String get restoreNoTankSize => 'بدون سعة خزان';
+
+  @override
+  String get restoreNoNextDueDate => 'بدون موعد قادم';
+
+  @override
+  String restoreNextDueDate(String date) {
+    return 'الموعد $date';
+  }
+
+  @override
+  String get restoreNoNextDueOdometer => 'بدون عداد قادم';
+
+  @override
+  String restoreNextDueOdometer(String value) {
+    return 'الموعد عند $value';
+  }
+
+  @override
+  String get homeNoEntriesYet => 'لا توجد سجلات بعد';
 }

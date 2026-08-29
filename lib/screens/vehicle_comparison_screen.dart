@@ -440,7 +440,7 @@ class _VehicleComparisonScreenState
                                       note: AppLocalizations.of(context).comparisonCostPerKmNote,
                                       perValueSuffix: _vehicleStats.values
                                           .map((s) => s.maintenanceCost > 0
-                                              ? '(fuel $_currency${s.fuelCostPerKm.toStringAsFixed(2)})'
+                                              ? AppLocalizations.of(context).comparisonFuelOnly('$_currency${s.fuelCostPerKm.toStringAsFixed(2)}')
                                               : '')
                                           .toList(),
                                     ),
