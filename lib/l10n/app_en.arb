@@ -432,5 +432,386 @@
         "type": "int"
       }
     }
-  }
+  },
+  "commonRestore": "Restore",
+  "commonSignIn": "Sign In",
+  "commonDisconnect": "Disconnect",
+  "commonProcessing": "Processing...",
+  "commonNoThanks": "No thanks",
+  "commonNotNow": "Not Now",
+  "commonMileage": "Mileage",
+  "settingsSubtitle": "Manage your preferences and data",
+  "settingsAppearance": "Appearance",
+  "settingsPreferences": "Preferences",
+  "settingsDataManagement": "Data Management",
+  "settingsExportImport": "Export & Import",
+  "settingsAdvanced": "Advanced",
+  "settingsAbout": "About",
+  "settingsAccentColor": "Accent Color",
+  "settingsAccentColorSubtitle": "Customize app color",
+  "settingsChooseAccentColor": "Choose Accent Color",
+  "settingsChooseTheme": "Choose Theme",
+  "settingsThemeCurrent": "Current: {theme}",
+  "@settingsThemeCurrent": {
+    "placeholders": {
+      "theme": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsCurrencyCurrent": "Current: {symbol} ({name})",
+  "@settingsCurrencyCurrent": {
+    "placeholders": {
+      "symbol": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsCurrencyChanged": "Currency changed to {symbol} ({name})",
+  "@settingsCurrencyChanged": {
+    "placeholders": {
+      "symbol": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsBudgetLabel": "Budget ({currency})",
+  "@settingsBudgetLabel": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsBudgetHint": "e.g. 5000",
+  "settingsGoogleDriveBackup": "Google Drive Backup",
+  "settingsSignedInAs": "Signed in as {email}",
+  "@settingsSignedInAs": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsSignOutSubtitle": "Sign out from Google backup",
+  "settingsDisconnected": "Disconnected from Google Drive",
+  "settingsBackupNow": "Backup Now",
+  "settingsBackupNowSubtitle": "Upload your data to Google Drive",
+  "settingsAutoBackup": "Auto Backup",
+  "settingsAutoBackupSubtitle": "Automatically backup after saving an entry",
+  "settingsAutoBackupOffWarning": "Existing backups will remain. No new backups will be made.",
+  "settingsRestoreFromBackup": "Restore from Backup",
+  "settingsRestoreSubtitle": "Download and restore your data",
+  "settingsRestoreWarning": "This will replace all current data with the backup. This cannot be undone.",
+  "settingsRestoreFailed": "Restore failed: {message}",
+  "@settingsRestoreFailed": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsBackupFailed": "Backup failed: {message}",
+  "@settingsBackupFailed": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsExportData": "Export Data",
+  "settingsExportToCsv": "Export to CSV",
+  "settingsExportSubtitle": "Export all fuel entries as a CSV file",
+  "settingsSelectExportVehicle": "Select which vehicle data to export",
+  "settingsAllVehicles": "All Vehicles",
+  "settingsIncludeAllVehicles": "Include data from all vehicles",
+  "settingsNoVehicle": "No Vehicle",
+  "settingsNoVehicleSubtitle": "Don't assign to any vehicle",
+  "settingsNothingToExport": "No entries to export for this vehicle",
+  "settingsEntriesExported": "{count} entries exported",
+  "@settingsEntriesExported": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsImportData": "Import Data",
+  "settingsImportFromCsv": "Import from CSV",
+  "settingsImportSubtitle": "Import fuel entries from a CSV file",
+  "settingsAssignImported": "Assign imported entries to a vehicle",
+  "settingsCsvInvalid": "CSV file is empty or invalid",
+  "settingsEntriesImported": "{count} entries imported",
+  "@settingsEntriesImported": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsExportFailed": "Error exporting CSV: {message}",
+  "@settingsExportFailed": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsImportFailed": "Error importing CSV: {message}",
+  "@settingsImportFailed": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsClearEntries": "Clear Fuel Entries",
+  "settingsClearEntriesAction": "Clear Entries",
+  "settingsClearEntriesSubtitle": "Remove all fuel entries",
+  "settingsClearEntriesWarning": "This will permanently delete all your fuel entries.",
+  "settingsEntriesCleared": "Fuel entries cleared successfully",
+  "settingsClearOdometer": "Clear Odometer Data",
+  "settingsClearOdometerAction": "Clear Odometer",
+  "settingsClearOdometerSubtitle": "Reset current odometer reading",
+  "settingsClearOdometerWarning": "This will reset your odometer reading.",
+  "settingsOdometerCleared": "Odometer data cleared successfully",
+  "settingsClearAllData": "Clear All Fuel Data",
+  "settingsClearAllAction": "Clear All Data",
+  "settingsClearAllSubtitle": "Remove all entries and odometer data",
+  "settingsClearAllWarning": "This will permanently delete ALL fuel data. Cannot be undone.",
+  "settingsAllDataCleared": "All fuel data cleared successfully",
+  "settingsResetApp": "Reset App",
+  "settingsClearAllCache": "Clear All Cache & Preferences",
+  "settingsClearCacheAction": "Clear All Cache",
+  "settingsResetSubtitle": "Reset the entire app to factory settings",
+  "settingsResetWarning": "This will completely reset the app. ALL data will be lost.",
+  "settingsCacheCleared": "All cache and preferences cleared",
+  "settingsClearFailed": "Error clearing data: {message}",
+  "@settingsClearFailed": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsAppVersion": "App Version",
+  "settingsRateApp": "Rate this App",
+  "settingsRateSubtitle": "Enjoying Fuel Cost? Leave a review",
+  "settingsReplayTutorialSubtitle": "Watch the intro and tour again",
+  "homeYourFuelStats": "Your Fuel Stats",
+  "homeQuickActions": "Quick Actions",
+  "homeAddFuelEntry": "Add Fuel Entry",
+  "homeViewFuelHistory": "View Fuel History",
+  "homeSwitchVehicles": "Switch Vehicles",
+  "homeTripCalculator": "Trip Cost Calculator",
+  "homeTripCalculatorSubtitle": "Estimate fuel cost for a trip",
+  "homeBudgetReports": "Budget & Reports",
+  "homeBudgetReportsSubtitle": "Monthly spending & budget tracking",
+  "homeSpendingComparison": "Spending Comparison",
+  "homeSpendingComparisonSubtitle": "Compare months side by side",
+  "homeCompareVehicles": "Compare Vehicles",
+  "homeCompareVehiclesSubtitle": "Side-by-side efficiency analysis",
+  "homeMaintenanceLog": "Maintenance Log",
+  "homeMaintenanceLogSubtitle": "Track your vehicle services",
+  "homeThanksFeedback": "Thanks for the feedback!",
+  "addFuelAddVehicle": "Add Vehicle",
+  "addFuelSaveFailed": "Error saving entry: {message}",
+  "@addFuelSaveFailed": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "addFuelAutoBackupOk": "Auto backup successful!",
+  "addFuelAutoBackupFailed": "Auto backup failed: {message}",
+  "@addFuelAutoBackupFailed": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "addFuelBackupOk": "Backup successful!",
+  "addFuelConnectedBackedUp": "Connected & backed up!",
+  "historyEntryDeleted": "Entry deleted locally",
+  "historyTimeUpdated": "Entry time updated",
+  "historyDeleteFailed": "Error deleting entry: {message}",
+  "@historyDeleteFailed": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "historyLoadFailed": "Error loading data: {message}",
+  "@historyLoadFailed": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "historyExportFailed": "Error exporting CSV: {message}",
+  "@historyExportFailed": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "entryCardEdit": "Edit",
+  "entryCardDelete": "Delete",
+  "entryCardChangeTime": "Change Time",
+  "deleteEntryTitle": "Delete Entry",
+  "rateTitle": "Enjoying Fuel Cost?",
+  "rateNow": "Rate now",
+  "rateLater": "Not now",
+  "currencyDialogTitle": "Select Currency",
+  "currencyDialogSearch": "Search currencies...",
+  "chartNeedMoreData": "Add more fuel entries to see trends",
+  "summaryAvgPricePerUnit": "Average Price per {unit}",
+  "@summaryAvgPricePerUnit": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "summaryAvgPriceShort": "Avg Price/{unit}",
+  "@summaryAvgPriceShort": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "mileageDistanceTraveled": "Distance Traveled:",
+  "mileageFuelEfficiency": "Fuel Efficiency:",
+  "budgetWeekShort": "W{number}",
+  "@budgetWeekShort": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "vehiclesNameHint": "e.g. My Car",
+  "maintenanceCostHint": "e.g. 150",
+  "vehiclesDeleteConfirm": "Are you sure you want to delete \"{name}\"? Fuel entries will not be deleted.",
+  "@vehiclesDeleteConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "restoreLabelVehicle": "Vehicle",
+  "restoreLabelSetting": "Setting",
+  "fuelType_petrol": "Petrol",
+  "fuelType_diesel": "Diesel",
+  "fuelType_cng": "CNG",
+  "fuelType_electric": "Electric",
+  "fuelType_hybrid": "Hybrid",
+  "vehicleType_directions_car": "Car",
+  "vehicleType_two_wheeler": "Bike",
+  "vehicleType_local_shipping": "Truck",
+  "vehicleType_airport_shuttle": "Van",
+  "vehicleType_electric_car": "Electric Car",
+  "vehicleType_pedal_bike": "Bicycle",
+  "maintenanceType_oil_change": "Oil Change",
+  "maintenanceType_tire_rotation": "Tire Rotation",
+  "maintenanceType_brake_service": "Brake Service",
+  "maintenanceType_air_filter": "Air Filter",
+  "maintenanceType_transmission": "Transmission",
+  "maintenanceType_battery": "Battery",
+  "maintenanceType_coolant": "Coolant Flush",
+  "maintenanceType_spark_plugs": "Spark Plugs",
+  "maintenanceType_belt_replacement": "Belt Replace",
+  "maintenanceType_wheel_alignment": "Alignment",
+  "maintenanceType_suspension": "Suspension",
+  "maintenanceType_exhaust": "Exhaust",
+  "maintenanceType_ac_service": "AC Service",
+  "maintenanceType_wiper_blades": "Wiper Blades",
+  "maintenanceType_headlights": "Headlights",
+  "maintenanceType_car_wash": "Car Wash",
+  "maintenanceType_detailing": "Detailing",
+  "maintenanceType_inspection": "Inspection",
+  "maintenanceType_insurance": "Insurance",
+  "maintenanceType_registration": "Registration",
+  "maintenanceType_towing": "Towing",
+  "maintenanceType_general_service": "General Service",
+  "maintenanceType_body_repair": "Body Repair",
+  "maintenanceType_other": "Other",
+  "homeAddFuelSubtitle": "Record your fuel purchases",
+  "homeViewHistorySubtitle": "Browse your fuel records",
+  "settingsEntriesImportedTo": "{count} entries imported to {vehicle}",
+  "@settingsEntriesImportedTo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "vehicle": {
+        "type": "String"
+      }
+    }
+  },
+  "homeOverallSummary": "Overall Summary",
+  "homeSummary": "Summary",
+  "homeMonitorEfficiency": "Monitor your fuel efficiency",
+  "tourVehiclesTitle": "Switch Vehicles",
+  "tourVehiclesBody": "Select \"All\" to see combined stats, or pick a specific vehicle. Tap the + button at the end to add a new vehicle.",
+  "tourSettingsBody": "Customize currency, theme, monthly budget, and backup your data to Google Drive from here.",
+  "tourStatsBody": "See this month's spending, your last fill cost, days since last fill, and your overall efficiency at a glance.",
+  "tourActionsBody": "Jump to Fuel History, Trip Calculator, Budget Reports, Maintenance Log, and more powerful tools.",
+  "tourAddFuelBody": "Tap here to log a new fuel fill-up. You'll enter the amount, price, and odometer reading.",
+  "comparisonMetric": "Metric",
+  "comparisonScroll": "Scroll",
+  "comparisonSummary": "Summary",
+  "comparisonSelectTwo": "Select at least 2 vehicles to compare",
+  "comparisonSubtitle": "Side-by-side efficiency",
+  "historyLoading": "Loading fuel data...",
+  "historyLoadingHint": "Please wait while we fetch your data",
+  "currencyNoResults": "No currencies found",
+  "currencyNoResultsHint": "Try searching with different keywords",
+  "mileageCalculationTitle": "Mileage Calculation",
+  "mileageSinceLastFill": "Since last fill-up: {date}",
+  "@mileageSinceLastFill": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "addFuelNoVehicles": "No vehicles added. Please add a vehicle first.",
+  "budgetProgressLabel": "Budget: {amount}  |  {percent}% used",
+  "@budgetProgressLabel": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "howToAutoCalc": "The app automatically calculates your fuel efficiency when you provide odometer readings:",
+  "deleteEntryMessage": "Are you sure you want to delete this fuel entry? This action cannot be undone.",
+  "chartNotEnoughData": "Not Enough Data",
+  "chartAnalytics": "Analytics",
+  "entryCardOdometer": "Odometer: {value} km",
+  "@entryCardOdometer": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "summaryFillUpTitle": "Fill-up Summary"
 }

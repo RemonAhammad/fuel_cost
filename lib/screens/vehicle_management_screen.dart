@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../business_logic/type_labels.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/vehicle.dart';
@@ -81,7 +82,7 @@ class _VehicleManagementScreenState extends ConsumerState<VehicleManagementScree
                       },
                       decoration: InputDecoration(
                         labelText: AppLocalizations.of(context).vehiclesNameLabel,
-                        hintText: 'e.g. My Car',
+                        hintText: AppLocalizations.of(context).vehiclesNameHint,
                         prefixIcon: const Icon(Icons.label),
                         labelStyle: TextStyle(color: isDark ? Colors.grey.shade400 : null),
                         hintStyle: TextStyle(color: isDark ? Colors.grey.shade600 : null),
@@ -232,7 +233,7 @@ class _VehicleManagementScreenState extends ConsumerState<VehicleManagementScree
       context: context,
       builder: (context) => AlertDialog(
         title: Text(AppLocalizations.of(context).vehiclesDelete),
-        content: Text('Are you sure you want to delete "${vehicle.name}"? Fuel entries will not be deleted.'),
+        content: Text(AppLocalizations.of(context).vehiclesDeleteConfirm(vehicle.name)),
         actions: [
           TextButton(onPressed: () => Navigator.pop(context, false), child: Text(AppLocalizations.of(context).commonCancel)),
           FilledButton(
@@ -351,7 +352,7 @@ class _VehicleManagementScreenState extends ConsumerState<VehicleManagementScree
                         );
                       },
                       loading: () => const Center(child: CircularProgressIndicator()),
-                      error: (e, _) => Center(child: Text('Error: $e')),
+                      error: (e, _) => Center(child: Text(AppLocalizations.of(context).commonError(e.toString()))),
                     ),
                   ),
                 ),
@@ -364,7 +365,7 @@ class _VehicleManagementScreenState extends ConsumerState<VehicleManagementScree
   }
 
   Widget _buildVehicleCard(Vehicle vehicle, bool isDark) {
-    final fuelLabel = Vehicle.fuelTypes[vehicle.fuelType] ?? vehicle.fuelType;
+    final fuelLabel = fuelTypeLabel(context, vehicle.fuelType);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),

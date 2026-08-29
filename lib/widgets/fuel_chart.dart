@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../models/fuel_unit.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../models/fuel_entry.dart';
@@ -91,11 +92,11 @@ class FuelChart extends StatelessWidget {
           Icon(Icons.trending_up_rounded, size: 48, color: Colors.grey.shade400),
           const SizedBox(height: 12),
           Text(
-            'Not Enough Data',
+            AppLocalizations.of(context).chartNotEnoughData,
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: isDark ? Colors.grey.shade300 : Colors.grey.shade700),
           ),
           const SizedBox(height: 4),
-          Text('Add more fuel entries to see trends', style: TextStyle(fontSize: 14, color: Colors.grey.shade500)),
+          Text(AppLocalizations.of(context).chartNeedMoreData, style: TextStyle(fontSize: 14, color: Colors.grey.shade500)),
         ],
       ),
     );

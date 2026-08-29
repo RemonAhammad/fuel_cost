@@ -121,7 +121,7 @@ class HowToUseScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'The app automatically calculates your fuel efficiency when you provide odometer readings:',
+                      AppLocalizations.of(context).howToAutoCalc,
                       style: TextStyle(
                         fontSize: 16,
                         color: colorScheme.onSurface.withValues(alpha: 0.8),

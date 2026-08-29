@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import '../models/fuel_entry.dart';
 import '../models/fuel_unit.dart';
@@ -32,6 +33,7 @@ class FuelEntryCard extends StatelessWidget {
   });
 
   List<Widget> _buildWideLayout(
+    BuildContext context,
     FuelEntry entry,
     ColorScheme colorScheme,
     DateFormat dateFormatter,
@@ -139,7 +141,7 @@ class FuelEntryCard extends StatelessWidget {
                       const SizedBox(width: 6),
                       Expanded(
                         child: Text(
-                          'Odometer: ${entry.odometerReading!.toStringAsFixed(0)} km',
+                          AppLocalizations.of(context).entryCardOdometer(entry.odometerReading!.toStringAsFixed(0)),
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
@@ -161,6 +163,7 @@ class FuelEntryCard extends StatelessWidget {
   }
 
   List<Widget> _buildNarrowLayout(
+    BuildContext context,
     FuelEntry entry,
     ColorScheme colorScheme,
     DateFormat dateFormatter,
@@ -277,7 +280,7 @@ class FuelEntryCard extends StatelessWidget {
                 const SizedBox(width: 6),
                 Expanded(
                   child: Text(
-                    'Odometer: ${entry.odometerReading!.toStringAsFixed(0)} km',
+                    AppLocalizations.of(context).entryCardOdometer(entry.odometerReading!.toStringAsFixed(0)),
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
@@ -366,9 +369,9 @@ class FuelEntryCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         if (isNarrow)
-                          ..._buildNarrowLayout(entry, colorScheme, dateFormatter, timeFormatter)
+                          ..._buildNarrowLayout(context, entry, colorScheme, dateFormatter, timeFormatter)
                         else
-                          ..._buildWideLayout(entry, colorScheme, dateFormatter, timeFormatter),
+                          ..._buildWideLayout(context, entry, colorScheme, dateFormatter, timeFormatter),
                       ],
                     ),
                   );
@@ -397,7 +400,7 @@ class FuelEntryCard extends StatelessWidget {
             children: [
               Icon(Icons.edit_rounded, color: Colors.blue, size: 20),
               const SizedBox(width: 12),
-              const Text('Edit', style: TextStyle(fontWeight: FontWeight.w500)),
+              Text(AppLocalizations.of(context).entryCardEdit, style: TextStyle(fontWeight: FontWeight.w500)),
             ],
           ),
         ),
@@ -407,7 +410,7 @@ class FuelEntryCard extends StatelessWidget {
             children: [
               Icon(Icons.schedule_rounded, color: Colors.orange, size: 20),
               const SizedBox(width: 12),
-              const Text('Change Time', style: TextStyle(fontWeight: FontWeight.w500)),
+              Text(AppLocalizations.of(context).entryCardChangeTime, style: TextStyle(fontWeight: FontWeight.w500)),
             ],
           ),
         ),
@@ -417,7 +420,7 @@ class FuelEntryCard extends StatelessWidget {
             children: [
               Icon(Icons.delete_rounded, color: Colors.red, size: 20),
               const SizedBox(width: 12),
-              const Text('Delete', style: TextStyle(fontWeight: FontWeight.w500, color: Colors.red)),
+              Text(AppLocalizations.of(context).entryCardDelete, style: TextStyle(fontWeight: FontWeight.w500, color: Colors.red)),
             ],
           ),
         ),
@@ -457,7 +460,7 @@ class FuelEntryCard extends StatelessWidget {
                 const SizedBox(height: 16),
                 ListTile(
                   leading: const Icon(Icons.edit_rounded, color: Colors.blue),
-                  title: const Text('Edit', style: TextStyle(fontWeight: FontWeight.w500)),
+                  title: Text(AppLocalizations.of(context).entryCardEdit, style: TextStyle(fontWeight: FontWeight.w500)),
                   onTap: () {
                     Navigator.pop(context);
                     onEdit?.call();
@@ -465,7 +468,7 @@ class FuelEntryCard extends StatelessWidget {
                 ),
                 ListTile(
                   leading: const Icon(Icons.schedule_rounded, color: Colors.orange),
-                  title: const Text('Change Time', style: TextStyle(fontWeight: FontWeight.w500)),
+                  title: Text(AppLocalizations.of(context).entryCardChangeTime, style: TextStyle(fontWeight: FontWeight.w500)),
                   onTap: () {
                     Navigator.pop(context);
                     onChangeTime?.call();
@@ -473,7 +476,7 @@ class FuelEntryCard extends StatelessWidget {
                 ),
                 ListTile(
                   leading: const Icon(Icons.delete_rounded, color: Colors.red),
-                  title: const Text('Delete', style: TextStyle(fontWeight: FontWeight.w500, color: Colors.red)),
+                  title: Text(AppLocalizations.of(context).entryCardDelete, style: TextStyle(fontWeight: FontWeight.w500, color: Colors.red)),
                   onTap: () {
                     Navigator.pop(context);
                     onDelete();

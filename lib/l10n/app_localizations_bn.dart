@@ -784,4 +784,659 @@ class AppLocalizationsBn extends AppLocalizations {
   String restoreUnchangedCount(int count) {
     return '$countটি অপরিবর্তিত';
   }
+
+  @override
+  String get commonRestore => 'পুনরুদ্ধার';
+
+  @override
+  String get commonSignIn => 'সাইন ইন';
+
+  @override
+  String get commonDisconnect => 'সংযোগ বিচ্ছিন্ন';
+
+  @override
+  String get commonProcessing => 'প্রক্রিয়াকরণ চলছে...';
+
+  @override
+  String get commonNoThanks => 'ধন্যবাদ, না';
+
+  @override
+  String get commonNotNow => 'এখন নয়';
+
+  @override
+  String get commonMileage => 'মাইলেজ';
+
+  @override
+  String get settingsSubtitle => 'আপনার পছন্দ ও তথ্য পরিচালনা করুন';
+
+  @override
+  String get settingsAppearance => 'চেহারা';
+
+  @override
+  String get settingsPreferences => 'পছন্দসমূহ';
+
+  @override
+  String get settingsDataManagement => 'তথ্য ব্যবস্থাপনা';
+
+  @override
+  String get settingsExportImport => 'এক্সপোর্ট ও ইমপোর্ট';
+
+  @override
+  String get settingsAdvanced => 'উন্নত';
+
+  @override
+  String get settingsAbout => 'সম্পর্কে';
+
+  @override
+  String get settingsAccentColor => 'অ্যাকসেন্ট রঙ';
+
+  @override
+  String get settingsAccentColorSubtitle => 'অ্যাপের রঙ পছন্দ করুন';
+
+  @override
+  String get settingsChooseAccentColor => 'অ্যাকসেন্ট রঙ বাছুন';
+
+  @override
+  String get settingsChooseTheme => 'থিম বাছুন';
+
+  @override
+  String settingsThemeCurrent(String theme) {
+    return 'বর্তমান: $theme';
+  }
+
+  @override
+  String settingsCurrencyCurrent(String symbol, String name) {
+    return 'বর্তমান: $symbol ($name)';
+  }
+
+  @override
+  String settingsCurrencyChanged(String symbol, String name) {
+    return 'মুদ্রা পরিবর্তন হয়েছে $symbol ($name)';
+  }
+
+  @override
+  String settingsBudgetLabel(String currency) {
+    return 'বাজেট ($currency)';
+  }
+
+  @override
+  String get settingsBudgetHint => 'যেমন ৫০০০';
+
+  @override
+  String get settingsGoogleDriveBackup => 'গুগল ড্রাইভ ব্যাকআপ';
+
+  @override
+  String settingsSignedInAs(String email) {
+    return 'সাইন ইন: $email';
+  }
+
+  @override
+  String get settingsSignOutSubtitle => 'গুগল ব্যাকআপ থেকে সাইন আউট';
+
+  @override
+  String get settingsDisconnected => 'গুগল ড্রাইভ থেকে সংযোগ বিচ্ছিন্ন';
+
+  @override
+  String get settingsBackupNow => 'এখনই ব্যাকআপ';
+
+  @override
+  String get settingsBackupNowSubtitle => 'গুগল ড্রাইভে আপনার তথ্য আপলোড করুন';
+
+  @override
+  String get settingsAutoBackup => 'স্বয়ংক্রিয় ব্যাকআপ';
+
+  @override
+  String get settingsAutoBackupSubtitle =>
+      'এন্ট্রি সংরক্ষণের পর স্বয়ংক্রিয়ভাবে ব্যাকআপ';
+
+  @override
+  String get settingsAutoBackupOffWarning =>
+      'পুরোনো ব্যাকআপ থাকবে। নতুন কোনো ব্যাকআপ হবে না।';
+
+  @override
+  String get settingsRestoreFromBackup => 'ব্যাকআপ থেকে পুনরুদ্ধার';
+
+  @override
+  String get settingsRestoreSubtitle => 'আপনার তথ্য ডাউনলোড ও পুনরুদ্ধার করুন';
+
+  @override
+  String get settingsRestoreWarning =>
+      'এটি বর্তমান সব তথ্য ব্যাকআপ দিয়ে প্রতিস্থাপন করবে। এটি ফেরানো যাবে না।';
+
+  @override
+  String settingsRestoreFailed(String message) {
+    return 'পুনরুদ্ধার ব্যর্থ: $message';
+  }
+
+  @override
+  String settingsBackupFailed(String message) {
+    return 'ব্যাকআপ ব্যর্থ: $message';
+  }
+
+  @override
+  String get settingsExportData => 'তথ্য এক্সপোর্ট';
+
+  @override
+  String get settingsExportToCsv => 'CSV-তে এক্সপোর্ট';
+
+  @override
+  String get settingsExportSubtitle =>
+      'সব এন্ট্রি CSV ফাইল হিসেবে এক্সপোর্ট করুন';
+
+  @override
+  String get settingsSelectExportVehicle =>
+      'কোন যানবাহনের তথ্য এক্সপোর্ট হবে বাছুন';
+
+  @override
+  String get settingsAllVehicles => 'সব যানবাহন';
+
+  @override
+  String get settingsIncludeAllVehicles => 'সব যানবাহনের তথ্য অন্তর্ভুক্ত করুন';
+
+  @override
+  String get settingsNoVehicle => 'কোনো যানবাহন নয়';
+
+  @override
+  String get settingsNoVehicleSubtitle => 'কোনো যানবাহনে যুক্ত করবেন না';
+
+  @override
+  String get settingsNothingToExport =>
+      'এই যানবাহনের জন্য এক্সপোর্ট করার মতো এন্ট্রি নেই';
+
+  @override
+  String settingsEntriesExported(int count) {
+    return '$countটি এন্ট্রি এক্সপোর্ট হয়েছে';
+  }
+
+  @override
+  String get settingsImportData => 'তথ্য ইমপোর্ট';
+
+  @override
+  String get settingsImportFromCsv => 'CSV থেকে ইমপোর্ট';
+
+  @override
+  String get settingsImportSubtitle => 'CSV ফাইল থেকে এন্ট্রি ইমপোর্ট করুন';
+
+  @override
+  String get settingsAssignImported =>
+      'ইমপোর্ট করা এন্ট্রি একটি যানবাহনে যুক্ত করুন';
+
+  @override
+  String get settingsCsvInvalid => 'CSV ফাইল খালি বা অবৈধ';
+
+  @override
+  String settingsEntriesImported(int count) {
+    return '$countটি এন্ট্রি ইমপোর্ট হয়েছে';
+  }
+
+  @override
+  String settingsExportFailed(String message) {
+    return 'CSV এক্সপোর্টে ত্রুটি: $message';
+  }
+
+  @override
+  String settingsImportFailed(String message) {
+    return 'CSV ইমপোর্টে ত্রুটি: $message';
+  }
+
+  @override
+  String get settingsClearEntries => 'জ্বালানি এন্ট্রি মুছুন';
+
+  @override
+  String get settingsClearEntriesAction => 'এন্ট্রি মুছুন';
+
+  @override
+  String get settingsClearEntriesSubtitle => 'সব জ্বালানি এন্ট্রি সরান';
+
+  @override
+  String get settingsClearEntriesWarning =>
+      'এটি আপনার সব জ্বালানি এন্ট্রি স্থায়ীভাবে মুছে ফেলবে।';
+
+  @override
+  String get settingsEntriesCleared =>
+      'জ্বালানি এন্ট্রি সফলভাবে মুছে ফেলা হয়েছে';
+
+  @override
+  String get settingsClearOdometer => 'ওডোমিটার তথ্য মুছুন';
+
+  @override
+  String get settingsClearOdometerAction => 'ওডোমিটার মুছুন';
+
+  @override
+  String get settingsClearOdometerSubtitle =>
+      'বর্তমান ওডোমিটার রিডিং রিসেট করুন';
+
+  @override
+  String get settingsClearOdometerWarning =>
+      'এটি আপনার ওডোমিটার রিডিং রিসেট করবে।';
+
+  @override
+  String get settingsOdometerCleared =>
+      'ওডোমিটার তথ্য সফলভাবে মুছে ফেলা হয়েছে';
+
+  @override
+  String get settingsClearAllData => 'সব জ্বালানি তথ্য মুছুন';
+
+  @override
+  String get settingsClearAllAction => 'সব তথ্য মুছুন';
+
+  @override
+  String get settingsClearAllSubtitle => 'সব এন্ট্রি ও ওডোমিটার তথ্য সরান';
+
+  @override
+  String get settingsClearAllWarning =>
+      'এটি সব জ্বালানি তথ্য স্থায়ীভাবে মুছে ফেলবে। ফেরানো যাবে না।';
+
+  @override
+  String get settingsAllDataCleared =>
+      'সব জ্বালানি তথ্য সফলভাবে মুছে ফেলা হয়েছে';
+
+  @override
+  String get settingsResetApp => 'অ্যাপ রিসেট';
+
+  @override
+  String get settingsClearAllCache => 'সব ক্যাশ ও পছন্দ মুছুন';
+
+  @override
+  String get settingsClearCacheAction => 'সব মুছুন';
+
+  @override
+  String get settingsResetSubtitle => 'পুরো অ্যাপ ফ্যাক্টরি সেটিংসে ফেরান';
+
+  @override
+  String get settingsResetWarning =>
+      'এটি অ্যাপ সম্পূর্ণ রিসেট করবে। সব তথ্য হারিয়ে যাবে।';
+
+  @override
+  String get settingsCacheCleared => 'সব ক্যাশ ও পছন্দ মুছে ফেলা হয়েছে';
+
+  @override
+  String settingsClearFailed(String message) {
+    return 'তথ্য মুছতে ত্রুটি: $message';
+  }
+
+  @override
+  String get settingsAppVersion => 'অ্যাপ সংস্করণ';
+
+  @override
+  String get settingsRateApp => 'অ্যাপটি রেট করুন';
+
+  @override
+  String get settingsRateSubtitle => 'ফুয়েল কস্ট ভালো লাগছে? একটি রিভিউ দিন';
+
+  @override
+  String get settingsReplayTutorialSubtitle => 'পরিচিতি ও ট্যুর আবার দেখুন';
+
+  @override
+  String get homeYourFuelStats => 'আপনার জ্বালানি পরিসংখ্যান';
+
+  @override
+  String get homeQuickActions => 'দ্রুত কাজ';
+
+  @override
+  String get homeAddFuelEntry => 'জ্বালানি এন্ট্রি যোগ';
+
+  @override
+  String get homeViewFuelHistory => 'জ্বালানির ইতিহাস দেখুন';
+
+  @override
+  String get homeSwitchVehicles => 'যানবাহন পরিবর্তন';
+
+  @override
+  String get homeTripCalculator => 'ট্রিপ খরচ ক্যালকুলেটর';
+
+  @override
+  String get homeTripCalculatorSubtitle => 'ট্রিপের জ্বালানি খরচের হিসাব';
+
+  @override
+  String get homeBudgetReports => 'বাজেট ও রিপোর্ট';
+
+  @override
+  String get homeBudgetReportsSubtitle => 'মাসিক খরচ ও বাজেট পর্যবেক্ষণ';
+
+  @override
+  String get homeSpendingComparison => 'খরচের তুলনা';
+
+  @override
+  String get homeSpendingComparisonSubtitle => 'মাসগুলো পাশাপাশি তুলনা করুন';
+
+  @override
+  String get homeCompareVehicles => 'যানবাহন তুলনা';
+
+  @override
+  String get homeCompareVehiclesSubtitle => 'পাশাপাশি দক্ষতা বিশ্লেষণ';
+
+  @override
+  String get homeMaintenanceLog => 'রক্ষণাবেক্ষণ লগ';
+
+  @override
+  String get homeMaintenanceLogSubtitle => 'আপনার যানবাহনের সার্ভিসের হিসাব';
+
+  @override
+  String get homeThanksFeedback => 'মতামতের জন্য ধন্যবাদ!';
+
+  @override
+  String get addFuelAddVehicle => 'যানবাহন যোগ করুন';
+
+  @override
+  String addFuelSaveFailed(String message) {
+    return 'এন্ট্রি সংরক্ষণে ত্রুটি: $message';
+  }
+
+  @override
+  String get addFuelAutoBackupOk => 'স্বয়ংক্রিয় ব্যাকআপ সফল!';
+
+  @override
+  String addFuelAutoBackupFailed(String message) {
+    return 'স্বয়ংক্রিয় ব্যাকআপ ব্যর্থ: $message';
+  }
+
+  @override
+  String get addFuelBackupOk => 'ব্যাকআপ সফল!';
+
+  @override
+  String get addFuelConnectedBackedUp => 'সংযুক্ত ও ব্যাকআপ সম্পন্ন!';
+
+  @override
+  String get historyEntryDeleted => 'এন্ট্রি মুছে ফেলা হয়েছে';
+
+  @override
+  String get historyTimeUpdated => 'এন্ট্রির সময় হালনাগাদ হয়েছে';
+
+  @override
+  String historyDeleteFailed(String message) {
+    return 'এন্ট্রি মুছতে ত্রুটি: $message';
+  }
+
+  @override
+  String historyLoadFailed(String message) {
+    return 'তথ্য লোডে ত্রুটি: $message';
+  }
+
+  @override
+  String historyExportFailed(String message) {
+    return 'CSV এক্সপোর্টে ত্রুটি: $message';
+  }
+
+  @override
+  String get entryCardEdit => 'সম্পাদনা';
+
+  @override
+  String get entryCardDelete => 'মুছুন';
+
+  @override
+  String get entryCardChangeTime => 'সময় পরিবর্তন';
+
+  @override
+  String get deleteEntryTitle => 'এন্ট্রি মুছুন';
+
+  @override
+  String get rateTitle => 'ফুয়েল কস্ট ভালো লাগছে?';
+
+  @override
+  String get rateNow => 'এখনই রেট করুন';
+
+  @override
+  String get rateLater => 'এখন নয়';
+
+  @override
+  String get currencyDialogTitle => 'মুদ্রা নির্বাচন';
+
+  @override
+  String get currencyDialogSearch => 'মুদ্রা খুঁজুন...';
+
+  @override
+  String get chartNeedMoreData => 'প্রবণতা দেখতে আরও এন্ট্রি যোগ করুন';
+
+  @override
+  String summaryAvgPricePerUnit(String unit) {
+    return 'প্রতি $unit গড় দাম';
+  }
+
+  @override
+  String summaryAvgPriceShort(String unit) {
+    return 'গড় দাম/$unit';
+  }
+
+  @override
+  String get mileageDistanceTraveled => 'অতিক্রান্ত দূরত্ব:';
+
+  @override
+  String get mileageFuelEfficiency => 'জ্বালানি দক্ষতা:';
+
+  @override
+  String budgetWeekShort(int number) {
+    return 'স$number';
+  }
+
+  @override
+  String get vehiclesNameHint => 'যেমন আমার গাড়ি';
+
+  @override
+  String get maintenanceCostHint => 'যেমন ১৫০';
+
+  @override
+  String vehiclesDeleteConfirm(String name) {
+    return 'আপনি কি \"$name\" মুছতে চান? জ্বালানি এন্ট্রি মুছে যাবে না।';
+  }
+
+  @override
+  String get restoreLabelVehicle => 'যানবাহন';
+
+  @override
+  String get restoreLabelSetting => 'সেটিং';
+
+  @override
+  String get fuelType_petrol => 'পেট্রল';
+
+  @override
+  String get fuelType_diesel => 'ডিজেল';
+
+  @override
+  String get fuelType_cng => 'সিএনজি';
+
+  @override
+  String get fuelType_electric => 'বৈদ্যুতিক';
+
+  @override
+  String get fuelType_hybrid => 'হাইব্রিড';
+
+  @override
+  String get vehicleType_directions_car => 'গাড়ি';
+
+  @override
+  String get vehicleType_two_wheeler => 'বাইক';
+
+  @override
+  String get vehicleType_local_shipping => 'ট্রাক';
+
+  @override
+  String get vehicleType_airport_shuttle => 'ভ্যান';
+
+  @override
+  String get vehicleType_electric_car => 'বৈদ্যুতিক গাড়ি';
+
+  @override
+  String get vehicleType_pedal_bike => 'সাইকেল';
+
+  @override
+  String get maintenanceType_oil_change => 'তেল পরিবর্তন';
+
+  @override
+  String get maintenanceType_tire_rotation => 'টায়ার রোটেশন';
+
+  @override
+  String get maintenanceType_brake_service => 'ব্রেক সার্ভিস';
+
+  @override
+  String get maintenanceType_air_filter => 'এয়ার ফিল্টার';
+
+  @override
+  String get maintenanceType_transmission => 'ট্রান্সমিশন';
+
+  @override
+  String get maintenanceType_battery => 'ব্যাটারি';
+
+  @override
+  String get maintenanceType_coolant => 'কুল্যান্ট ফ্লাশ';
+
+  @override
+  String get maintenanceType_spark_plugs => 'স্পার্ক প্লাগ';
+
+  @override
+  String get maintenanceType_belt_replacement => 'বেল্ট পরিবর্তন';
+
+  @override
+  String get maintenanceType_wheel_alignment => 'অ্যালাইনমেন্ট';
+
+  @override
+  String get maintenanceType_suspension => 'সাসপেনশন';
+
+  @override
+  String get maintenanceType_exhaust => 'এক্সহস্ট';
+
+  @override
+  String get maintenanceType_ac_service => 'এসি সার্ভিস';
+
+  @override
+  String get maintenanceType_wiper_blades => 'ওয়াইপার ব্লেড';
+
+  @override
+  String get maintenanceType_headlights => 'হেডলাইট';
+
+  @override
+  String get maintenanceType_car_wash => 'গাড়ি ধোয়া';
+
+  @override
+  String get maintenanceType_detailing => 'ডিটেইলিং';
+
+  @override
+  String get maintenanceType_inspection => 'পরিদর্শন';
+
+  @override
+  String get maintenanceType_insurance => 'বীমা';
+
+  @override
+  String get maintenanceType_registration => 'রেজিস্ট্রেশন';
+
+  @override
+  String get maintenanceType_towing => 'টোয়িং';
+
+  @override
+  String get maintenanceType_general_service => 'সাধারণ সার্ভিস';
+
+  @override
+  String get maintenanceType_body_repair => 'বডি মেরামত';
+
+  @override
+  String get maintenanceType_other => 'অন্যান্য';
+
+  @override
+  String get homeAddFuelSubtitle => 'আপনার জ্বালানি কেনার হিসাব রাখুন';
+
+  @override
+  String get homeViewHistorySubtitle => 'আপনার জ্বালানির রেকর্ড দেখুন';
+
+  @override
+  String settingsEntriesImportedTo(int count, String vehicle) {
+    return '$vehicle-এ $countটি এন্ট্রি ইমপোর্ট হয়েছে';
+  }
+
+  @override
+  String get homeOverallSummary => 'সামগ্রিক সারসংক্ষেপ';
+
+  @override
+  String get homeSummary => 'সারসংক্ষেপ';
+
+  @override
+  String get homeMonitorEfficiency => 'আপনার জ্বালানি দক্ষতা পর্যবেক্ষণ করুন';
+
+  @override
+  String get tourVehiclesTitle => 'যানবাহন পরিবর্তন';
+
+  @override
+  String get tourVehiclesBody =>
+      'সম্মিলিত পরিসংখ্যান দেখতে \"সব\" বাছুন, অথবা নির্দিষ্ট যানবাহন বাছুন। নতুন যানবাহন যোগ করতে শেষে + বোতাম চাপুন।';
+
+  @override
+  String get tourSettingsBody =>
+      'এখান থেকে মুদ্রা, থিম, মাসিক বাজেট ঠিক করুন এবং গুগল ড্রাইভে তথ্য ব্যাকআপ করুন।';
+
+  @override
+  String get tourStatsBody =>
+      'এক নজরে এই মাসের খরচ, সর্বশেষ ফিলের খরচ, কত দিন হলো এবং সামগ্রিক দক্ষতা দেখুন।';
+
+  @override
+  String get tourActionsBody =>
+      'জ্বালানির ইতিহাস, ট্রিপ ক্যালকুলেটর, বাজেট রিপোর্ট, রক্ষণাবেক্ষণ লগ ও আরও টুলে যান।';
+
+  @override
+  String get tourAddFuelBody =>
+      'নতুন ফিল-আপ লিখতে এখানে চাপুন। পরিমাণ, দাম ও ওডোমিটার রিডিং দেবেন।';
+
+  @override
+  String get comparisonMetric => 'সূচক';
+
+  @override
+  String get comparisonScroll => 'স্ক্রল';
+
+  @override
+  String get comparisonSummary => 'সারসংক্ষেপ';
+
+  @override
+  String get comparisonSelectTwo => 'তুলনা করতে অন্তত ২টি যানবাহন বাছুন';
+
+  @override
+  String get comparisonSubtitle => 'পাশাপাশি দক্ষতা';
+
+  @override
+  String get historyLoading => 'জ্বালানির তথ্য লোড হচ্ছে...';
+
+  @override
+  String get historyLoadingHint => 'আপনার তথ্য আনা হচ্ছে, অপেক্ষা করুন';
+
+  @override
+  String get currencyNoResults => 'কোনো মুদ্রা পাওয়া যায়নি';
+
+  @override
+  String get currencyNoResultsHint => 'অন্য শব্দ দিয়ে খুঁজে দেখুন';
+
+  @override
+  String get mileageCalculationTitle => 'মাইলেজ হিসাব';
+
+  @override
+  String mileageSinceLastFill(String date) {
+    return 'সর্বশেষ ফিল-আপের পর: $date';
+  }
+
+  @override
+  String get addFuelNoVehicles =>
+      'কোনো যানবাহন যোগ করা হয়নি। প্রথমে একটি যানবাহন যোগ করুন।';
+
+  @override
+  String budgetProgressLabel(String amount, String percent) {
+    return 'বাজেট: $amount  |  $percent% ব্যবহৃত';
+  }
+
+  @override
+  String get howToAutoCalc =>
+      'ওডোমিটার রিডিং দিলে অ্যাপ স্বয়ংক্রিয়ভাবে আপনার জ্বালানি দক্ষতা হিসাব করে:';
+
+  @override
+  String get deleteEntryMessage =>
+      'আপনি কি এই জ্বালানি এন্ট্রি মুছতে চান? এটি ফেরানো যাবে না।';
+
+  @override
+  String get chartNotEnoughData => 'পর্যাপ্ত তথ্য নেই';
+
+  @override
+  String get chartAnalytics => 'বিশ্লেষণ';
+
+  @override
+  String entryCardOdometer(String value) {
+    return 'ওডোমিটার: $value কিমি';
+  }
+
+  @override
+  String get summaryFillUpTitle => 'ফিল-আপ সারসংক্ষেপ';
 }

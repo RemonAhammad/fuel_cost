@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../business_logic/type_labels.dart';
 import 'package:intl/intl.dart';
 import '../models/fuel_entry.dart';
 import '../models/vehicle.dart';
@@ -214,7 +215,7 @@ class _RestoreConflictsScreenState extends State<RestoreConflictsScreen> {
       title: conflict.local.name == conflict.backup.name
           ? conflict.local.name
           : '${conflict.local.name} → ${conflict.backup.name}',
-      subtitle: 'Vehicle',
+      subtitle: AppLocalizations.of(context).restoreLabelVehicle,
       keepLocal: keepLocal,
       mineDetail: _vehicleDetail(conflict.local, conflict.backup),
       backupDetail: _vehicleDetail(conflict.backup, conflict.local),
@@ -234,10 +235,10 @@ class _RestoreConflictsScreenState extends State<RestoreConflictsScreen> {
     final parts = <String>[];
     if (v.name != other.name) parts.add(v.name);
     if (v.fuelType != other.fuelType) {
-      parts.add(Vehicle.fuelTypes[v.fuelType] ?? v.fuelType);
+      parts.add(fuelTypeLabel(context, v.fuelType));
     }
     if (v.iconName != other.iconName) {
-      parts.add(Vehicle.vehicleIcons[v.iconName]?.label ?? v.iconName);
+      parts.add(vehicleTypeLabel(context, v.iconName));
     }
     if (v.unitId != other.unitId) parts.add('sold by ${v.fuelUnit.short}');
     if (v.tankCapacity != other.tankCapacity) {
@@ -253,7 +254,7 @@ class _RestoreConflictsScreenState extends State<RestoreConflictsScreen> {
     return _ConflictCard(
       isDark: isDark,
       title: conflict.label,
-      subtitle: 'Setting',
+      subtitle: AppLocalizations.of(context).restoreLabelSetting,
       keepLocal: keepLocal,
       mineDetail: conflict.localDisplay,
       backupDetail: conflict.backupDisplay,
@@ -270,8 +271,7 @@ class _RestoreConflictsScreenState extends State<RestoreConflictsScreen> {
   Widget _buildMaintenanceConflict(MaintenanceConflict conflict, bool isDark) {
     final keepLocal = _keepLocalMaintenanceIds.contains(conflict.id);
     final typeLabel =
-        MaintenanceEntry.maintenanceTypes[conflict.backup.type] ??
-            conflict.backup.type;
+        maintenanceTypeLabel(context, conflict.backup.type);
     return _ConflictCard(
       isDark: isDark,
       title: typeLabel,
@@ -297,7 +297,7 @@ class _RestoreConflictsScreenState extends State<RestoreConflictsScreen> {
       parts.add(m.description.isEmpty ? 'no description' : m.description);
     }
     if (m.type != other.type) {
-      parts.add(MaintenanceEntry.maintenanceTypes[m.type] ?? m.type);
+      parts.add(maintenanceTypeLabel(context, m.type));
     }
     if (m.mileage != other.mileage) {
       parts.add(m.mileage == null

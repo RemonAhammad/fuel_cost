@@ -249,10 +249,10 @@ class _TripCalculatorScreenState extends ConsumerState<TripCalculatorScreen>
                         );
                       },
                       loading: () => const Center(child: CircularProgressIndicator()),
-                      error: (e, _) => Text('Error: $e'),
+                      error: (e, _) => Text(AppLocalizations.of(context).commonError(e.toString())),
                     ),
                     loading: () => const Center(child: CircularProgressIndicator()),
-                    error: (e, _) => Text('Error: $e'),
+                    error: (e, _) => Text(AppLocalizations.of(context).commonError(e.toString())),
                   ),
 
                   const SizedBox(height: 20),

@@ -1481,6 +1481,1170 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} unchanged'**
   String restoreUnchangedCount(int count);
+
+  /// No description provided for @commonRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get commonRestore;
+
+  /// No description provided for @commonSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get commonSignIn;
+
+  /// No description provided for @commonDisconnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnect'**
+  String get commonDisconnect;
+
+  /// No description provided for @commonProcessing.
+  ///
+  /// In en, this message translates to:
+  /// **'Processing...'**
+  String get commonProcessing;
+
+  /// No description provided for @commonNoThanks.
+  ///
+  /// In en, this message translates to:
+  /// **'No thanks'**
+  String get commonNoThanks;
+
+  /// No description provided for @commonNotNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Now'**
+  String get commonNotNow;
+
+  /// No description provided for @commonMileage.
+  ///
+  /// In en, this message translates to:
+  /// **'Mileage'**
+  String get commonMileage;
+
+  /// No description provided for @settingsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your preferences and data'**
+  String get settingsSubtitle;
+
+  /// No description provided for @settingsAppearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get settingsAppearance;
+
+  /// No description provided for @settingsPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get settingsPreferences;
+
+  /// No description provided for @settingsDataManagement.
+  ///
+  /// In en, this message translates to:
+  /// **'Data Management'**
+  String get settingsDataManagement;
+
+  /// No description provided for @settingsExportImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export & Import'**
+  String get settingsExportImport;
+
+  /// No description provided for @settingsAdvanced.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced'**
+  String get settingsAdvanced;
+
+  /// No description provided for @settingsAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get settingsAbout;
+
+  /// No description provided for @settingsAccentColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Accent Color'**
+  String get settingsAccentColor;
+
+  /// No description provided for @settingsAccentColorSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Customize app color'**
+  String get settingsAccentColorSubtitle;
+
+  /// No description provided for @settingsChooseAccentColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Accent Color'**
+  String get settingsChooseAccentColor;
+
+  /// No description provided for @settingsChooseTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Theme'**
+  String get settingsChooseTheme;
+
+  /// No description provided for @settingsThemeCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Current: {theme}'**
+  String settingsThemeCurrent(String theme);
+
+  /// No description provided for @settingsCurrencyCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Current: {symbol} ({name})'**
+  String settingsCurrencyCurrent(String symbol, String name);
+
+  /// No description provided for @settingsCurrencyChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency changed to {symbol} ({name})'**
+  String settingsCurrencyChanged(String symbol, String name);
+
+  /// No description provided for @settingsBudgetLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget ({currency})'**
+  String settingsBudgetLabel(String currency);
+
+  /// No description provided for @settingsBudgetHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. 5000'**
+  String get settingsBudgetHint;
+
+  /// No description provided for @settingsGoogleDriveBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Google Drive Backup'**
+  String get settingsGoogleDriveBackup;
+
+  /// No description provided for @settingsSignedInAs.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed in as {email}'**
+  String settingsSignedInAs(String email);
+
+  /// No description provided for @settingsSignOutSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out from Google backup'**
+  String get settingsSignOutSubtitle;
+
+  /// No description provided for @settingsDisconnected.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnected from Google Drive'**
+  String get settingsDisconnected;
+
+  /// No description provided for @settingsBackupNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup Now'**
+  String get settingsBackupNow;
+
+  /// No description provided for @settingsBackupNowSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload your data to Google Drive'**
+  String get settingsBackupNowSubtitle;
+
+  /// No description provided for @settingsAutoBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto Backup'**
+  String get settingsAutoBackup;
+
+  /// No description provided for @settingsAutoBackupSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically backup after saving an entry'**
+  String get settingsAutoBackupSubtitle;
+
+  /// No description provided for @settingsAutoBackupOffWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Existing backups will remain. No new backups will be made.'**
+  String get settingsAutoBackupOffWarning;
+
+  /// No description provided for @settingsRestoreFromBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore from Backup'**
+  String get settingsRestoreFromBackup;
+
+  /// No description provided for @settingsRestoreSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Download and restore your data'**
+  String get settingsRestoreSubtitle;
+
+  /// No description provided for @settingsRestoreWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'This will replace all current data with the backup. This cannot be undone.'**
+  String get settingsRestoreWarning;
+
+  /// No description provided for @settingsRestoreFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore failed: {message}'**
+  String settingsRestoreFailed(String message);
+
+  /// No description provided for @settingsBackupFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup failed: {message}'**
+  String settingsBackupFailed(String message);
+
+  /// No description provided for @settingsExportData.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Data'**
+  String get settingsExportData;
+
+  /// No description provided for @settingsExportToCsv.
+  ///
+  /// In en, this message translates to:
+  /// **'Export to CSV'**
+  String get settingsExportToCsv;
+
+  /// No description provided for @settingsExportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export all fuel entries as a CSV file'**
+  String get settingsExportSubtitle;
+
+  /// No description provided for @settingsSelectExportVehicle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select which vehicle data to export'**
+  String get settingsSelectExportVehicle;
+
+  /// No description provided for @settingsAllVehicles.
+  ///
+  /// In en, this message translates to:
+  /// **'All Vehicles'**
+  String get settingsAllVehicles;
+
+  /// No description provided for @settingsIncludeAllVehicles.
+  ///
+  /// In en, this message translates to:
+  /// **'Include data from all vehicles'**
+  String get settingsIncludeAllVehicles;
+
+  /// No description provided for @settingsNoVehicle.
+  ///
+  /// In en, this message translates to:
+  /// **'No Vehicle'**
+  String get settingsNoVehicle;
+
+  /// No description provided for @settingsNoVehicleSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t assign to any vehicle'**
+  String get settingsNoVehicleSubtitle;
+
+  /// No description provided for @settingsNothingToExport.
+  ///
+  /// In en, this message translates to:
+  /// **'No entries to export for this vehicle'**
+  String get settingsNothingToExport;
+
+  /// No description provided for @settingsEntriesExported.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} entries exported'**
+  String settingsEntriesExported(int count);
+
+  /// No description provided for @settingsImportData.
+  ///
+  /// In en, this message translates to:
+  /// **'Import Data'**
+  String get settingsImportData;
+
+  /// No description provided for @settingsImportFromCsv.
+  ///
+  /// In en, this message translates to:
+  /// **'Import from CSV'**
+  String get settingsImportFromCsv;
+
+  /// No description provided for @settingsImportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import fuel entries from a CSV file'**
+  String get settingsImportSubtitle;
+
+  /// No description provided for @settingsAssignImported.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign imported entries to a vehicle'**
+  String get settingsAssignImported;
+
+  /// No description provided for @settingsCsvInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'CSV file is empty or invalid'**
+  String get settingsCsvInvalid;
+
+  /// No description provided for @settingsEntriesImported.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} entries imported'**
+  String settingsEntriesImported(int count);
+
+  /// No description provided for @settingsExportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Error exporting CSV: {message}'**
+  String settingsExportFailed(String message);
+
+  /// No description provided for @settingsImportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Error importing CSV: {message}'**
+  String settingsImportFailed(String message);
+
+  /// No description provided for @settingsClearEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Fuel Entries'**
+  String get settingsClearEntries;
+
+  /// No description provided for @settingsClearEntriesAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Entries'**
+  String get settingsClearEntriesAction;
+
+  /// No description provided for @settingsClearEntriesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove all fuel entries'**
+  String get settingsClearEntriesSubtitle;
+
+  /// No description provided for @settingsClearEntriesWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'This will permanently delete all your fuel entries.'**
+  String get settingsClearEntriesWarning;
+
+  /// No description provided for @settingsEntriesCleared.
+  ///
+  /// In en, this message translates to:
+  /// **'Fuel entries cleared successfully'**
+  String get settingsEntriesCleared;
+
+  /// No description provided for @settingsClearOdometer.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Odometer Data'**
+  String get settingsClearOdometer;
+
+  /// No description provided for @settingsClearOdometerAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Odometer'**
+  String get settingsClearOdometerAction;
+
+  /// No description provided for @settingsClearOdometerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset current odometer reading'**
+  String get settingsClearOdometerSubtitle;
+
+  /// No description provided for @settingsClearOdometerWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'This will reset your odometer reading.'**
+  String get settingsClearOdometerWarning;
+
+  /// No description provided for @settingsOdometerCleared.
+  ///
+  /// In en, this message translates to:
+  /// **'Odometer data cleared successfully'**
+  String get settingsOdometerCleared;
+
+  /// No description provided for @settingsClearAllData.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear All Fuel Data'**
+  String get settingsClearAllData;
+
+  /// No description provided for @settingsClearAllAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear All Data'**
+  String get settingsClearAllAction;
+
+  /// No description provided for @settingsClearAllSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove all entries and odometer data'**
+  String get settingsClearAllSubtitle;
+
+  /// No description provided for @settingsClearAllWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'This will permanently delete ALL fuel data. Cannot be undone.'**
+  String get settingsClearAllWarning;
+
+  /// No description provided for @settingsAllDataCleared.
+  ///
+  /// In en, this message translates to:
+  /// **'All fuel data cleared successfully'**
+  String get settingsAllDataCleared;
+
+  /// No description provided for @settingsResetApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset App'**
+  String get settingsResetApp;
+
+  /// No description provided for @settingsClearAllCache.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear All Cache & Preferences'**
+  String get settingsClearAllCache;
+
+  /// No description provided for @settingsClearCacheAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear All Cache'**
+  String get settingsClearCacheAction;
+
+  /// No description provided for @settingsResetSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset the entire app to factory settings'**
+  String get settingsResetSubtitle;
+
+  /// No description provided for @settingsResetWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'This will completely reset the app. ALL data will be lost.'**
+  String get settingsResetWarning;
+
+  /// No description provided for @settingsCacheCleared.
+  ///
+  /// In en, this message translates to:
+  /// **'All cache and preferences cleared'**
+  String get settingsCacheCleared;
+
+  /// No description provided for @settingsClearFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Error clearing data: {message}'**
+  String settingsClearFailed(String message);
+
+  /// No description provided for @settingsAppVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'App Version'**
+  String get settingsAppVersion;
+
+  /// No description provided for @settingsRateApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate this App'**
+  String get settingsRateApp;
+
+  /// No description provided for @settingsRateSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enjoying Fuel Cost? Leave a review'**
+  String get settingsRateSubtitle;
+
+  /// No description provided for @settingsReplayTutorialSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch the intro and tour again'**
+  String get settingsReplayTutorialSubtitle;
+
+  /// No description provided for @homeYourFuelStats.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Fuel Stats'**
+  String get homeYourFuelStats;
+
+  /// No description provided for @homeQuickActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Actions'**
+  String get homeQuickActions;
+
+  /// No description provided for @homeAddFuelEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Fuel Entry'**
+  String get homeAddFuelEntry;
+
+  /// No description provided for @homeViewFuelHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'View Fuel History'**
+  String get homeViewFuelHistory;
+
+  /// No description provided for @homeSwitchVehicles.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch Vehicles'**
+  String get homeSwitchVehicles;
+
+  /// No description provided for @homeTripCalculator.
+  ///
+  /// In en, this message translates to:
+  /// **'Trip Cost Calculator'**
+  String get homeTripCalculator;
+
+  /// No description provided for @homeTripCalculatorSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimate fuel cost for a trip'**
+  String get homeTripCalculatorSubtitle;
+
+  /// No description provided for @homeBudgetReports.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget & Reports'**
+  String get homeBudgetReports;
+
+  /// No description provided for @homeBudgetReportsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly spending & budget tracking'**
+  String get homeBudgetReportsSubtitle;
+
+  /// No description provided for @homeSpendingComparison.
+  ///
+  /// In en, this message translates to:
+  /// **'Spending Comparison'**
+  String get homeSpendingComparison;
+
+  /// No description provided for @homeSpendingComparisonSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare months side by side'**
+  String get homeSpendingComparisonSubtitle;
+
+  /// No description provided for @homeCompareVehicles.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare Vehicles'**
+  String get homeCompareVehicles;
+
+  /// No description provided for @homeCompareVehiclesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Side-by-side efficiency analysis'**
+  String get homeCompareVehiclesSubtitle;
+
+  /// No description provided for @homeMaintenanceLog.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance Log'**
+  String get homeMaintenanceLog;
+
+  /// No description provided for @homeMaintenanceLogSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Track your vehicle services'**
+  String get homeMaintenanceLogSubtitle;
+
+  /// No description provided for @homeThanksFeedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks for the feedback!'**
+  String get homeThanksFeedback;
+
+  /// No description provided for @addFuelAddVehicle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Vehicle'**
+  String get addFuelAddVehicle;
+
+  /// No description provided for @addFuelSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Error saving entry: {message}'**
+  String addFuelSaveFailed(String message);
+
+  /// No description provided for @addFuelAutoBackupOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto backup successful!'**
+  String get addFuelAutoBackupOk;
+
+  /// No description provided for @addFuelAutoBackupFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto backup failed: {message}'**
+  String addFuelAutoBackupFailed(String message);
+
+  /// No description provided for @addFuelBackupOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup successful!'**
+  String get addFuelBackupOk;
+
+  /// No description provided for @addFuelConnectedBackedUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected & backed up!'**
+  String get addFuelConnectedBackedUp;
+
+  /// No description provided for @historyEntryDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Entry deleted locally'**
+  String get historyEntryDeleted;
+
+  /// No description provided for @historyTimeUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Entry time updated'**
+  String get historyTimeUpdated;
+
+  /// No description provided for @historyDeleteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Error deleting entry: {message}'**
+  String historyDeleteFailed(String message);
+
+  /// No description provided for @historyLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading data: {message}'**
+  String historyLoadFailed(String message);
+
+  /// No description provided for @historyExportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Error exporting CSV: {message}'**
+  String historyExportFailed(String message);
+
+  /// No description provided for @entryCardEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get entryCardEdit;
+
+  /// No description provided for @entryCardDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get entryCardDelete;
+
+  /// No description provided for @entryCardChangeTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Time'**
+  String get entryCardChangeTime;
+
+  /// No description provided for @deleteEntryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Entry'**
+  String get deleteEntryTitle;
+
+  /// No description provided for @rateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enjoying Fuel Cost?'**
+  String get rateTitle;
+
+  /// No description provided for @rateNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate now'**
+  String get rateNow;
+
+  /// No description provided for @rateLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get rateLater;
+
+  /// No description provided for @currencyDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Currency'**
+  String get currencyDialogTitle;
+
+  /// No description provided for @currencyDialogSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search currencies...'**
+  String get currencyDialogSearch;
+
+  /// No description provided for @chartNeedMoreData.
+  ///
+  /// In en, this message translates to:
+  /// **'Add more fuel entries to see trends'**
+  String get chartNeedMoreData;
+
+  /// No description provided for @summaryAvgPricePerUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'Average Price per {unit}'**
+  String summaryAvgPricePerUnit(String unit);
+
+  /// No description provided for @summaryAvgPriceShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Avg Price/{unit}'**
+  String summaryAvgPriceShort(String unit);
+
+  /// No description provided for @mileageDistanceTraveled.
+  ///
+  /// In en, this message translates to:
+  /// **'Distance Traveled:'**
+  String get mileageDistanceTraveled;
+
+  /// No description provided for @mileageFuelEfficiency.
+  ///
+  /// In en, this message translates to:
+  /// **'Fuel Efficiency:'**
+  String get mileageFuelEfficiency;
+
+  /// No description provided for @budgetWeekShort.
+  ///
+  /// In en, this message translates to:
+  /// **'W{number}'**
+  String budgetWeekShort(int number);
+
+  /// No description provided for @vehiclesNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. My Car'**
+  String get vehiclesNameHint;
+
+  /// No description provided for @maintenanceCostHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. 150'**
+  String get maintenanceCostHint;
+
+  /// No description provided for @vehiclesDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete \"{name}\"? Fuel entries will not be deleted.'**
+  String vehiclesDeleteConfirm(String name);
+
+  /// No description provided for @restoreLabelVehicle.
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle'**
+  String get restoreLabelVehicle;
+
+  /// No description provided for @restoreLabelSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Setting'**
+  String get restoreLabelSetting;
+
+  /// No description provided for @fuelType_petrol.
+  ///
+  /// In en, this message translates to:
+  /// **'Petrol'**
+  String get fuelType_petrol;
+
+  /// No description provided for @fuelType_diesel.
+  ///
+  /// In en, this message translates to:
+  /// **'Diesel'**
+  String get fuelType_diesel;
+
+  /// No description provided for @fuelType_cng.
+  ///
+  /// In en, this message translates to:
+  /// **'CNG'**
+  String get fuelType_cng;
+
+  /// No description provided for @fuelType_electric.
+  ///
+  /// In en, this message translates to:
+  /// **'Electric'**
+  String get fuelType_electric;
+
+  /// No description provided for @fuelType_hybrid.
+  ///
+  /// In en, this message translates to:
+  /// **'Hybrid'**
+  String get fuelType_hybrid;
+
+  /// No description provided for @vehicleType_directions_car.
+  ///
+  /// In en, this message translates to:
+  /// **'Car'**
+  String get vehicleType_directions_car;
+
+  /// No description provided for @vehicleType_two_wheeler.
+  ///
+  /// In en, this message translates to:
+  /// **'Bike'**
+  String get vehicleType_two_wheeler;
+
+  /// No description provided for @vehicleType_local_shipping.
+  ///
+  /// In en, this message translates to:
+  /// **'Truck'**
+  String get vehicleType_local_shipping;
+
+  /// No description provided for @vehicleType_airport_shuttle.
+  ///
+  /// In en, this message translates to:
+  /// **'Van'**
+  String get vehicleType_airport_shuttle;
+
+  /// No description provided for @vehicleType_electric_car.
+  ///
+  /// In en, this message translates to:
+  /// **'Electric Car'**
+  String get vehicleType_electric_car;
+
+  /// No description provided for @vehicleType_pedal_bike.
+  ///
+  /// In en, this message translates to:
+  /// **'Bicycle'**
+  String get vehicleType_pedal_bike;
+
+  /// No description provided for @maintenanceType_oil_change.
+  ///
+  /// In en, this message translates to:
+  /// **'Oil Change'**
+  String get maintenanceType_oil_change;
+
+  /// No description provided for @maintenanceType_tire_rotation.
+  ///
+  /// In en, this message translates to:
+  /// **'Tire Rotation'**
+  String get maintenanceType_tire_rotation;
+
+  /// No description provided for @maintenanceType_brake_service.
+  ///
+  /// In en, this message translates to:
+  /// **'Brake Service'**
+  String get maintenanceType_brake_service;
+
+  /// No description provided for @maintenanceType_air_filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Air Filter'**
+  String get maintenanceType_air_filter;
+
+  /// No description provided for @maintenanceType_transmission.
+  ///
+  /// In en, this message translates to:
+  /// **'Transmission'**
+  String get maintenanceType_transmission;
+
+  /// No description provided for @maintenanceType_battery.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery'**
+  String get maintenanceType_battery;
+
+  /// No description provided for @maintenanceType_coolant.
+  ///
+  /// In en, this message translates to:
+  /// **'Coolant Flush'**
+  String get maintenanceType_coolant;
+
+  /// No description provided for @maintenanceType_spark_plugs.
+  ///
+  /// In en, this message translates to:
+  /// **'Spark Plugs'**
+  String get maintenanceType_spark_plugs;
+
+  /// No description provided for @maintenanceType_belt_replacement.
+  ///
+  /// In en, this message translates to:
+  /// **'Belt Replace'**
+  String get maintenanceType_belt_replacement;
+
+  /// No description provided for @maintenanceType_wheel_alignment.
+  ///
+  /// In en, this message translates to:
+  /// **'Alignment'**
+  String get maintenanceType_wheel_alignment;
+
+  /// No description provided for @maintenanceType_suspension.
+  ///
+  /// In en, this message translates to:
+  /// **'Suspension'**
+  String get maintenanceType_suspension;
+
+  /// No description provided for @maintenanceType_exhaust.
+  ///
+  /// In en, this message translates to:
+  /// **'Exhaust'**
+  String get maintenanceType_exhaust;
+
+  /// No description provided for @maintenanceType_ac_service.
+  ///
+  /// In en, this message translates to:
+  /// **'AC Service'**
+  String get maintenanceType_ac_service;
+
+  /// No description provided for @maintenanceType_wiper_blades.
+  ///
+  /// In en, this message translates to:
+  /// **'Wiper Blades'**
+  String get maintenanceType_wiper_blades;
+
+  /// No description provided for @maintenanceType_headlights.
+  ///
+  /// In en, this message translates to:
+  /// **'Headlights'**
+  String get maintenanceType_headlights;
+
+  /// No description provided for @maintenanceType_car_wash.
+  ///
+  /// In en, this message translates to:
+  /// **'Car Wash'**
+  String get maintenanceType_car_wash;
+
+  /// No description provided for @maintenanceType_detailing.
+  ///
+  /// In en, this message translates to:
+  /// **'Detailing'**
+  String get maintenanceType_detailing;
+
+  /// No description provided for @maintenanceType_inspection.
+  ///
+  /// In en, this message translates to:
+  /// **'Inspection'**
+  String get maintenanceType_inspection;
+
+  /// No description provided for @maintenanceType_insurance.
+  ///
+  /// In en, this message translates to:
+  /// **'Insurance'**
+  String get maintenanceType_insurance;
+
+  /// No description provided for @maintenanceType_registration.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration'**
+  String get maintenanceType_registration;
+
+  /// No description provided for @maintenanceType_towing.
+  ///
+  /// In en, this message translates to:
+  /// **'Towing'**
+  String get maintenanceType_towing;
+
+  /// No description provided for @maintenanceType_general_service.
+  ///
+  /// In en, this message translates to:
+  /// **'General Service'**
+  String get maintenanceType_general_service;
+
+  /// No description provided for @maintenanceType_body_repair.
+  ///
+  /// In en, this message translates to:
+  /// **'Body Repair'**
+  String get maintenanceType_body_repair;
+
+  /// No description provided for @maintenanceType_other.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get maintenanceType_other;
+
+  /// No description provided for @homeAddFuelSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Record your fuel purchases'**
+  String get homeAddFuelSubtitle;
+
+  /// No description provided for @homeViewHistorySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse your fuel records'**
+  String get homeViewHistorySubtitle;
+
+  /// No description provided for @settingsEntriesImportedTo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} entries imported to {vehicle}'**
+  String settingsEntriesImportedTo(int count, String vehicle);
+
+  /// No description provided for @homeOverallSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Overall Summary'**
+  String get homeOverallSummary;
+
+  /// No description provided for @homeSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary'**
+  String get homeSummary;
+
+  /// No description provided for @homeMonitorEfficiency.
+  ///
+  /// In en, this message translates to:
+  /// **'Monitor your fuel efficiency'**
+  String get homeMonitorEfficiency;
+
+  /// No description provided for @tourVehiclesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch Vehicles'**
+  String get tourVehiclesTitle;
+
+  /// No description provided for @tourVehiclesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Select \"All\" to see combined stats, or pick a specific vehicle. Tap the + button at the end to add a new vehicle.'**
+  String get tourVehiclesBody;
+
+  /// No description provided for @tourSettingsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Customize currency, theme, monthly budget, and backup your data to Google Drive from here.'**
+  String get tourSettingsBody;
+
+  /// No description provided for @tourStatsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'See this month\'s spending, your last fill cost, days since last fill, and your overall efficiency at a glance.'**
+  String get tourStatsBody;
+
+  /// No description provided for @tourActionsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Jump to Fuel History, Trip Calculator, Budget Reports, Maintenance Log, and more powerful tools.'**
+  String get tourActionsBody;
+
+  /// No description provided for @tourAddFuelBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap here to log a new fuel fill-up. You\'ll enter the amount, price, and odometer reading.'**
+  String get tourAddFuelBody;
+
+  /// No description provided for @comparisonMetric.
+  ///
+  /// In en, this message translates to:
+  /// **'Metric'**
+  String get comparisonMetric;
+
+  /// No description provided for @comparisonScroll.
+  ///
+  /// In en, this message translates to:
+  /// **'Scroll'**
+  String get comparisonScroll;
+
+  /// No description provided for @comparisonSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary'**
+  String get comparisonSummary;
+
+  /// No description provided for @comparisonSelectTwo.
+  ///
+  /// In en, this message translates to:
+  /// **'Select at least 2 vehicles to compare'**
+  String get comparisonSelectTwo;
+
+  /// No description provided for @comparisonSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Side-by-side efficiency'**
+  String get comparisonSubtitle;
+
+  /// No description provided for @historyLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading fuel data...'**
+  String get historyLoading;
+
+  /// No description provided for @historyLoadingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait while we fetch your data'**
+  String get historyLoadingHint;
+
+  /// No description provided for @currencyNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No currencies found'**
+  String get currencyNoResults;
+
+  /// No description provided for @currencyNoResultsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Try searching with different keywords'**
+  String get currencyNoResultsHint;
+
+  /// No description provided for @mileageCalculationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mileage Calculation'**
+  String get mileageCalculationTitle;
+
+  /// No description provided for @mileageSinceLastFill.
+  ///
+  /// In en, this message translates to:
+  /// **'Since last fill-up: {date}'**
+  String mileageSinceLastFill(String date);
+
+  /// No description provided for @addFuelNoVehicles.
+  ///
+  /// In en, this message translates to:
+  /// **'No vehicles added. Please add a vehicle first.'**
+  String get addFuelNoVehicles;
+
+  /// No description provided for @budgetProgressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget: {amount}  |  {percent}% used'**
+  String budgetProgressLabel(String amount, String percent);
+
+  /// No description provided for @howToAutoCalc.
+  ///
+  /// In en, this message translates to:
+  /// **'The app automatically calculates your fuel efficiency when you provide odometer readings:'**
+  String get howToAutoCalc;
+
+  /// No description provided for @deleteEntryMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this fuel entry? This action cannot be undone.'**
+  String get deleteEntryMessage;
+
+  /// No description provided for @chartNotEnoughData.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Enough Data'**
+  String get chartNotEnoughData;
+
+  /// No description provided for @chartAnalytics.
+  ///
+  /// In en, this message translates to:
+  /// **'Analytics'**
+  String get chartAnalytics;
+
+  /// No description provided for @entryCardOdometer.
+  ///
+  /// In en, this message translates to:
+  /// **'Odometer: {value} km'**
+  String entryCardOdometer(String value);
+
+  /// No description provided for @summaryFillUpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill-up Summary'**
+  String get summaryFillUpTitle;
 }
 
 class _AppLocalizationsDelegate

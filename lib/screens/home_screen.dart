@@ -165,8 +165,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
         await ReviewService.markDeclined();
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Thanks for the feedback!'),
+            SnackBar(
+              content: Text(AppLocalizations.of(context).homeThanksFeedback),
               behavior: SnackBarBehavior.floating,
             ),
           );
@@ -223,17 +223,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
         );
       },
     );
-  }
-
-  String _getButtonSubtitle(String title) {
-    switch (title) {
-      case 'Add Fuel Entry':
-        return 'Record your fuel purchases';
-      case 'View Fuel History':
-        return 'Browse your fuel records';
-      default:
-        return 'Quick action';
-    }
   }
 
   Widget _buildSummaryLine({
@@ -314,9 +303,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
     return Scaffold(
       floatingActionButton: Showcase(
         key: _addFuelFabKey,
-        title: 'Add Fuel Entry',
+        title: AppLocalizations.of(context).homeAddFuelEntry,
         description:
-            'Tap here to log a new fuel fill-up. You\'ll enter liters, price, and odometer reading.',
+            AppLocalizations.of(context).tourAddFuelBody,
         tooltipBackgroundColor: const Color(0xFF4CAF50),
         textColor: Colors.white,
         targetBorderRadius: BorderRadius.circular(24),
@@ -380,8 +369,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                     child: const Icon(Icons.local_gas_station_rounded, size: 22, color: Colors.white),
                   ),
                   const SizedBox(width: 12),
-                  const Text(
-                    'Add Fuel Entry',
+                  Text(
+                    AppLocalizations.of(context).homeAddFuelEntry,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15,
@@ -432,7 +421,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'FUEL COST',
+                                AppLocalizations.of(context).appTitle.toUpperCase(),
                                 style: GoogleFonts.exo2(
                                   fontSize: 40,
                                   fontWeight: FontWeight.bold,
@@ -442,7 +431,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                                 ),
                               ),
                               Text(
-                                'Monitor your fuel efficiency',
+                                AppLocalizations.of(context).homeMonitorEfficiency,
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
@@ -477,9 +466,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                               const SizedBox(width: 12),
                               Showcase(
                                 key: _settingsKey,
-                                title: 'Settings',
+                                title: AppLocalizations.of(context).homeSettings,
                                 description:
-                                    'Customize currency, theme, monthly budget, and backup your data to Google Drive from here.',
+                                    AppLocalizations.of(context).tourSettingsBody,
                                 targetShapeBorder: const CircleBorder(),
                                 tooltipBackgroundColor: const Color(0xFF667eea),
                                 textColor: Colors.white,
@@ -525,9 +514,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                     animation: _staggeredAnimation,
                     child: Showcase(
                       key: _vehicleSelectorKey,
-                      title: 'Switch Vehicles',
+                      title: AppLocalizations.of(context).homeSwitchVehicles,
                       description:
-                          'Select "All" to see combined stats, or pick a specific vehicle. Tap the + button at the end to add a new vehicle.',
+                          AppLocalizations.of(context).tourVehiclesBody,
                       tooltipBackgroundColor: const Color(0xFF2196F3),
                       textColor: Colors.white,
                       child: SizedBox(
@@ -541,7 +530,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                                 // "All" chip
                                 _buildVehicleChip(
                                   id: null,
-                                  label: 'All',
+                                  label: AppLocalizations.of(context).commonAll,
                                   icon: Icons.dashboard_rounded,
                                   isSelected: _selectedVehicleId == null,
                                   isDark: isDark,
@@ -597,8 +586,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                                   ),
                                   if (!hasVehicles) ...[
                                     const SizedBox(width: 4),
-                                    const Text(
-                                      'Add Vehicle',
+                                    Text(
+                                      AppLocalizations.of(context).addFuelAddVehicle,
                                       style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600),
                                     ),
                                   ],
@@ -618,9 +607,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                     // Quick Stats Card
                     Showcase(
                       key: _statsKey,
-                      title: 'Your Fuel Stats',
+                      title: AppLocalizations.of(context).homeYourFuelStats,
                       description:
-                          'See this month\'s spending, your last fill cost, days since last fill, and your overall efficiency at a glance.',
+                          AppLocalizations.of(context).tourStatsBody,
                       tooltipBackgroundColor: const Color(0xFF667eea),
                       textColor: Colors.white,
                       child: _staggerSection(
@@ -720,10 +709,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                         data: (entries) => currencyAsync.when(
                           data: (currency) => FuelChartDashboard(entries: entries, currency: currency, unit: scopeUnit),
                           loading: () => const CircularProgressIndicator(),
-                          error: (e, _) => Text('Error: $e'),
+                          error: (e, _) => Text(AppLocalizations.of(context).commonError(e.toString())),
                         ),
                         loading: () => const CircularProgressIndicator(),
-                        error: (e, _) => Text('Error: $e'),
+                        error: (e, _) => Text(AppLocalizations.of(context).commonError(e.toString())),
                       ),
                     ),
                   ],
@@ -733,9 +722,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                   // Action Buttons
                   Showcase(
                     key: _actionsKey,
-                    title: 'Quick Actions',
+                    title: AppLocalizations.of(context).homeQuickActions,
                     description:
-                        'Jump to Fuel History, Trip Calculator, Budget Reports, Maintenance Log, and more powerful tools.',
+                        AppLocalizations.of(context).tourActionsBody,
                     tooltipBackgroundColor: const Color(0xFFFF9800),
                     textColor: Colors.white,
                     child: _staggerSection(
@@ -745,7 +734,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Text(
-                          'Quick Actions',
+                          AppLocalizations.of(context).homeQuickActions,
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -755,8 +744,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                         const SizedBox(height: 12),
                         ActionButton(
                           icon: Icons.history,
-                          title: 'View Fuel History',
-                          subtitle: _getButtonSubtitle('View Fuel History'),
+                          title: AppLocalizations.of(context).homeViewFuelHistory,
+                          subtitle: AppLocalizations.of(context).homeViewHistorySubtitle,
                           onPressed: () async {
                             await Navigator.push(
                               context,
@@ -768,8 +757,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                         ),
                         ActionButton(
                           icon: Icons.calculate_rounded,
-                          title: 'Trip Cost Calculator',
-                          subtitle: 'Estimate fuel cost for a trip',
+                          title: AppLocalizations.of(context).homeTripCalculator,
+                          subtitle: AppLocalizations.of(context).homeTripCalculatorSubtitle,
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -780,8 +769,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                         ),
                         ActionButton(
                           icon: Icons.bar_chart_rounded,
-                          title: 'Budget & Reports',
-                          subtitle: 'Monthly spending & budget tracking',
+                          title: AppLocalizations.of(context).homeBudgetReports,
+                          subtitle: AppLocalizations.of(context).homeBudgetReportsSubtitle,
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -792,8 +781,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                         ),
                         ActionButton(
                           icon: Icons.build_circle,
-                          title: 'Maintenance Log',
-                          subtitle: 'Track your vehicle services',
+                          title: AppLocalizations.of(context).homeMaintenanceLog,
+                          subtitle: AppLocalizations.of(context).homeMaintenanceLogSubtitle,
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -804,8 +793,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                         ),
                         ActionButton(
                           icon: Icons.compare_arrows,
-                          title: 'Spending Comparison',
-                          subtitle: 'Compare months side by side',
+                          title: AppLocalizations.of(context).homeSpendingComparison,
+                          subtitle: AppLocalizations.of(context).homeSpendingComparisonSubtitle,
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -816,8 +805,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                         ),
                         ActionButton(
                           icon: Icons.compare,
-                          title: 'Compare Vehicles',
-                          subtitle: 'Side-by-side efficiency analysis',
+                          title: AppLocalizations.of(context).homeCompareVehicles,
+                          subtitle: AppLocalizations.of(context).homeCompareVehiclesSubtitle,
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -1001,7 +990,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                 ),
                 const SizedBox(width: 12),
                 Text(
-                  'Overall Summary',
+                  AppLocalizations.of(context).homeOverallSummary,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -1146,7 +1135,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                 ),
                 const SizedBox(width: 12),
                 Text(
-                  'Summary',
+                  AppLocalizations.of(context).homeSummary,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -1158,7 +1147,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
             const SizedBox(height: 20),
             _buildSummaryLine(
               icon: Icons.payments_rounded,
-              label: 'Total Cost',
+              label: AppLocalizations.of(context).commonTotalCost,
               value: '$currency${totalCost.toStringAsFixed(2)}',
               color: const Color(0xFFE91E63),
             ),
@@ -1172,7 +1161,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
             const SizedBox(height: 16),
             _buildSummaryLine(
               icon: Icons.route_rounded,
-              label: 'Total Distance',
+              label: AppLocalizations.of(context).homeTotalDistance,
               value: totalDistance > 0 ? '${totalDistance.toStringAsFixed(0)} km' : 'N/A',
               color: const Color(0xFFFF9800),
             ),

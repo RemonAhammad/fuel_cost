@@ -791,4 +791,650 @@ class AppLocalizationsAr extends AppLocalizations {
   String restoreUnchangedCount(int count) {
     return '$count دون تغيير';
   }
+
+  @override
+  String get commonRestore => 'استعادة';
+
+  @override
+  String get commonSignIn => 'تسجيل الدخول';
+
+  @override
+  String get commonDisconnect => 'قطع الاتصال';
+
+  @override
+  String get commonProcessing => 'جارٍ المعالجة...';
+
+  @override
+  String get commonNoThanks => 'لا، شكراً';
+
+  @override
+  String get commonNotNow => 'ليس الآن';
+
+  @override
+  String get commonMileage => 'الاستهلاك';
+
+  @override
+  String get settingsSubtitle => 'أدر تفضيلاتك وبياناتك';
+
+  @override
+  String get settingsAppearance => 'المظهر';
+
+  @override
+  String get settingsPreferences => 'التفضيلات';
+
+  @override
+  String get settingsDataManagement => 'إدارة البيانات';
+
+  @override
+  String get settingsExportImport => 'التصدير والاستيراد';
+
+  @override
+  String get settingsAdvanced => 'متقدم';
+
+  @override
+  String get settingsAbout => 'حول';
+
+  @override
+  String get settingsAccentColor => 'لون التمييز';
+
+  @override
+  String get settingsAccentColorSubtitle => 'خصّص لون التطبيق';
+
+  @override
+  String get settingsChooseAccentColor => 'اختر لون التمييز';
+
+  @override
+  String get settingsChooseTheme => 'اختر المظهر';
+
+  @override
+  String settingsThemeCurrent(String theme) {
+    return 'الحالي: $theme';
+  }
+
+  @override
+  String settingsCurrencyCurrent(String symbol, String name) {
+    return 'الحالية: $symbol ($name)';
+  }
+
+  @override
+  String settingsCurrencyChanged(String symbol, String name) {
+    return 'تم تغيير العملة إلى $symbol ($name)';
+  }
+
+  @override
+  String settingsBudgetLabel(String currency) {
+    return 'الميزانية ($currency)';
+  }
+
+  @override
+  String get settingsBudgetHint => 'مثال 5000';
+
+  @override
+  String get settingsGoogleDriveBackup => 'النسخ الاحتياطي على Google Drive';
+
+  @override
+  String settingsSignedInAs(String email) {
+    return 'مسجّل الدخول باسم $email';
+  }
+
+  @override
+  String get settingsSignOutSubtitle => 'تسجيل الخروج من النسخ الاحتياطي';
+
+  @override
+  String get settingsDisconnected => 'تم قطع الاتصال بـ Google Drive';
+
+  @override
+  String get settingsBackupNow => 'النسخ الآن';
+
+  @override
+  String get settingsBackupNowSubtitle => 'ارفع بياناتك إلى Google Drive';
+
+  @override
+  String get settingsAutoBackup => 'النسخ التلقائي';
+
+  @override
+  String get settingsAutoBackupSubtitle => 'النسخ تلقائياً بعد حفظ كل سجل';
+
+  @override
+  String get settingsAutoBackupOffWarning =>
+      'ستبقى النسخ الحالية. لن يتم إنشاء نسخ جديدة.';
+
+  @override
+  String get settingsRestoreFromBackup => 'الاستعادة من النسخة';
+
+  @override
+  String get settingsRestoreSubtitle => 'نزّل بياناتك واستعدها';
+
+  @override
+  String get settingsRestoreWarning =>
+      'سيستبدل هذا كل البيانات الحالية بالنسخة الاحتياطية. لا يمكن التراجع.';
+
+  @override
+  String settingsRestoreFailed(String message) {
+    return 'فشلت الاستعادة: $message';
+  }
+
+  @override
+  String settingsBackupFailed(String message) {
+    return 'فشل النسخ الاحتياطي: $message';
+  }
+
+  @override
+  String get settingsExportData => 'تصدير البيانات';
+
+  @override
+  String get settingsExportToCsv => 'تصدير إلى CSV';
+
+  @override
+  String get settingsExportSubtitle => 'صدّر كل السجلات كملف CSV';
+
+  @override
+  String get settingsSelectExportVehicle => 'اختر بيانات أي مركبة تريد تصديرها';
+
+  @override
+  String get settingsAllVehicles => 'كل المركبات';
+
+  @override
+  String get settingsIncludeAllVehicles => 'تضمين بيانات كل المركبات';
+
+  @override
+  String get settingsNoVehicle => 'بدون مركبة';
+
+  @override
+  String get settingsNoVehicleSubtitle => 'عدم الإسناد إلى أي مركبة';
+
+  @override
+  String get settingsNothingToExport => 'لا توجد سجلات لتصديرها لهذه المركبة';
+
+  @override
+  String settingsEntriesExported(int count) {
+    return 'تم تصدير $count سجل';
+  }
+
+  @override
+  String get settingsImportData => 'استيراد البيانات';
+
+  @override
+  String get settingsImportFromCsv => 'استيراد من CSV';
+
+  @override
+  String get settingsImportSubtitle => 'استورد السجلات من ملف CSV';
+
+  @override
+  String get settingsAssignImported => 'إسناد السجلات المستوردة إلى مركبة';
+
+  @override
+  String get settingsCsvInvalid => 'ملف CSV فارغ أو غير صالح';
+
+  @override
+  String settingsEntriesImported(int count) {
+    return 'تم استيراد $count سجل';
+  }
+
+  @override
+  String settingsExportFailed(String message) {
+    return 'خطأ في تصدير CSV: $message';
+  }
+
+  @override
+  String settingsImportFailed(String message) {
+    return 'خطأ في استيراد CSV: $message';
+  }
+
+  @override
+  String get settingsClearEntries => 'مسح سجلات الوقود';
+
+  @override
+  String get settingsClearEntriesAction => 'مسح السجلات';
+
+  @override
+  String get settingsClearEntriesSubtitle => 'إزالة كل سجلات الوقود';
+
+  @override
+  String get settingsClearEntriesWarning =>
+      'سيؤدي هذا إلى حذف كل سجلات الوقود نهائياً.';
+
+  @override
+  String get settingsEntriesCleared => 'تم مسح سجلات الوقود بنجاح';
+
+  @override
+  String get settingsClearOdometer => 'مسح بيانات العداد';
+
+  @override
+  String get settingsClearOdometerAction => 'مسح العداد';
+
+  @override
+  String get settingsClearOdometerSubtitle =>
+      'إعادة تعيين قراءة العداد الحالية';
+
+  @override
+  String get settingsClearOdometerWarning =>
+      'سيؤدي هذا إلى إعادة تعيين قراءة العداد.';
+
+  @override
+  String get settingsOdometerCleared => 'تم مسح بيانات العداد بنجاح';
+
+  @override
+  String get settingsClearAllData => 'مسح كل بيانات الوقود';
+
+  @override
+  String get settingsClearAllAction => 'مسح كل البيانات';
+
+  @override
+  String get settingsClearAllSubtitle => 'إزالة كل السجلات وبيانات العداد';
+
+  @override
+  String get settingsClearAllWarning =>
+      'سيؤدي هذا إلى حذف كل بيانات الوقود نهائياً. لا يمكن التراجع.';
+
+  @override
+  String get settingsAllDataCleared => 'تم مسح كل بيانات الوقود بنجاح';
+
+  @override
+  String get settingsResetApp => 'إعادة ضبط التطبيق';
+
+  @override
+  String get settingsClearAllCache => 'مسح الذاكرة المؤقتة والتفضيلات';
+
+  @override
+  String get settingsClearCacheAction => 'مسح الكل';
+
+  @override
+  String get settingsResetSubtitle => 'إعادة التطبيق إلى إعدادات المصنع';
+
+  @override
+  String get settingsResetWarning =>
+      'سيعيد هذا ضبط التطبيق بالكامل. ستفقد كل البيانات.';
+
+  @override
+  String get settingsCacheCleared => 'تم مسح الذاكرة المؤقتة والتفضيلات';
+
+  @override
+  String settingsClearFailed(String message) {
+    return 'خطأ في مسح البيانات: $message';
+  }
+
+  @override
+  String get settingsAppVersion => 'إصدار التطبيق';
+
+  @override
+  String get settingsRateApp => 'قيّم التطبيق';
+
+  @override
+  String get settingsRateSubtitle => 'هل يعجبك التطبيق؟ اترك تقييماً';
+
+  @override
+  String get settingsReplayTutorialSubtitle => 'شاهد المقدمة والجولة مرة أخرى';
+
+  @override
+  String get homeYourFuelStats => 'إحصاءات الوقود';
+
+  @override
+  String get homeQuickActions => 'إجراءات سريعة';
+
+  @override
+  String get homeAddFuelEntry => 'إضافة تعبئة';
+
+  @override
+  String get homeViewFuelHistory => 'عرض السجل';
+
+  @override
+  String get homeSwitchVehicles => 'تبديل المركبة';
+
+  @override
+  String get homeTripCalculator => 'حاسبة تكلفة الرحلة';
+
+  @override
+  String get homeTripCalculatorSubtitle => 'احسب تكلفة وقود رحلة';
+
+  @override
+  String get homeBudgetReports => 'الميزانية والتقارير';
+
+  @override
+  String get homeBudgetReportsSubtitle => 'الإنفاق الشهري ومتابعة الميزانية';
+
+  @override
+  String get homeSpendingComparison => 'مقارنة الإنفاق';
+
+  @override
+  String get homeSpendingComparisonSubtitle => 'قارن الأشهر جنباً إلى جنب';
+
+  @override
+  String get homeCompareVehicles => 'مقارنة المركبات';
+
+  @override
+  String get homeCompareVehiclesSubtitle => 'تحليل الكفاءة جنباً إلى جنب';
+
+  @override
+  String get homeMaintenanceLog => 'سجل الصيانة';
+
+  @override
+  String get homeMaintenanceLogSubtitle => 'تابع صيانة مركبتك';
+
+  @override
+  String get homeThanksFeedback => 'شكراً على ملاحظاتك!';
+
+  @override
+  String get addFuelAddVehicle => 'إضافة مركبة';
+
+  @override
+  String addFuelSaveFailed(String message) {
+    return 'خطأ في حفظ السجل: $message';
+  }
+
+  @override
+  String get addFuelAutoBackupOk => 'تم النسخ التلقائي بنجاح!';
+
+  @override
+  String addFuelAutoBackupFailed(String message) {
+    return 'فشل النسخ التلقائي: $message';
+  }
+
+  @override
+  String get addFuelBackupOk => 'تم النسخ الاحتياطي بنجاح!';
+
+  @override
+  String get addFuelConnectedBackedUp => 'تم الاتصال والنسخ الاحتياطي!';
+
+  @override
+  String get historyEntryDeleted => 'تم حذف السجل';
+
+  @override
+  String get historyTimeUpdated => 'تم تحديث وقت السجل';
+
+  @override
+  String historyDeleteFailed(String message) {
+    return 'خطأ في حذف السجل: $message';
+  }
+
+  @override
+  String historyLoadFailed(String message) {
+    return 'خطأ في تحميل البيانات: $message';
+  }
+
+  @override
+  String historyExportFailed(String message) {
+    return 'خطأ في تصدير CSV: $message';
+  }
+
+  @override
+  String get entryCardEdit => 'تعديل';
+
+  @override
+  String get entryCardDelete => 'حذف';
+
+  @override
+  String get entryCardChangeTime => 'تغيير الوقت';
+
+  @override
+  String get deleteEntryTitle => 'حذف السجل';
+
+  @override
+  String get rateTitle => 'هل يعجبك التطبيق؟';
+
+  @override
+  String get rateNow => 'قيّم الآن';
+
+  @override
+  String get rateLater => 'ليس الآن';
+
+  @override
+  String get currencyDialogTitle => 'اختيار العملة';
+
+  @override
+  String get currencyDialogSearch => 'ابحث عن عملة...';
+
+  @override
+  String get chartNeedMoreData => 'أضف المزيد من السجلات لعرض الاتجاهات';
+
+  @override
+  String summaryAvgPricePerUnit(String unit) {
+    return 'متوسط السعر لكل $unit';
+  }
+
+  @override
+  String summaryAvgPriceShort(String unit) {
+    return 'متوسط السعر/$unit';
+  }
+
+  @override
+  String get mileageDistanceTraveled => 'المسافة المقطوعة:';
+
+  @override
+  String get mileageFuelEfficiency => 'كفاءة الوقود:';
+
+  @override
+  String budgetWeekShort(int number) {
+    return 'أ$number';
+  }
+
+  @override
+  String get vehiclesNameHint => 'مثال سيارتي';
+
+  @override
+  String get maintenanceCostHint => 'مثال 150';
+
+  @override
+  String vehiclesDeleteConfirm(String name) {
+    return 'هل تريد بالتأكيد حذف «$name»؟ لن يتم حذف سجلات الوقود.';
+  }
+
+  @override
+  String get restoreLabelVehicle => 'المركبة';
+
+  @override
+  String get restoreLabelSetting => 'الإعداد';
+
+  @override
+  String get fuelType_petrol => 'بنزين';
+
+  @override
+  String get fuelType_diesel => 'ديزل';
+
+  @override
+  String get fuelType_cng => 'غاز طبيعي';
+
+  @override
+  String get fuelType_electric => 'كهربائي';
+
+  @override
+  String get fuelType_hybrid => 'هجين';
+
+  @override
+  String get vehicleType_directions_car => 'سيارة';
+
+  @override
+  String get vehicleType_two_wheeler => 'دراجة نارية';
+
+  @override
+  String get vehicleType_local_shipping => 'شاحنة';
+
+  @override
+  String get vehicleType_airport_shuttle => 'فان';
+
+  @override
+  String get vehicleType_electric_car => 'سيارة كهربائية';
+
+  @override
+  String get vehicleType_pedal_bike => 'دراجة هوائية';
+
+  @override
+  String get maintenanceType_oil_change => 'تغيير الزيت';
+
+  @override
+  String get maintenanceType_tire_rotation => 'تدوير الإطارات';
+
+  @override
+  String get maintenanceType_brake_service => 'صيانة الفرامل';
+
+  @override
+  String get maintenanceType_air_filter => 'فلتر الهواء';
+
+  @override
+  String get maintenanceType_transmission => 'ناقل الحركة';
+
+  @override
+  String get maintenanceType_battery => 'البطارية';
+
+  @override
+  String get maintenanceType_coolant => 'سائل التبريد';
+
+  @override
+  String get maintenanceType_spark_plugs => 'شمعات الإشعال';
+
+  @override
+  String get maintenanceType_belt_replacement => 'تغيير السير';
+
+  @override
+  String get maintenanceType_wheel_alignment => 'ضبط الزوايا';
+
+  @override
+  String get maintenanceType_suspension => 'نظام التعليق';
+
+  @override
+  String get maintenanceType_exhaust => 'العادم';
+
+  @override
+  String get maintenanceType_ac_service => 'صيانة المكيف';
+
+  @override
+  String get maintenanceType_wiper_blades => 'مساحات الزجاج';
+
+  @override
+  String get maintenanceType_headlights => 'المصابيح الأمامية';
+
+  @override
+  String get maintenanceType_car_wash => 'غسيل السيارة';
+
+  @override
+  String get maintenanceType_detailing => 'تلميع وتنظيف';
+
+  @override
+  String get maintenanceType_inspection => 'الفحص';
+
+  @override
+  String get maintenanceType_insurance => 'التأمين';
+
+  @override
+  String get maintenanceType_registration => 'التسجيل';
+
+  @override
+  String get maintenanceType_towing => 'القطر';
+
+  @override
+  String get maintenanceType_general_service => 'صيانة عامة';
+
+  @override
+  String get maintenanceType_body_repair => 'إصلاح الهيكل';
+
+  @override
+  String get maintenanceType_other => 'أخرى';
+
+  @override
+  String get homeAddFuelSubtitle => 'سجّل مشترياتك من الوقود';
+
+  @override
+  String get homeViewHistorySubtitle => 'تصفّح سجلاتك';
+
+  @override
+  String settingsEntriesImportedTo(int count, String vehicle) {
+    return 'تم استيراد $count سجل إلى $vehicle';
+  }
+
+  @override
+  String get homeOverallSummary => 'الملخص العام';
+
+  @override
+  String get homeSummary => 'الملخص';
+
+  @override
+  String get homeMonitorEfficiency => 'راقب كفاءة وقودك';
+
+  @override
+  String get tourVehiclesTitle => 'تبديل المركبة';
+
+  @override
+  String get tourVehiclesBody =>
+      'اختر «الكل» لعرض إحصاءات مجمّعة، أو حدد مركبة بعينها. اضغط زر + في النهاية لإضافة مركبة جديدة.';
+
+  @override
+  String get tourSettingsBody =>
+      'من هنا يمكنك تخصيص العملة والمظهر والميزانية الشهرية، ونسخ بياناتك احتياطياً إلى Google Drive.';
+
+  @override
+  String get tourStatsBody =>
+      'اطّلع بنظرة واحدة على إنفاق هذا الشهر، وتكلفة آخر تعبئة، وعدد الأيام منذ ذلك، وكفاءتك العامة.';
+
+  @override
+  String get tourActionsBody =>
+      'انتقل إلى سجل الوقود وحاسبة الرحلة وتقارير الميزانية وسجل الصيانة وأدوات أخرى.';
+
+  @override
+  String get tourAddFuelBody =>
+      'اضغط هنا لتسجيل تعبئة جديدة. ستدخل الكمية والسعر وقراءة العداد.';
+
+  @override
+  String get comparisonMetric => 'المؤشر';
+
+  @override
+  String get comparisonScroll => 'مرّر';
+
+  @override
+  String get comparisonSummary => 'الملخص';
+
+  @override
+  String get comparisonSelectTwo => 'اختر مركبتين على الأقل للمقارنة';
+
+  @override
+  String get comparisonSubtitle => 'مقارنة الكفاءة';
+
+  @override
+  String get historyLoading => 'جارٍ تحميل البيانات...';
+
+  @override
+  String get historyLoadingHint => 'يرجى الانتظار ريثما نجلب بياناتك';
+
+  @override
+  String get currencyNoResults => 'لم يتم العثور على عملات';
+
+  @override
+  String get currencyNoResultsHint => 'جرّب كلمات بحث أخرى';
+
+  @override
+  String get mileageCalculationTitle => 'حساب الاستهلاك';
+
+  @override
+  String mileageSinceLastFill(String date) {
+    return 'منذ آخر تعبئة: $date';
+  }
+
+  @override
+  String get addFuelNoVehicles => 'لا توجد مركبات. أضف مركبة أولاً.';
+
+  @override
+  String budgetProgressLabel(String amount, String percent) {
+    return 'الميزانية: $amount  |  $percent% مستخدم';
+  }
+
+  @override
+  String get howToAutoCalc =>
+      'يحسب التطبيق كفاءة الوقود تلقائياً عند إدخال قراءات العداد:';
+
+  @override
+  String get deleteEntryMessage =>
+      'هل تريد بالتأكيد حذف هذه التعبئة؟ لا يمكن التراجع عن هذا الإجراء.';
+
+  @override
+  String get chartNotEnoughData => 'البيانات غير كافية';
+
+  @override
+  String get chartAnalytics => 'التحليلات';
+
+  @override
+  String entryCardOdometer(String value) {
+    return 'العداد: $value كم';
+  }
+
+  @override
+  String get summaryFillUpTitle => 'ملخص التعبئة';
 }

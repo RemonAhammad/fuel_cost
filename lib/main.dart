@@ -27,7 +27,8 @@ class FuelCostApp extends ConsumerWidget {
     final locale = ref.watch(languageProvider);
 
     return MaterialApp(
-      title: 'Fuel Cost',
+      // Localized so the OS task switcher shows the right name.
+      onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       debugShowCheckedModeBanner: false,
       theme: ThemeService.buildLightTheme(themeState.accentColor),
       darkTheme: ThemeService.buildDarkTheme(themeState.accentColor),

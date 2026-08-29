@@ -53,6 +53,7 @@ lib/
     fuel_calculations.dart           # Mileage metrics, efficiency chart data, total distance, per-unit quantity totals
     fuel_unit_resolver.dart          # Resolves each entry's fuel unit (snapshot -> vehicle -> liter)
     entry_filter.dart                # Pure vehicle/date/search filter for fuel history + date presets
+    type_labels.dart                 # Localized display labels for stored ids (fuel types, vehicle types, service types)
   models/
     fuel_entry.dart + .g.dart        # Isar @collection (id, liters, pricePerLiter, totalCost, dateTime, odometerReading)
     vehicle.dart                     # Plain Dart class (id, name, iconName, fuelType, tankCapacity, unitId)
@@ -174,6 +175,9 @@ ARB files in `lib/l10n/` (`app_en.arb` is the template, `app_bn.arb` is Bangla);
 - **RTL**: Flutter flips `Directionality` from the locale, but raw `EdgeInsets.only(left:)` / `Alignment.centerLeft` / `TextAlign.left` do **not** mirror — always use `EdgeInsetsDirectional.only(start:)`, `AlignmentDirectional.*Start`, `TextAlign.start`. The splash custom painters draw in raw coordinates and are deliberately left unmirrored (decorative and near-symmetric)
 - **Arabic plurals need all six ICU categories** (`zero`, `one`, `two`, `few`, `many`, `other`); two would render counts wrongly. `test/localization_test.dart` enforces this, plus key parity and placeholder parity across all 7 languages
 - Native-speaker review is still advisable before release — the non-English strings were not written by native speakers
+- **`test/no_hardcoded_strings_test.dart` is the completeness guard.** Localizing by hand-listing substitutions has no completeness check, which is how ~190 strings were once missed while the screens still *imported* `AppLocalizations`. The test scans `lib/` for user-facing literals and fails on any that isn't localized; a second case proves the detector actually fires
+- **Stored-id display labels** go through `business_logic/type_labels.dart` (`fuelTypeLabel`, `vehicleTypeLabel`, `maintenanceTypeLabel`). The ids in `Vehicle.fuelTypes`, `Vehicle.vehicleIcons` and `MaintenanceEntry.maintenanceTypes` are persisted in SharedPreferences and the backup payload — **localize the display, never the id**
+- Localized strings are not compile-time constants: `const Row(... Text(l10n.x))` will not compile. Drop the `const`
 - Untranslated keys fall back to English, so partial translation is safe — screens outside Phase 1 are still English
 
 ### Running Cost vs Fuel Cost

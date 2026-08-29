@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../models/fuel_unit.dart';
 
 class FuelSummaryCard extends StatelessWidget {
@@ -31,13 +32,13 @@ class FuelSummaryCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(Icons.receipt, color: Colors.white, size: 24),
               SizedBox(width: 8),
               Text(
-                'Fill-up Summary',
+                AppLocalizations.of(context).summaryFillUpTitle,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
               ),
             ],
@@ -48,7 +49,7 @@ class FuelSummaryCard extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  const Text('Total Cost', style: TextStyle(color: Colors.white70, fontSize: 14)),
+                  Text(AppLocalizations.of(context).commonTotalCost, style: TextStyle(color: Colors.white70, fontSize: 14)),
                   const SizedBox(height: 4),
                   Text(
                     '$currency${totalCost.toStringAsFixed(2)}',
@@ -60,7 +61,7 @@ class FuelSummaryCard extends StatelessWidget {
                 Container(width: 1, height: 20, color: Colors.white30),
                 Column(
                   children: [
-                    const Text('Mileage', style: TextStyle(color: Colors.white70, fontSize: 14)),
+                    Text(AppLocalizations.of(context).commonMileage, style: TextStyle(color: Colors.white70, fontSize: 14)),
                     const SizedBox(height: 4),
                     Text(
                       '${estimatedMileage!.toStringAsFixed(1)} ${unit.efficiencyLabel}',

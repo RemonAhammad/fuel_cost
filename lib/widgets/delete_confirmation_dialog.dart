@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 
 class DeleteConfirmationDialog extends StatelessWidget {
   final VoidCallback onConfirm;
@@ -16,18 +17,18 @@ class DeleteConfirmationDialog extends StatelessWidget {
         children: [
           Icon(Icons.warning_rounded, color: Colors.orange, size: 28),
           const SizedBox(width: 12),
-          const Text('Delete Entry', style: TextStyle(fontWeight: FontWeight.w600)),
+          Text(AppLocalizations.of(context).deleteEntryTitle, style: TextStyle(fontWeight: FontWeight.w600)),
         ],
       ),
-      content: const Text(
-        'Are you sure you want to delete this fuel entry? This action cannot be undone.',
+      content: Text(
+        AppLocalizations.of(context).deleteEntryMessage,
         style: TextStyle(fontSize: 16, height: 1.4),
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
           style: TextButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12)),
-          child: const Text('Cancel'),
+          child: Text(AppLocalizations.of(context).commonCancel),
         ),
         ElevatedButton(
           onPressed: () {
@@ -40,7 +41,7 @@ class DeleteConfirmationDialog extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           ),
-          child: const Text('Delete', style: TextStyle(fontWeight: FontWeight.w600)),
+          child: Text(AppLocalizations.of(context).commonDelete, style: TextStyle(fontWeight: FontWeight.w600)),
         ),
       ],
     );

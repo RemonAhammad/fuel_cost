@@ -791,4 +791,668 @@ class AppLocalizationsFr extends AppLocalizations {
   String restoreUnchangedCount(int count) {
     return '$count inchangés';
   }
+
+  @override
+  String get commonRestore => 'Restaurer';
+
+  @override
+  String get commonSignIn => 'Se connecter';
+
+  @override
+  String get commonDisconnect => 'Déconnecter';
+
+  @override
+  String get commonProcessing => 'Traitement...';
+
+  @override
+  String get commonNoThanks => 'Non merci';
+
+  @override
+  String get commonNotNow => 'Pas maintenant';
+
+  @override
+  String get commonMileage => 'Consommation';
+
+  @override
+  String get settingsSubtitle => 'Gérez vos préférences et vos données';
+
+  @override
+  String get settingsAppearance => 'Apparence';
+
+  @override
+  String get settingsPreferences => 'Préférences';
+
+  @override
+  String get settingsDataManagement => 'Gestion des données';
+
+  @override
+  String get settingsExportImport => 'Export et import';
+
+  @override
+  String get settingsAdvanced => 'Avancé';
+
+  @override
+  String get settingsAbout => 'À propos';
+
+  @override
+  String get settingsAccentColor => 'Couleur d\'accent';
+
+  @override
+  String get settingsAccentColorSubtitle =>
+      'Personnalisez la couleur de l\'app';
+
+  @override
+  String get settingsChooseAccentColor => 'Choisir la couleur d\'accent';
+
+  @override
+  String get settingsChooseTheme => 'Choisir le thème';
+
+  @override
+  String settingsThemeCurrent(String theme) {
+    return 'Actuel : $theme';
+  }
+
+  @override
+  String settingsCurrencyCurrent(String symbol, String name) {
+    return 'Actuelle : $symbol ($name)';
+  }
+
+  @override
+  String settingsCurrencyChanged(String symbol, String name) {
+    return 'Devise changée pour $symbol ($name)';
+  }
+
+  @override
+  String settingsBudgetLabel(String currency) {
+    return 'Budget ($currency)';
+  }
+
+  @override
+  String get settingsBudgetHint => 'ex. 5000';
+
+  @override
+  String get settingsGoogleDriveBackup => 'Sauvegarde Google Drive';
+
+  @override
+  String settingsSignedInAs(String email) {
+    return 'Connecté en tant que $email';
+  }
+
+  @override
+  String get settingsSignOutSubtitle =>
+      'Se déconnecter de la sauvegarde Google';
+
+  @override
+  String get settingsDisconnected => 'Déconnecté de Google Drive';
+
+  @override
+  String get settingsBackupNow => 'Sauvegarder maintenant';
+
+  @override
+  String get settingsBackupNowSubtitle =>
+      'Envoyez vos données vers Google Drive';
+
+  @override
+  String get settingsAutoBackup => 'Sauvegarde automatique';
+
+  @override
+  String get settingsAutoBackupSubtitle =>
+      'Sauvegarder automatiquement après chaque enregistrement';
+
+  @override
+  String get settingsAutoBackupOffWarning =>
+      'Les sauvegardes existantes seront conservées. Aucune nouvelle sauvegarde ne sera faite.';
+
+  @override
+  String get settingsRestoreFromBackup => 'Restaurer depuis la sauvegarde';
+
+  @override
+  String get settingsRestoreSubtitle => 'Téléchargez et restaurez vos données';
+
+  @override
+  String get settingsRestoreWarning =>
+      'Cela remplacera toutes les données actuelles par la sauvegarde. Action irréversible.';
+
+  @override
+  String settingsRestoreFailed(String message) {
+    return 'Échec de la restauration : $message';
+  }
+
+  @override
+  String settingsBackupFailed(String message) {
+    return 'Échec de la sauvegarde : $message';
+  }
+
+  @override
+  String get settingsExportData => 'Exporter les données';
+
+  @override
+  String get settingsExportToCsv => 'Exporter en CSV';
+
+  @override
+  String get settingsExportSubtitle =>
+      'Exportez tous les pleins dans un fichier CSV';
+
+  @override
+  String get settingsSelectExportVehicle => 'Choisissez le véhicule à exporter';
+
+  @override
+  String get settingsAllVehicles => 'Tous les véhicules';
+
+  @override
+  String get settingsIncludeAllVehicles =>
+      'Inclure les données de tous les véhicules';
+
+  @override
+  String get settingsNoVehicle => 'Aucun véhicule';
+
+  @override
+  String get settingsNoVehicleSubtitle => 'N\'assigner à aucun véhicule';
+
+  @override
+  String get settingsNothingToExport =>
+      'Aucune entrée à exporter pour ce véhicule';
+
+  @override
+  String settingsEntriesExported(int count) {
+    return '$count entrées exportées';
+  }
+
+  @override
+  String get settingsImportData => 'Importer des données';
+
+  @override
+  String get settingsImportFromCsv => 'Importer depuis un CSV';
+
+  @override
+  String get settingsImportSubtitle =>
+      'Importez des pleins depuis un fichier CSV';
+
+  @override
+  String get settingsAssignImported =>
+      'Assigner les entrées importées à un véhicule';
+
+  @override
+  String get settingsCsvInvalid => 'Le fichier CSV est vide ou invalide';
+
+  @override
+  String settingsEntriesImported(int count) {
+    return '$count entrées importées';
+  }
+
+  @override
+  String settingsExportFailed(String message) {
+    return 'Erreur d\'export CSV : $message';
+  }
+
+  @override
+  String settingsImportFailed(String message) {
+    return 'Erreur d\'import CSV : $message';
+  }
+
+  @override
+  String get settingsClearEntries => 'Effacer les pleins';
+
+  @override
+  String get settingsClearEntriesAction => 'Effacer les entrées';
+
+  @override
+  String get settingsClearEntriesSubtitle => 'Supprime tous les pleins';
+
+  @override
+  String get settingsClearEntriesWarning =>
+      'Cela supprimera définitivement tous vos pleins.';
+
+  @override
+  String get settingsEntriesCleared => 'Pleins effacés avec succès';
+
+  @override
+  String get settingsClearOdometer => 'Effacer les données du compteur';
+
+  @override
+  String get settingsClearOdometerAction => 'Effacer le compteur';
+
+  @override
+  String get settingsClearOdometerSubtitle =>
+      'Réinitialise le relevé actuel du compteur';
+
+  @override
+  String get settingsClearOdometerWarning =>
+      'Cela réinitialisera le relevé de votre compteur.';
+
+  @override
+  String get settingsOdometerCleared =>
+      'Données du compteur effacées avec succès';
+
+  @override
+  String get settingsClearAllData => 'Effacer toutes les données';
+
+  @override
+  String get settingsClearAllAction => 'Tout effacer';
+
+  @override
+  String get settingsClearAllSubtitle =>
+      'Supprime toutes les entrées et le compteur';
+
+  @override
+  String get settingsClearAllWarning =>
+      'Cela supprimera définitivement TOUTES les données. Action irréversible.';
+
+  @override
+  String get settingsAllDataCleared => 'Toutes les données ont été effacées';
+
+  @override
+  String get settingsResetApp => 'Réinitialiser l\'app';
+
+  @override
+  String get settingsClearAllCache => 'Effacer le cache et les préférences';
+
+  @override
+  String get settingsClearCacheAction => 'Tout effacer';
+
+  @override
+  String get settingsResetSubtitle => 'Remet l\'app aux réglages d\'usine';
+
+  @override
+  String get settingsResetWarning =>
+      'Cela réinitialisera complètement l\'app. TOUTES les données seront perdues.';
+
+  @override
+  String get settingsCacheCleared => 'Cache et préférences effacés';
+
+  @override
+  String settingsClearFailed(String message) {
+    return 'Erreur lors de l\'effacement : $message';
+  }
+
+  @override
+  String get settingsAppVersion => 'Version de l\'app';
+
+  @override
+  String get settingsRateApp => 'Noter l\'application';
+
+  @override
+  String get settingsRateSubtitle => 'Vous aimez Fuel Cost ? Laissez un avis';
+
+  @override
+  String get settingsReplayTutorialSubtitle =>
+      'Revoir l\'introduction et la visite guidée';
+
+  @override
+  String get homeYourFuelStats => 'Vos statistiques';
+
+  @override
+  String get homeQuickActions => 'Actions rapides';
+
+  @override
+  String get homeAddFuelEntry => 'Ajouter un plein';
+
+  @override
+  String get homeViewFuelHistory => 'Voir l\'historique';
+
+  @override
+  String get homeSwitchVehicles => 'Changer de véhicule';
+
+  @override
+  String get homeTripCalculator => 'Calculateur de trajet';
+
+  @override
+  String get homeTripCalculatorSubtitle => 'Estimez le coût d\'un trajet';
+
+  @override
+  String get homeBudgetReports => 'Budget et rapports';
+
+  @override
+  String get homeBudgetReportsSubtitle =>
+      'Dépenses mensuelles et suivi du budget';
+
+  @override
+  String get homeSpendingComparison => 'Comparaison des dépenses';
+
+  @override
+  String get homeSpendingComparisonSubtitle => 'Comparez les mois côte à côte';
+
+  @override
+  String get homeCompareVehicles => 'Comparer les véhicules';
+
+  @override
+  String get homeCompareVehiclesSubtitle =>
+      'Analyse comparative de l\'efficacité';
+
+  @override
+  String get homeMaintenanceLog => 'Carnet d\'entretien';
+
+  @override
+  String get homeMaintenanceLogSubtitle =>
+      'Suivez les entretiens de votre véhicule';
+
+  @override
+  String get homeThanksFeedback => 'Merci pour votre retour !';
+
+  @override
+  String get addFuelAddVehicle => 'Ajouter un véhicule';
+
+  @override
+  String addFuelSaveFailed(String message) {
+    return 'Erreur lors de l\'enregistrement : $message';
+  }
+
+  @override
+  String get addFuelAutoBackupOk => 'Sauvegarde automatique réussie !';
+
+  @override
+  String addFuelAutoBackupFailed(String message) {
+    return 'Échec de la sauvegarde automatique : $message';
+  }
+
+  @override
+  String get addFuelBackupOk => 'Sauvegarde réussie !';
+
+  @override
+  String get addFuelConnectedBackedUp => 'Connecté et sauvegardé !';
+
+  @override
+  String get historyEntryDeleted => 'Entrée supprimée';
+
+  @override
+  String get historyTimeUpdated => 'Heure de l\'entrée mise à jour';
+
+  @override
+  String historyDeleteFailed(String message) {
+    return 'Erreur lors de la suppression : $message';
+  }
+
+  @override
+  String historyLoadFailed(String message) {
+    return 'Erreur de chargement : $message';
+  }
+
+  @override
+  String historyExportFailed(String message) {
+    return 'Erreur d\'export CSV : $message';
+  }
+
+  @override
+  String get entryCardEdit => 'Modifier';
+
+  @override
+  String get entryCardDelete => 'Supprimer';
+
+  @override
+  String get entryCardChangeTime => 'Changer l\'heure';
+
+  @override
+  String get deleteEntryTitle => 'Supprimer l\'entrée';
+
+  @override
+  String get rateTitle => 'Vous aimez Fuel Cost ?';
+
+  @override
+  String get rateNow => 'Noter maintenant';
+
+  @override
+  String get rateLater => 'Pas maintenant';
+
+  @override
+  String get currencyDialogTitle => 'Sélectionner la devise';
+
+  @override
+  String get currencyDialogSearch => 'Rechercher une devise...';
+
+  @override
+  String get chartNeedMoreData =>
+      'Ajoutez d\'autres pleins pour voir les tendances';
+
+  @override
+  String summaryAvgPricePerUnit(String unit) {
+    return 'Prix moyen par $unit';
+  }
+
+  @override
+  String summaryAvgPriceShort(String unit) {
+    return 'Prix moy./$unit';
+  }
+
+  @override
+  String get mileageDistanceTraveled => 'Distance parcourue :';
+
+  @override
+  String get mileageFuelEfficiency => 'Efficacité :';
+
+  @override
+  String budgetWeekShort(int number) {
+    return 'S$number';
+  }
+
+  @override
+  String get vehiclesNameHint => 'ex. Ma voiture';
+
+  @override
+  String get maintenanceCostHint => 'ex. 150';
+
+  @override
+  String vehiclesDeleteConfirm(String name) {
+    return 'Voulez-vous vraiment supprimer « $name » ? Les pleins ne seront pas supprimés.';
+  }
+
+  @override
+  String get restoreLabelVehicle => 'Véhicule';
+
+  @override
+  String get restoreLabelSetting => 'Paramètre';
+
+  @override
+  String get fuelType_petrol => 'Essence';
+
+  @override
+  String get fuelType_diesel => 'Diesel';
+
+  @override
+  String get fuelType_cng => 'GNV';
+
+  @override
+  String get fuelType_electric => 'Électrique';
+
+  @override
+  String get fuelType_hybrid => 'Hybride';
+
+  @override
+  String get vehicleType_directions_car => 'Voiture';
+
+  @override
+  String get vehicleType_two_wheeler => 'Moto';
+
+  @override
+  String get vehicleType_local_shipping => 'Camion';
+
+  @override
+  String get vehicleType_airport_shuttle => 'Fourgon';
+
+  @override
+  String get vehicleType_electric_car => 'Voiture électrique';
+
+  @override
+  String get vehicleType_pedal_bike => 'Vélo';
+
+  @override
+  String get maintenanceType_oil_change => 'Vidange';
+
+  @override
+  String get maintenanceType_tire_rotation => 'Permutation des pneus';
+
+  @override
+  String get maintenanceType_brake_service => 'Freins';
+
+  @override
+  String get maintenanceType_air_filter => 'Filtre à air';
+
+  @override
+  String get maintenanceType_transmission => 'Transmission';
+
+  @override
+  String get maintenanceType_battery => 'Batterie';
+
+  @override
+  String get maintenanceType_coolant => 'Liquide de refroidissement';
+
+  @override
+  String get maintenanceType_spark_plugs => 'Bougies';
+
+  @override
+  String get maintenanceType_belt_replacement => 'Remplacement de courroie';
+
+  @override
+  String get maintenanceType_wheel_alignment => 'Parallélisme';
+
+  @override
+  String get maintenanceType_suspension => 'Suspension';
+
+  @override
+  String get maintenanceType_exhaust => 'Échappement';
+
+  @override
+  String get maintenanceType_ac_service => 'Climatisation';
+
+  @override
+  String get maintenanceType_wiper_blades => 'Essuie-glaces';
+
+  @override
+  String get maintenanceType_headlights => 'Phares';
+
+  @override
+  String get maintenanceType_car_wash => 'Lavage';
+
+  @override
+  String get maintenanceType_detailing => 'Nettoyage complet';
+
+  @override
+  String get maintenanceType_inspection => 'Contrôle technique';
+
+  @override
+  String get maintenanceType_insurance => 'Assurance';
+
+  @override
+  String get maintenanceType_registration => 'Carte grise';
+
+  @override
+  String get maintenanceType_towing => 'Remorquage';
+
+  @override
+  String get maintenanceType_general_service => 'Révision générale';
+
+  @override
+  String get maintenanceType_body_repair => 'Carrosserie';
+
+  @override
+  String get maintenanceType_other => 'Autre';
+
+  @override
+  String get homeAddFuelSubtitle => 'Enregistrez vos pleins';
+
+  @override
+  String get homeViewHistorySubtitle => 'Parcourez vos enregistrements';
+
+  @override
+  String settingsEntriesImportedTo(int count, String vehicle) {
+    return '$count entrées importées vers $vehicle';
+  }
+
+  @override
+  String get homeOverallSummary => 'Résumé global';
+
+  @override
+  String get homeSummary => 'Résumé';
+
+  @override
+  String get homeMonitorEfficiency => 'Surveillez votre efficacité';
+
+  @override
+  String get tourVehiclesTitle => 'Changer de véhicule';
+
+  @override
+  String get tourVehiclesBody =>
+      'Choisissez « Tous » pour des statistiques combinées, ou sélectionnez un véhicule précis. Appuyez sur + à la fin pour en ajouter un.';
+
+  @override
+  String get tourSettingsBody =>
+      'Personnalisez la devise, le thème et le budget mensuel, et sauvegardez vos données sur Google Drive depuis ici.';
+
+  @override
+  String get tourStatsBody =>
+      'Voyez d\'un coup d\'œil les dépenses du mois, le coût du dernier plein, les jours écoulés et votre efficacité globale.';
+
+  @override
+  String get tourActionsBody =>
+      'Accédez à l\'historique, au calculateur de trajet, aux rapports de budget, au carnet d\'entretien et à d\'autres outils.';
+
+  @override
+  String get tourAddFuelBody =>
+      'Appuyez ici pour enregistrer un plein. Vous saisirez la quantité, le prix et le relevé du compteur.';
+
+  @override
+  String get comparisonMetric => 'Indicateur';
+
+  @override
+  String get comparisonScroll => 'Faire défiler';
+
+  @override
+  String get comparisonSummary => 'Résumé';
+
+  @override
+  String get comparisonSelectTwo =>
+      'Sélectionnez au moins 2 véhicules à comparer';
+
+  @override
+  String get comparisonSubtitle => 'Efficacité comparée';
+
+  @override
+  String get historyLoading => 'Chargement des données...';
+
+  @override
+  String get historyLoadingHint =>
+      'Veuillez patienter pendant la récupération de vos données';
+
+  @override
+  String get currencyNoResults => 'Aucune devise trouvée';
+
+  @override
+  String get currencyNoResultsHint => 'Essayez d\'autres mots-clés';
+
+  @override
+  String get mileageCalculationTitle => 'Calcul de la consommation';
+
+  @override
+  String mileageSinceLastFill(String date) {
+    return 'Depuis le dernier plein : $date';
+  }
+
+  @override
+  String get addFuelNoVehicles => 'Aucun véhicule. Ajoutez-en un d\'abord.';
+
+  @override
+  String budgetProgressLabel(String amount, String percent) {
+    return 'Budget : $amount  |  $percent% utilisé';
+  }
+
+  @override
+  String get howToAutoCalc =>
+      'L\'app calcule automatiquement votre efficacité lorsque vous saisissez les relevés du compteur :';
+
+  @override
+  String get deleteEntryMessage =>
+      'Voulez-vous vraiment supprimer ce plein ? Cette action est irréversible.';
+
+  @override
+  String get chartNotEnoughData => 'Données insuffisantes';
+
+  @override
+  String get chartAnalytics => 'Analyses';
+
+  @override
+  String entryCardOdometer(String value) {
+    return 'Compteur : $value km';
+  }
+
+  @override
+  String get summaryFillUpTitle => 'Résumé du plein';
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../business_logic/type_labels.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -206,7 +207,7 @@ class _MaintenanceLogScreenState extends ConsumerState<MaintenanceLogScreen>
                     },
                     loading: () =>
                         const Center(child: CircularProgressIndicator()),
-                    error: (e, _) => Center(child: Text('Error: $e')),
+                    error: (e, _) => Center(child: Text(AppLocalizations.of(context).commonError(e.toString()))),
                   ),
                 ),
               ),
@@ -407,7 +408,7 @@ class _MaintenanceLogScreenState extends ConsumerState<MaintenanceLogScreen>
   Widget _buildEntryCard(MaintenanceEntry entry, bool isDark) {
     final icon = _maintenanceIconMap[entry.type] ?? Icons.handyman;
     final typeLabel =
-        MaintenanceEntry.maintenanceTypes[entry.type] ?? 'Other';
+        maintenanceTypeLabel(context, entry.type);
     final vehicleName = _getVehicleName(entry.vehicleId);
 
     return Padding(
@@ -530,7 +531,7 @@ class _MaintenanceLogScreenState extends ConsumerState<MaintenanceLogScreen>
 
   Future<void> _showDeleteConfirmation(MaintenanceEntry entry) async {
     final typeLabel =
-        MaintenanceEntry.maintenanceTypes[entry.type] ?? 'Other';
+        maintenanceTypeLabel(context, entry.type);
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -700,7 +701,7 @@ class _MaintenanceLogScreenState extends ConsumerState<MaintenanceLogScreen>
                       decoration: InputDecoration(
                         labelText: AppLocalizations.of(context).maintenanceCostLabel(_currency),
                         prefixIcon: const Icon(Icons.attach_money),
-                        hintText: 'e.g. 150',
+                        hintText: AppLocalizations.of(context).maintenanceCostHint,
                       ),
                       style: TextStyle(
                           color: isDark ? Colors.white : Colors.black87),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../models/fuel_unit.dart';
 
 class FuelSummaryStats extends StatelessWidget {
@@ -91,7 +92,7 @@ class FuelSummaryStats extends StatelessWidget {
                   Expanded(
                     child: _buildSummaryCard(
                       icon: Icons.payments_rounded,
-                      title: 'Total Cost',
+                      title: AppLocalizations.of(context).commonTotalCost,
                       value: '$currency${totalCost.toStringAsFixed(2)}',
                       color: Colors.red,
                       colorScheme: colorScheme,
@@ -114,7 +115,7 @@ class FuelSummaryStats extends StatelessWidget {
               const SizedBox(height: 8),
               _buildSummaryCard(
                 icon: Icons.trending_up_rounded,
-                title: 'Average Price per Liter',
+                title: AppLocalizations.of(context).summaryAvgPricePerUnit((unit ?? FuelUnit.liter).priceUnit),
                 value: '$currency${averagePrice.toStringAsFixed(2)}',
                 color: Colors.green,
                 colorScheme: colorScheme,
@@ -129,7 +130,7 @@ class FuelSummaryStats extends StatelessWidget {
             Expanded(
               child: _buildSummaryCard(
                 icon: Icons.payments_rounded,
-                title: 'Total Cost',
+                title: AppLocalizations.of(context).commonTotalCost,
                 value: '$currency${totalCost.toStringAsFixed(2)}',
                 color: Colors.red,
                 colorScheme: colorScheme,
@@ -151,7 +152,7 @@ class FuelSummaryStats extends StatelessWidget {
             Expanded(
               child: _buildSummaryCard(
                 icon: Icons.trending_up_rounded,
-                title: 'Average Price/L',
+                title: AppLocalizations.of(context).summaryAvgPriceShort((unit ?? FuelUnit.liter).short),
                 value: '$currency${averagePrice.toStringAsFixed(2)}',
                 color: Colors.green,
                 colorScheme: colorScheme,

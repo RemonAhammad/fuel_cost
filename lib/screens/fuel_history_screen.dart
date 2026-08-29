@@ -122,7 +122,7 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
               children: [
                 const Icon(Icons.error, color: Colors.white),
                 const SizedBox(width: 12),
-                Expanded(child: Text('Error loading data: $e')),
+                Expanded(child: Text(AppLocalizations.of(context).historyLoadFailed(e.toString()))),
               ],
             ),
             backgroundColor: Colors.red,
@@ -253,7 +253,7 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Error exporting CSV: $e'),
+          content: Text(AppLocalizations.of(context).historyExportFailed(e.toString())),
           backgroundColor: Colors.red,
           behavior: SnackBarBehavior.floating,
         ));
@@ -421,7 +421,7 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
               children: [
                 const Icon(Icons.check_circle, color: Colors.white),
                 const SizedBox(width: 12),
-                const Text('Entry deleted locally'),
+                Text(AppLocalizations.of(context).historyEntryDeleted),
               ],
             ),
             backgroundColor: Colors.green,
@@ -443,7 +443,7 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
               children: [
                 const Icon(Icons.error, color: Colors.white),
                 const SizedBox(width: 12),
-                Expanded(child: Text('Error deleting entry: $e')),
+                Expanded(child: Text(AppLocalizations.of(context).historyDeleteFailed(e.toString()))),
               ],
             ),
             backgroundColor: Colors.red,
@@ -555,12 +555,12 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
                         ),
                         const SizedBox(height: 20),
                         Text(
-                          'Loading fuel data...',
+                          AppLocalizations.of(context).historyLoading,
                           style: TextStyle(color: theme.brightness == Brightness.dark ? Colors.grey.shade300 : Colors.grey[700], fontSize: 16, fontWeight: FontWeight.w500),
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Please wait while we fetch your data',
+                          AppLocalizations.of(context).historyLoadingHint,
                           style: TextStyle(color: Colors.grey[500], fontSize: 14),
                         ),
                       ],
@@ -588,7 +588,7 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
                           padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width < 400 ? 12 : 16),
                           children: [
                             _buildFilterChip(
-                              label: 'All',
+                              label: AppLocalizations.of(context).commonAll,
                               icon: Icons.select_all_rounded,
                               isSelected: _selectedVehicleFilter == null,
                               onTap: () => _onVehicleFilterChanged(null),
@@ -805,8 +805,8 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
 
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Entry time updated'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context).historyTimeUpdated),
           backgroundColor: Colors.green,
         ),
       );

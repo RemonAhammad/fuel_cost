@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 
 /// What the user chose in [RateAppDialog].
 enum RateAppChoice {
@@ -21,11 +22,11 @@ class RateAppDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      title: const Row(
+      title: Row(
         children: [
           Icon(Icons.star_rounded, color: Colors.amber, size: 28),
           SizedBox(width: 12),
-          Expanded(child: Text('Enjoying Fuel Cost?')),
+          Expanded(child: Text(AppLocalizations.of(context).rateTitle)),
         ],
       ),
       content: const Text(
@@ -35,11 +36,11 @@ class RateAppDialog extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context, RateAppChoice.decline),
-          child: const Text('No thanks'),
+          child: Text(AppLocalizations.of(context).commonNoThanks),
         ),
         TextButton(
           onPressed: () => Navigator.pop(context, RateAppChoice.later),
-          child: const Text('Not now'),
+          child: Text(AppLocalizations.of(context).rateLater),
         ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
@@ -48,7 +49,7 @@ class RateAppDialog extends StatelessWidget {
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           ),
           onPressed: () => Navigator.pop(context, RateAppChoice.rate),
-          child: const Text('Rate now'),
+          child: Text(AppLocalizations.of(context).rateNow),
         ),
       ],
     );

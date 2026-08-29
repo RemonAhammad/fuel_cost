@@ -319,7 +319,7 @@ class _SpendingComparisonScreenState
                     },
                     loading: () =>
                         const Center(child: CircularProgressIndicator()),
-                    error: (e, _) => Center(child: Text('Error: $e')),
+                    error: (e, _) => Center(child: Text(AppLocalizations.of(context).commonError(e.toString()))),
                   ),
                 ),
               ),

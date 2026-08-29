@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import '../services/currency_service.dart';
 
 class CurrencySelectionDialog extends StatefulWidget {
@@ -41,7 +42,7 @@ class _CurrencySelectionDialogState extends State<CurrencySelectionDialog> {
             child: const Icon(Icons.attach_money, color: Color(0xFF2196F3), size: 24),
           ),
           const SizedBox(width: 12),
-          const Text('Select Currency', style: TextStyle(fontWeight: FontWeight.w600)),
+          Text(AppLocalizations.of(context).currencyDialogTitle, style: TextStyle(fontWeight: FontWeight.w600)),
         ],
       ),
       content: SizedBox(
@@ -54,7 +55,7 @@ class _CurrencySelectionDialogState extends State<CurrencySelectionDialog> {
               margin: const EdgeInsets.only(bottom: 16),
               child: TextField(
                 decoration: InputDecoration(
-                  hintText: 'Search currencies...',
+                  hintText: AppLocalizations.of(context).currencyDialogSearch,
                   prefixIcon: const Icon(Icons.search, color: Color(0xFF2196F3)),
                   filled: true,
                   fillColor: const Color(0xFF2196F3).withValues(alpha: 0.05),
@@ -100,7 +101,7 @@ class _CurrencySelectionDialogState extends State<CurrencySelectionDialog> {
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            'No currencies found',
+                            AppLocalizations.of(context).currencyNoResults,
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.grey.withValues(alpha: 0.7),
@@ -109,7 +110,7 @@ class _CurrencySelectionDialogState extends State<CurrencySelectionDialog> {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Try searching with different keywords',
+                            AppLocalizations.of(context).currencyNoResultsHint,
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.grey.withValues(alpha: 0.5),
@@ -184,7 +185,7 @@ class _CurrencySelectionDialogState extends State<CurrencySelectionDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+          child: Text(AppLocalizations.of(context).commonCancel),
         ),
       ],
     );

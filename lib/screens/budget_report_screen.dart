@@ -65,7 +65,7 @@ class _BudgetReportScreenState extends ConsumerState<BudgetReportScreen>
             decoration: InputDecoration(
               labelText: AppLocalizations.of(context).budgetAmountLabel(_currency),
               prefixIcon: const Icon(Icons.account_balance_wallet),
-              hintText: 'e.g. 5000',
+              hintText: AppLocalizations.of(context).settingsBudgetHint,
             ),
             style: TextStyle(color: isDark ? Colors.white : Colors.black87),
           ),
@@ -213,7 +213,7 @@ class _BudgetReportScreenState extends ConsumerState<BudgetReportScreen>
                       );
                     },
                     loading: () => const Center(child: CircularProgressIndicator()),
-                    error: (e, _) => Center(child: Text('Error: $e')),
+                    error: (e, _) => Center(child: Text(AppLocalizations.of(context).commonError(e.toString()))),
                   ),
                 ),
               ),
@@ -302,7 +302,7 @@ class _BudgetReportScreenState extends ConsumerState<BudgetReportScreen>
           ),
           const SizedBox(height: 4),
           Text(
-            'Budget: $_currency${_monthlyBudget!.toStringAsFixed(0)}  |  ${(progress * 100).toStringAsFixed(0)}% used',
+            AppLocalizations.of(context).budgetProgressLabel('$_currency${_monthlyBudget!.toStringAsFixed(0)}', (progress * 100).toStringAsFixed(0)),
             style: TextStyle(fontSize: 12, color: isDark ? Colors.grey.shade500 : Colors.grey.shade500),
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
@@ -499,7 +499,7 @@ class _BudgetReportScreenState extends ConsumerState<BudgetReportScreen>
               padding: const EdgeInsets.only(bottom: 10),
               child: Row(
                 children: [
-                  SizedBox(width: 55, child: Text('W${i + 1}', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 13, color: isDark ? Colors.grey.shade300 : Colors.grey.shade700))),
+                  SizedBox(width: 55, child: Text(AppLocalizations.of(context).budgetWeekShort(i + 1), style: TextStyle(fontWeight: FontWeight.w500, fontSize: 13, color: isDark ? Colors.grey.shade300 : Colors.grey.shade700))),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/fuel_unit.dart';
+import '../l10n/app_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import '../models/fuel_entry.dart';
 import '../business_logic/fuel_calculations.dart';
@@ -48,7 +49,7 @@ class _FuelChartDashboardState extends State<FuelChartDashboard> {
                       Icon(Icons.analytics_rounded, color: titleColor, size: 20),
                       const SizedBox(width: 8),
                       Text(
-                        'Analytics',
+                        AppLocalizations.of(context).chartAnalytics,
                         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: titleColor),
                       ),
                     ],
@@ -64,7 +65,7 @@ class _FuelChartDashboardState extends State<FuelChartDashboard> {
                 Icon(Icons.analytics_rounded, color: titleColor, size: 20),
                 const SizedBox(width: 8),
                 Text(
-                  'Analytics',
+                  AppLocalizations.of(context).chartAnalytics,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: titleColor),
                 ),
                 const Spacer(),

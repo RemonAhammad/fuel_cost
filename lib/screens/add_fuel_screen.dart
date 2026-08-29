@@ -309,10 +309,10 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: const Row(children: [
+              content: Row(children: [
                 Icon(Icons.cloud_done, color: Colors.white),
                 SizedBox(width: 12),
-                Text('Auto backup successful!'),
+                Text(AppLocalizations.of(context).addFuelAutoBackupOk),
               ]),
               backgroundColor: Colors.green,
               behavior: SnackBarBehavior.floating,
@@ -323,7 +323,7 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Auto backup failed: $e'), backgroundColor: Colors.red),
+            SnackBar(content: Text(AppLocalizations.of(context).addFuelAutoBackupFailed(e.toString())), backgroundColor: Colors.red),
           );
         }
       }
@@ -356,7 +356,7 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
               actions: [
                 TextButton(
                   onPressed: isBackingUp ? null : () => Navigator.pop(ctx),
-                  child: const Text('Not Now'),
+                  child: Text(AppLocalizations.of(context).commonNotNow),
                 ),
                 ElevatedButton(
                   onPressed: isBackingUp
@@ -370,10 +370,10 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
                                 Navigator.pop(ctx);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: const Row(children: [
+                                    content: Row(children: [
                                       Icon(Icons.cloud_done, color: Colors.white),
                                       SizedBox(width: 12),
-                                      Text('Backup successful!'),
+                                      Text(AppLocalizations.of(context).addFuelBackupOk),
                                     ]),
                                     backgroundColor: Colors.green,
                                     behavior: SnackBarBehavior.floating,
@@ -389,10 +389,10 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
                                   Navigator.pop(ctx);
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: const Row(children: [
+                                      content: Row(children: [
                                         Icon(Icons.cloud_done, color: Colors.white),
                                         SizedBox(width: 12),
-                                        Text('Connected & backed up!'),
+                                        Text(AppLocalizations.of(context).addFuelConnectedBackedUp),
                                       ]),
                                       backgroundColor: Colors.green,
                                       behavior: SnackBarBehavior.floating,
@@ -489,7 +489,7 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error saving entry: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).addFuelSaveFailed(e.toString()))));
       }
     } finally {
       if (mounted) {
@@ -596,7 +596,7 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
                                       const SizedBox(width: 10),
                                       Expanded(
                                         child: Text(
-                                          'No vehicles added. Please add a vehicle first.',
+                                          AppLocalizations.of(context).addFuelNoVehicles,
                                           style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 13),
                                         ),
                                       ),
@@ -614,7 +614,7 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
                                         _loadVehicles();
                                       },
                                       icon: const Icon(Icons.add, size: 18),
-                                      label: const Text('Add Vehicle'),
+                                      label: Text(AppLocalizations.of(context).addFuelAddVehicle),
                                       style: TextButton.styleFrom(
                                         foregroundColor: Colors.white,
                                         backgroundColor: Colors.white.withValues(alpha: 0.15),

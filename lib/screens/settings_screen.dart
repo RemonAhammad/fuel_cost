@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import '../business_logic/type_labels.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -151,7 +152,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   content: Row(children: [
                     const Icon(Icons.check_circle, color: Colors.white),
                     const SizedBox(width: 12),
-                    Text('Currency changed to $currency (${CurrencyService.getCurrencyName(currency)})'),
+                    Text(AppLocalizations.of(context).settingsCurrencyChanged(currency, CurrencyService.getCurrencyName(currency))),
                   ]),
                   backgroundColor: Colors.green,
                   behavior: SnackBarBehavior.floating,
@@ -171,15 +172,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final result = await showDialog<double?>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Set Monthly Budget'),
+        title: Text(AppLocalizations.of(context).budgetSetTitle),
         content: TextField(
           controller: controller,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[0-9]*\.?[0-9]*'))],
           decoration: InputDecoration(
-            labelText: 'Budget ($_selectedCurrency)',
+            labelText: AppLocalizations.of(context).settingsBudgetLabel(_selectedCurrency),
             prefixIcon: const Icon(Icons.account_balance_wallet),
-            hintText: 'e.g. 5000',
+            hintText: AppLocalizations.of(context).settingsBudgetHint,
           ),
           style: TextStyle(color: isDark ? Colors.white : Colors.black87),
         ),
@@ -187,12 +188,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           if (_monthlyBudget != null)
             TextButton(
               onPressed: () => Navigator.pop(context, -1.0),
-              child: const Text('Remove', style: TextStyle(color: Colors.red)),
+              child: Text(AppLocalizations.of(context).commonRemove, style: TextStyle(color: Colors.red)),
             ),
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+          TextButton(onPressed: () => Navigator.pop(context), child: Text(AppLocalizations.of(context).commonCancel)),
           FilledButton(
             onPressed: () => Navigator.pop(context, double.tryParse(controller.text)),
-            child: const Text('Save'),
+            child: Text(AppLocalizations.of(context).commonSave),
           ),
         ],
       ),
@@ -237,13 +238,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       await FuelStorageService.clearAllData();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: const Row(children: [Icon(Icons.check_circle, color: Colors.white), SizedBox(width: 12), Text('All fuel data cleared successfully')]),
+          SnackBar(content: Row(children: [Icon(Icons.check_circle, color: Colors.white), SizedBox(width: 12), Text(AppLocalizations.of(context).settingsAllDataCleared)]),
             backgroundColor: Colors.green, behavior: SnackBarBehavior.floating, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
         );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error clearing data: $e'), backgroundColor: Colors.red, behavior: SnackBarBehavior.floating));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).settingsClearFailed(e.toString())), backgroundColor: Colors.red, behavior: SnackBarBehavior.floating));
       }
     } finally {
       if (mounted) setState(() => _loadingAction = null);
@@ -256,13 +257,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       await FuelStorageService.clearFuelEntries();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: const Row(children: [Icon(Icons.check_circle, color: Colors.white), SizedBox(width: 12), Text('Fuel entries cleared successfully')]),
+          SnackBar(content: Row(children: [Icon(Icons.check_circle, color: Colors.white), SizedBox(width: 12), Text(AppLocalizations.of(context).settingsEntriesCleared)]),
             backgroundColor: Colors.green, behavior: SnackBarBehavior.floating, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
         );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red, behavior: SnackBarBehavior.floating));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).commonError(e.toString())), backgroundColor: Colors.red, behavior: SnackBarBehavior.floating));
       }
     } finally {
       if (mounted) setState(() => _loadingAction = null);
@@ -275,13 +276,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       await FuelStorageService.clearCurrentOdometer();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: const Row(children: [Icon(Icons.check_circle, color: Colors.white), SizedBox(width: 12), Text('Odometer data cleared successfully')]),
+          SnackBar(content: Row(children: [Icon(Icons.check_circle, color: Colors.white), SizedBox(width: 12), Text(AppLocalizations.of(context).settingsOdometerCleared)]),
             backgroundColor: Colors.green, behavior: SnackBarBehavior.floating, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
         );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red, behavior: SnackBarBehavior.floating));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).commonError(e.toString())), backgroundColor: Colors.red, behavior: SnackBarBehavior.floating));
       }
     } finally {
       if (mounted) setState(() => _loadingAction = null);
@@ -294,13 +295,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       await FuelStorageService.clearAllSharedPreferences();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: const Row(children: [Icon(Icons.check_circle, color: Colors.white), SizedBox(width: 12), Text('All cache and preferences cleared')]),
+          SnackBar(content: Row(children: [Icon(Icons.check_circle, color: Colors.white), SizedBox(width: 12), Text(AppLocalizations.of(context).settingsCacheCleared)]),
             backgroundColor: Colors.green, behavior: SnackBarBehavior.floating, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
         );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red, behavior: SnackBarBehavior.floating));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).commonError(e.toString())), backgroundColor: Colors.red, behavior: SnackBarBehavior.floating));
       }
     } finally {
       if (mounted) setState(() => _loadingAction = null);
@@ -313,8 +314,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
     // Show vehicle selection dialog
     final selectedVehicleId = await _showVehiclePickerDialog(
-      title: 'Export Data',
-      subtitle: 'Select which vehicle data to export',
+      title: AppLocalizations.of(context).settingsExportData,
+      subtitle: AppLocalizations.of(context).settingsSelectExportVehicle,
       vehicles: vehicles,
     );
     if (selectedVehicleId == null) return; // User cancelled
@@ -338,7 +339,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       if (entriesToExport.isEmpty) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: const Row(children: [Icon(Icons.info_outline, color: Colors.white), SizedBox(width: 12), Text('No entries to export for this vehicle')]),
+            SnackBar(content: Row(children: [Icon(Icons.info_outline, color: Colors.white), SizedBox(width: 12), Text(AppLocalizations.of(context).settingsNothingToExport)]),
               backgroundColor: Colors.orange, behavior: SnackBarBehavior.floating, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
           );
         }
@@ -359,14 +360,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         sharePositionOrigin: box != null ? box.localToGlobal(Offset.zero) & box.size : const Rect.fromLTWH(0, 0, 100, 100));
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Row(children: [const Icon(Icons.check_circle, color: Colors.white), const SizedBox(width: 12), Text('${entriesToExport.length} entries exported')]),
+          SnackBar(content: Row(children: [const Icon(Icons.check_circle, color: Colors.white), const SizedBox(width: 12), Text(AppLocalizations.of(context).settingsEntriesExported(entriesToExport.length))]),
             backgroundColor: Colors.green, behavior: SnackBarBehavior.floating, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
         );
       }
     } catch (e, stackTrace) {
       debugPrint('Export CSV error: $e\n$stackTrace');
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error exporting CSV: $e'), backgroundColor: Colors.red, behavior: SnackBarBehavior.floating));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).settingsExportFailed(e.toString())), backgroundColor: Colors.red, behavior: SnackBarBehavior.floating));
       }
     } finally {
       if (mounted) setState(() => _loadingAction = null);
@@ -379,8 +380,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
     // Show vehicle selection dialog for assigning imported entries
     final selectedVehicleId = await _showVehiclePickerDialog(
-      title: 'Import Data',
-      subtitle: 'Assign imported entries to a vehicle',
+      title: AppLocalizations.of(context).settingsImportData,
+      subtitle: AppLocalizations.of(context).settingsAssignImported,
       vehicles: vehicles,
       showUnassigned: true,
     );
@@ -401,7 +402,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       if (lines.length < 2) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: const Text('CSV file is empty or invalid'), backgroundColor: Colors.red, behavior: SnackBarBehavior.floating));
+            SnackBar(content: Text(AppLocalizations.of(context).settingsCsvInvalid), backgroundColor: Colors.red, behavior: SnackBarBehavior.floating));
         }
         return;
       }
@@ -434,17 +435,20 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       }
 
       if (mounted) {
-        final vehicleName = selectedVehicleId == '__all__' || selectedVehicleId == '__none__'
-            ? ''
-            : ' to ${vehicles.firstWhere((v) => v.id == selectedVehicleId).name}';
+        final assigned = selectedVehicleId == '__all__' || selectedVehicleId == '__none__'
+            ? null
+            : vehicles.firstWhere((v) => v.id == selectedVehicleId).name;
+        final message = assigned == null
+            ? AppLocalizations.of(context).settingsEntriesImported(imported)
+            : AppLocalizations.of(context).settingsEntriesImportedTo(imported, assigned);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Row(children: [const Icon(Icons.check_circle, color: Colors.white), const SizedBox(width: 12), Expanded(child: Text('$imported entries imported$vehicleName'))]),
+          SnackBar(content: Row(children: [const Icon(Icons.check_circle, color: Colors.white), const SizedBox(width: 12), Expanded(child: Text(message))]),
             backgroundColor: Colors.green, behavior: SnackBarBehavior.floating, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
         );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error importing CSV: $e'), backgroundColor: Colors.red, behavior: SnackBarBehavior.floating));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).settingsImportFailed(e.toString())), backgroundColor: Colors.red, behavior: SnackBarBehavior.floating));
       }
     } finally {
       if (mounted) setState(() => _loadingAction = null);
@@ -486,8 +490,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 _buildVehicleOption(
                   context: context,
                   icon: Icons.dashboard_rounded,
-                  label: 'All Vehicles',
-                  subtitle: 'Include data from all vehicles',
+                  label: AppLocalizations.of(context).settingsAllVehicles,
+                  subtitle: AppLocalizations.of(context).settingsIncludeAllVehicles,
                   color: const Color(0xFF667eea),
                   onTap: () => Navigator.pop(context, '__all__'),
                   isDark: isDark,
@@ -496,8 +500,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   _buildVehicleOption(
                     context: context,
                     icon: Icons.help_outline,
-                    label: 'No Vehicle',
-                    subtitle: 'Don\'t assign to any vehicle',
+                    label: AppLocalizations.of(context).settingsNoVehicle,
+                    subtitle: AppLocalizations.of(context).settingsNoVehicleSubtitle,
                     color: Colors.grey,
                     onTap: () => Navigator.pop(context, '__none__'),
                     isDark: isDark,
@@ -511,7 +515,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         context: context,
                         icon: _vehicleIconMap[v.iconName] ?? Icons.directions_car,
                         label: v.name,
-                        subtitle: Vehicle.fuelTypes[v.fuelType] ?? v.fuelType,
+                        subtitle: fuelTypeLabel(context, v.fuelType),
                         color: const Color(0xFF2196F3),
                         onTap: () => Navigator.pop(context, v.id),
                         isDark: isDark,
@@ -521,7 +525,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             ),
           ),
           actions: [
-            TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+            TextButton(onPressed: () => Navigator.pop(context), child: Text(AppLocalizations.of(context).commonCancel)),
           ],
         );
       },
@@ -592,7 +596,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       if (account != null && mounted) {
         setState(() { _isGoogleSignedIn = true; _googleEmail = account.email; });
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Row(children: [const Icon(Icons.check_circle, color: Colors.white), const SizedBox(width: 12), Expanded(child: Text('Signed in as ${account.email}'))]),
+          content: Row(children: [const Icon(Icons.check_circle, color: Colors.white), const SizedBox(width: 12), Expanded(child: Text(AppLocalizations.of(context).settingsSignedInAs(account.email)))]),
           backgroundColor: Colors.green, behavior: SnackBarBehavior.floating, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))));
       }
     } catch (e) {
@@ -611,7 +615,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       if (mounted) {
         setState(() { _isGoogleSignedIn = false; _googleEmail = null; _lastBackupTime = null; });
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: const Row(children: [Icon(Icons.check_circle, color: Colors.white), SizedBox(width: 12), Text('Disconnected from Google Drive')]),
+          content: Row(children: [Icon(Icons.check_circle, color: Colors.white), SizedBox(width: 12), Text(AppLocalizations.of(context).settingsDisconnected)]),
           backgroundColor: Colors.green, behavior: SnackBarBehavior.floating, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))));
       }
     } finally {
@@ -631,7 +635,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           backgroundColor: Colors.green, behavior: SnackBarBehavior.floating, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))));
       }
     } catch (e) {
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Backup failed: $e'), backgroundColor: Colors.red, behavior: SnackBarBehavior.floating));
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).settingsBackupFailed(e.toString())), backgroundColor: Colors.red, behavior: SnackBarBehavior.floating));
     } finally {
       if (mounted) setState(() => _loadingAction = null);
     }
@@ -704,7 +708,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           backgroundColor: Colors.green, behavior: SnackBarBehavior.floating, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))));
       }
     } catch (e) {
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Restore failed: $e'), backgroundColor: Colors.red, behavior: SnackBarBehavior.floating));
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).settingsRestoreFailed(e.toString())), backgroundColor: Colors.red, behavior: SnackBarBehavior.floating));
     } finally {
       if (mounted) setState(() => _loadingAction = null);
     }
@@ -745,7 +749,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       child: IconButton(icon: const Icon(Icons.arrow_back, color: Colors.white), onPressed: () => Navigator.pop(context)),
                     ),
                     const SizedBox(width: 16),
-                    const Expanded(child: Text('Settings', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white))),
+                    Expanded(child: Text(AppLocalizations.of(context).settingsTitle, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white))),
                   ],
                 ),
               ),
@@ -773,9 +777,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Settings', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: isDark ? Colors.white : Colors.black87)),
+                        Text(AppLocalizations.of(context).settingsTitle, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: isDark ? Colors.white : Colors.black87)),
                         const SizedBox(height: 8),
-                        Text('Manage your preferences and data', style: TextStyle(fontSize: 16, color: isDark ? Colors.grey.shade400 : Colors.grey.shade600)),
+                        Text(AppLocalizations.of(context).settingsSubtitle, style: TextStyle(fontSize: 16, color: isDark ? Colors.grey.shade400 : Colors.grey.shade600)),
                         const SizedBox(height: 24),
 
                         Expanded(
@@ -784,20 +788,20 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                               children: [
                                 // Appearance Section
                                 CupertinoSection(
-                                  title: 'Appearance',
+                                  title: AppLocalizations.of(context).settingsAppearance,
                                   children: [
                                     CustomCupertinoListTile(
                                       icon: _getThemeIcon(themeState.themeMode),
-                                      title: 'Theme',
-                                      subtitle: 'Current: ${_getThemeLabel(themeState.themeMode)}',
+                                      title: AppLocalizations.of(context).settingsTheme,
+                                      subtitle: AppLocalizations.of(context).settingsThemeCurrent(_getThemeLabel(themeState.themeMode)),
                                       onTap: () => _showThemeDialog(),
                                       iconColor: const Color(0xFF9C27B0),
                                       isFirst: true, isLoading: false,
                                     ),
                                     CustomCupertinoListTile(
                                       icon: Icons.palette_outlined,
-                                      title: 'Accent Color',
-                                      subtitle: 'Customize app color',
+                                      title: AppLocalizations.of(context).settingsAccentColor,
+                                      subtitle: AppLocalizations.of(context).settingsAccentColorSubtitle,
                                       onTap: () => _showAccentColorDialog(),
                                       iconColor: themeState.accentColor,
                                       isLast: true, isLoading: false,
@@ -808,12 +812,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
                                 // Preferences Section
                                 CupertinoSection(
-                                  title: 'Preferences',
+                                  title: AppLocalizations.of(context).settingsPreferences,
                                   children: [
                                     CustomCupertinoListTile(
                                       icon: Icons.currency_exchange,
                                       title: AppLocalizations.of(context).settingsCurrency,
-                                      subtitle: 'Current: $_selectedCurrency (${CurrencyService.getCurrencyName(_selectedCurrency)})',
+                                      subtitle: AppLocalizations.of(context).settingsCurrencyCurrent(_selectedCurrency, CurrencyService.getCurrencyName(_selectedCurrency)),
                                       onTap: _showCurrencyDialog,
                                       iconColor: const Color(0xFF2196F3),
                                       isFirst: true,
@@ -838,13 +842,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
                                 // Export & Import Section
                                 CupertinoSection(
-                                  title: 'Export & Import',
+                                  title: AppLocalizations.of(context).settingsExportImport,
                                   children: [
                                     CustomCupertinoListTile(
-                                      icon: Icons.file_upload_outlined, title: 'Export to CSV', subtitle: 'Export all fuel entries as a CSV file',
+                                      icon: Icons.file_upload_outlined, title: AppLocalizations.of(context).settingsExportToCsv, subtitle: AppLocalizations.of(context).settingsExportSubtitle,
                                       onTap: _exportCsv, iconColor: const Color(0xFF4CAF50), isFirst: true, isLoading: _loadingAction == 'export'),
                                     CustomCupertinoListTile(
-                                      icon: Icons.file_download_outlined, title: 'Import from CSV', subtitle: 'Import fuel entries from a CSV file',
+                                      icon: Icons.file_download_outlined, title: AppLocalizations.of(context).settingsImportFromCsv, subtitle: AppLocalizations.of(context).settingsImportSubtitle,
                                       onTap: _importCsv,
                                       iconColor: const Color(0xFF2196F3), isLast: true, isLoading: _loadingAction == 'import'),
                                   ],
@@ -852,7 +856,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
                                 // Google Drive Backup Section
                                 CupertinoSection(
-                                  title: 'Google Drive Backup',
+                                  title: AppLocalizations.of(context).settingsGoogleDriveBackup,
                                   children: [
                                     CustomCupertinoListTile(
                                       icon: _isGoogleSignedIn ? Icons.cloud_done : Icons.cloud_outlined,
@@ -867,15 +871,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                           ? const Icon(CupertinoIcons.checkmark_circle_fill, color: Colors.green, size: 20)
                                           : Container(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                                               decoration: BoxDecoration(color: const Color(0xFF4285F4), borderRadius: BorderRadius.circular(16)),
-                                              child: const Text('Sign In', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600))),
+                                              child: Text(AppLocalizations.of(context).commonSignIn, style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600))),
                                     ),
                                     if (_isGoogleSignedIn) ...[
-                                      CustomCupertinoListTile(icon: Icons.cloud_upload, title: 'Backup Now', subtitle: 'Upload your data to Google Drive',
+                                      CustomCupertinoListTile(icon: Icons.cloud_upload, title: AppLocalizations.of(context).settingsBackupNow, subtitle: AppLocalizations.of(context).settingsBackupNowSubtitle,
                                         onTap: _backupToDrive, iconColor: const Color(0xFF4CAF50), isLoading: _loadingAction == 'backup'),
                                       CustomCupertinoListTile(
                                         icon: Icons.backup,
-                                        title: 'Auto Backup',
-                                        subtitle: 'Automatically backup after saving an entry',
+                                        title: AppLocalizations.of(context).settingsAutoBackup,
+                                        subtitle: AppLocalizations.of(context).settingsAutoBackupSubtitle,
                                         onTap: () async {
                                           final newValue = !_autoBackupEnabled;
                                           await DriveBackupService.setAutoBackup(newValue);
@@ -891,13 +895,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                           },
                                         ),
                                       ),
-                                      CustomCupertinoListTile(icon: Icons.cloud_download, title: 'Restore from Backup', subtitle: 'Download and restore your data',
-                                        onTap: () => _showConfirmationDialog(title: 'Restore', message: 'This will replace all current data with the backup. This cannot be undone.',
-                                          confirmText: 'Restore', confirmColor: Colors.orange, onConfirm: _restoreFromDrive),
+                                      CustomCupertinoListTile(icon: Icons.cloud_download, title: AppLocalizations.of(context).settingsRestoreFromBackup, subtitle: AppLocalizations.of(context).settingsRestoreSubtitle,
+                                        onTap: () => _showConfirmationDialog(title: AppLocalizations.of(context).commonRestore, message: AppLocalizations.of(context).settingsRestoreWarning,
+                                          confirmText: AppLocalizations.of(context).commonRestore, confirmColor: Colors.orange, onConfirm: _restoreFromDrive),
                                         iconColor: const Color(0xFF2196F3), isLoading: _loadingAction == 'restore'),
-                                      CustomCupertinoListTile(icon: Icons.link_off, title: 'Disconnect', subtitle: 'Sign out from Google backup',
-                                        onTap: () => _showConfirmationDialog(title: 'Disconnect', message: 'Existing backups will remain. No new backups will be made.',
-                                          confirmText: 'Disconnect', confirmColor: Colors.red, onConfirm: _googleSignOut),
+                                      CustomCupertinoListTile(icon: Icons.link_off, title: AppLocalizations.of(context).commonDisconnect, subtitle: AppLocalizations.of(context).settingsSignOutSubtitle,
+                                        onTap: () => _showConfirmationDialog(title: AppLocalizations.of(context).commonDisconnect, message: AppLocalizations.of(context).settingsAutoBackupOffWarning,
+                                          confirmText: AppLocalizations.of(context).commonDisconnect, confirmColor: Colors.red, onConfirm: _googleSignOut),
                                         iconColor: Colors.red, isLast: true, isLoading: _loadingAction == 'googleSignOut'),
                                     ],
                                   ],
@@ -905,56 +909,56 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
                                 // Data Management Section
                                 CupertinoSection(
-                                  title: 'Data Management',
+                                  title: AppLocalizations.of(context).settingsDataManagement,
                                   children: [
-                                    CustomCupertinoListTile(icon: Icons.delete_sweep, title: 'Clear Fuel Entries', subtitle: 'Remove all fuel entries',
-                                      onTap: () => _showConfirmationDialog(title: 'Clear Fuel Entries', message: 'This will permanently delete all your fuel entries.',
-                                        confirmText: 'Clear Entries', confirmColor: Colors.orange, onConfirm: _clearFuelEntries),
+                                    CustomCupertinoListTile(icon: Icons.delete_sweep, title: AppLocalizations.of(context).settingsClearEntries, subtitle: AppLocalizations.of(context).settingsClearEntriesSubtitle,
+                                      onTap: () => _showConfirmationDialog(title: AppLocalizations.of(context).settingsClearEntries, message: AppLocalizations.of(context).settingsClearEntriesWarning,
+                                        confirmText: AppLocalizations.of(context).settingsClearEntriesAction, confirmColor: Colors.orange, onConfirm: _clearFuelEntries),
                                       iconColor: Colors.orange, isFirst: true, isLoading: _loadingAction == 'clearEntries'),
-                                    CustomCupertinoListTile(icon: Icons.speed, title: 'Clear Odometer Data', subtitle: 'Reset current odometer reading',
-                                      onTap: () => _showConfirmationDialog(title: 'Clear Odometer', message: 'This will reset your odometer reading.',
-                                        confirmText: 'Clear Odometer', confirmColor: Colors.blue, onConfirm: _clearOdometerData),
+                                    CustomCupertinoListTile(icon: Icons.speed, title: AppLocalizations.of(context).settingsClearOdometer, subtitle: AppLocalizations.of(context).settingsClearOdometerSubtitle,
+                                      onTap: () => _showConfirmationDialog(title: AppLocalizations.of(context).settingsClearOdometerAction, message: AppLocalizations.of(context).settingsClearOdometerWarning,
+                                        confirmText: AppLocalizations.of(context).settingsClearOdometerAction, confirmColor: Colors.blue, onConfirm: _clearOdometerData),
                                       iconColor: Colors.blue, isLoading: _loadingAction == 'clearOdometer'),
-                                    CustomCupertinoListTile(icon: Icons.delete_forever, title: 'Clear All Fuel Data', subtitle: 'Remove all entries and odometer data',
-                                      onTap: () => _showConfirmationDialog(title: 'Clear All', message: 'This will permanently delete ALL fuel data. Cannot be undone.',
-                                        confirmText: 'Clear All Data', confirmColor: Colors.red, onConfirm: _clearAllData),
+                                    CustomCupertinoListTile(icon: Icons.delete_forever, title: AppLocalizations.of(context).settingsClearAllData, subtitle: AppLocalizations.of(context).settingsClearAllSubtitle,
+                                      onTap: () => _showConfirmationDialog(title: AppLocalizations.of(context).settingsClearCacheAction, message: AppLocalizations.of(context).settingsClearAllWarning,
+                                        confirmText: AppLocalizations.of(context).settingsClearAllAction, confirmColor: Colors.red, onConfirm: _clearAllData),
                                       iconColor: Colors.red, isLast: true, isLoading: _loadingAction == 'clearAllData'),
                                   ],
                                 ),
 
                                 // Advanced Section
                                 CupertinoSection(
-                                  title: 'Advanced',
+                                  title: AppLocalizations.of(context).settingsAdvanced,
                                   children: [
-                                    CustomCupertinoListTile(icon: Icons.cleaning_services, title: 'Clear All Cache & Preferences', subtitle: 'Reset the entire app to factory settings',
-                                      onTap: () => _showConfirmationDialog(title: 'Clear All Cache', message: 'This will completely reset the app. ALL data will be lost.',
-                                        confirmText: 'Reset App', confirmColor: Colors.purple, onConfirm: _clearAllCache),
+                                    CustomCupertinoListTile(icon: Icons.cleaning_services, title: AppLocalizations.of(context).settingsClearAllCache, subtitle: AppLocalizations.of(context).settingsResetSubtitle,
+                                      onTap: () => _showConfirmationDialog(title: AppLocalizations.of(context).settingsClearCacheAction, message: AppLocalizations.of(context).settingsResetWarning,
+                                        confirmText: AppLocalizations.of(context).settingsResetApp, confirmColor: Colors.purple, onConfirm: _clearAllCache),
                                       iconColor: Colors.purple, isFirst: true, isLast: true, isLoading: _loadingAction == 'clearCache'),
                                   ],
                                 ),
 
                                 // About Section
                                 CupertinoSection(
-                                  title: 'About',
+                                  title: AppLocalizations.of(context).settingsAbout,
                                   children: [
                                     CustomCupertinoListTile(
                                       icon: Icons.school_outlined,
                                       title: AppLocalizations.of(context).settingsReplayTutorial,
-                                      subtitle: 'Watch the intro and tour again',
+                                      subtitle: AppLocalizations.of(context).settingsReplayTutorialSubtitle,
                                       iconColor: Colors.teal,
                                       isFirst: true,
                                       onTap: _replayTutorial,
                                     ),
                                     CustomCupertinoListTile(
                                       icon: Icons.star_outline,
-                                      title: 'Rate this App',
-                                      subtitle: 'Enjoying Fuel Cost? Leave a review',
+                                      title: AppLocalizations.of(context).settingsRateApp,
+                                      subtitle: AppLocalizations.of(context).settingsRateSubtitle,
                                       iconColor: Colors.amber,
                                       onTap: _rateApp,
                                     ),
                                     CustomCupertinoListTile(
                                       icon: Icons.info_outline,
-                                      title: 'App Version',
+                                      title: AppLocalizations.of(context).settingsAppVersion,
                                       subtitle: _appVersion.isEmpty
                                           ? 'Loading...'
                                           : 'Version $_appVersion (Build $_buildNumber)',
@@ -979,7 +983,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                       children: [
                                         SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, valueColor: AlwaysStoppedAnimation<Color>(Colors.blue.shade600))),
                                         const SizedBox(width: 16),
-                                        Text('Processing...', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: isDark ? Colors.grey.shade300 : Colors.grey.shade700)),
+                                        Text(AppLocalizations.of(context).commonProcessing, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: isDark ? Colors.grey.shade300 : Colors.grey.shade700)),
                                       ],
                                     ),
                                   ),
@@ -1024,7 +1028,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Choose Theme'),
+          title: Text(AppLocalizations.of(context).settingsChooseTheme),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: ThemeMode.values.map((mode) {
@@ -1055,7 +1059,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Choose Accent Color'),
+          title: Text(AppLocalizations.of(context).settingsChooseAccentColor),
           content: Wrap(
             spacing: 12,
             runSpacing: 12,

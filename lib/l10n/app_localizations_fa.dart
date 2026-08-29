@@ -783,4 +783,657 @@ class AppLocalizationsFa extends AppLocalizations {
   String restoreUnchangedCount(int count) {
     return '$count بدون تغییر';
   }
+
+  @override
+  String get commonRestore => 'بازیابی';
+
+  @override
+  String get commonSignIn => 'ورود';
+
+  @override
+  String get commonDisconnect => 'قطع اتصال';
+
+  @override
+  String get commonProcessing => 'در حال پردازش...';
+
+  @override
+  String get commonNoThanks => 'نه، ممنون';
+
+  @override
+  String get commonNotNow => 'الان نه';
+
+  @override
+  String get commonMileage => 'مصرف';
+
+  @override
+  String get settingsSubtitle => 'تنظیمات و داده‌های خود را مدیریت کنید';
+
+  @override
+  String get settingsAppearance => 'ظاهر';
+
+  @override
+  String get settingsPreferences => 'ترجیحات';
+
+  @override
+  String get settingsDataManagement => 'مدیریت داده';
+
+  @override
+  String get settingsExportImport => 'خروجی و ورودی';
+
+  @override
+  String get settingsAdvanced => 'پیشرفته';
+
+  @override
+  String get settingsAbout => 'درباره';
+
+  @override
+  String get settingsAccentColor => 'رنگ تأکید';
+
+  @override
+  String get settingsAccentColorSubtitle => 'رنگ برنامه را شخصی‌سازی کنید';
+
+  @override
+  String get settingsChooseAccentColor => 'انتخاب رنگ تأکید';
+
+  @override
+  String get settingsChooseTheme => 'انتخاب پوسته';
+
+  @override
+  String settingsThemeCurrent(String theme) {
+    return 'فعلی: $theme';
+  }
+
+  @override
+  String settingsCurrencyCurrent(String symbol, String name) {
+    return 'فعلی: $symbol ($name)';
+  }
+
+  @override
+  String settingsCurrencyChanged(String symbol, String name) {
+    return 'واحد پول به $symbol ($name) تغییر کرد';
+  }
+
+  @override
+  String settingsBudgetLabel(String currency) {
+    return 'بودجه ($currency)';
+  }
+
+  @override
+  String get settingsBudgetHint => 'مثلاً ۵۰۰۰';
+
+  @override
+  String get settingsGoogleDriveBackup => 'پشتیبان‌گیری Google Drive';
+
+  @override
+  String settingsSignedInAs(String email) {
+    return 'وارد شده با $email';
+  }
+
+  @override
+  String get settingsSignOutSubtitle => 'خروج از پشتیبان‌گیری گوگل';
+
+  @override
+  String get settingsDisconnected => 'اتصال به Google Drive قطع شد';
+
+  @override
+  String get settingsBackupNow => 'پشتیبان‌گیری فوری';
+
+  @override
+  String get settingsBackupNowSubtitle =>
+      'داده‌هایتان را در Google Drive بارگذاری کنید';
+
+  @override
+  String get settingsAutoBackup => 'پشتیبان‌گیری خودکار';
+
+  @override
+  String get settingsAutoBackupSubtitle =>
+      'پس از ثبت هر رکورد به‌طور خودکار پشتیبان بگیر';
+
+  @override
+  String get settingsAutoBackupOffWarning =>
+      'پشتیبان‌های موجود باقی می‌مانند. پشتیبان جدیدی گرفته نمی‌شود.';
+
+  @override
+  String get settingsRestoreFromBackup => 'بازیابی از پشتیبان';
+
+  @override
+  String get settingsRestoreSubtitle => 'داده‌هایتان را دانلود و بازیابی کنید';
+
+  @override
+  String get settingsRestoreWarning =>
+      'این کار همه داده‌های فعلی را با پشتیبان جایگزین می‌کند. قابل بازگشت نیست.';
+
+  @override
+  String settingsRestoreFailed(String message) {
+    return 'بازیابی ناموفق: $message';
+  }
+
+  @override
+  String settingsBackupFailed(String message) {
+    return 'پشتیبان‌گیری ناموفق: $message';
+  }
+
+  @override
+  String get settingsExportData => 'خروجی داده';
+
+  @override
+  String get settingsExportToCsv => 'خروجی CSV';
+
+  @override
+  String get settingsExportSubtitle =>
+      'همه رکوردها را به‌صورت فایل CSV خروجی بگیرید';
+
+  @override
+  String get settingsSelectExportVehicle =>
+      'انتخاب کنید داده کدام خودرو خروجی گرفته شود';
+
+  @override
+  String get settingsAllVehicles => 'همه خودروها';
+
+  @override
+  String get settingsIncludeAllVehicles => 'شامل داده همه خودروها';
+
+  @override
+  String get settingsNoVehicle => 'بدون خودرو';
+
+  @override
+  String get settingsNoVehicleSubtitle => 'به هیچ خودرویی اختصاص نده';
+
+  @override
+  String get settingsNothingToExport =>
+      'رکوردی برای خروجی گرفتن از این خودرو نیست';
+
+  @override
+  String settingsEntriesExported(int count) {
+    return '$count رکورد خروجی گرفته شد';
+  }
+
+  @override
+  String get settingsImportData => 'ورود داده';
+
+  @override
+  String get settingsImportFromCsv => 'ورود از CSV';
+
+  @override
+  String get settingsImportSubtitle => 'رکوردها را از فایل CSV وارد کنید';
+
+  @override
+  String get settingsAssignImported =>
+      'رکوردهای واردشده را به یک خودرو اختصاص دهید';
+
+  @override
+  String get settingsCsvInvalid => 'فایل CSV خالی یا نامعتبر است';
+
+  @override
+  String settingsEntriesImported(int count) {
+    return '$count رکورد وارد شد';
+  }
+
+  @override
+  String settingsExportFailed(String message) {
+    return 'خطا در خروجی CSV: $message';
+  }
+
+  @override
+  String settingsImportFailed(String message) {
+    return 'خطا در ورود CSV: $message';
+  }
+
+  @override
+  String get settingsClearEntries => 'پاک کردن رکوردهای سوخت';
+
+  @override
+  String get settingsClearEntriesAction => 'پاک کردن رکوردها';
+
+  @override
+  String get settingsClearEntriesSubtitle => 'حذف همه رکوردهای سوخت';
+
+  @override
+  String get settingsClearEntriesWarning =>
+      'این کار همه رکوردهای سوخت شما را برای همیشه حذف می‌کند.';
+
+  @override
+  String get settingsEntriesCleared => 'رکوردهای سوخت با موفقیت پاک شد';
+
+  @override
+  String get settingsClearOdometer => 'پاک کردن داده کیلومترشمار';
+
+  @override
+  String get settingsClearOdometerAction => 'پاک کردن کیلومترشمار';
+
+  @override
+  String get settingsClearOdometerSubtitle => 'بازنشانی قرائت فعلی کیلومترشمار';
+
+  @override
+  String get settingsClearOdometerWarning =>
+      'این کار قرائت کیلومترشمار شما را بازنشانی می‌کند.';
+
+  @override
+  String get settingsOdometerCleared => 'داده کیلومترشمار با موفقیت پاک شد';
+
+  @override
+  String get settingsClearAllData => 'پاک کردن همه داده‌ها';
+
+  @override
+  String get settingsClearAllAction => 'پاک کردن همه';
+
+  @override
+  String get settingsClearAllSubtitle => 'حذف همه رکوردها و داده کیلومترشمار';
+
+  @override
+  String get settingsClearAllWarning =>
+      'این کار همه داده‌های سوخت را برای همیشه حذف می‌کند. قابل بازگشت نیست.';
+
+  @override
+  String get settingsAllDataCleared => 'همه داده‌های سوخت با موفقیت پاک شد';
+
+  @override
+  String get settingsResetApp => 'بازنشانی برنامه';
+
+  @override
+  String get settingsClearAllCache => 'پاک کردن حافظه پنهان و تنظیمات';
+
+  @override
+  String get settingsClearCacheAction => 'پاک کردن همه';
+
+  @override
+  String get settingsResetSubtitle => 'بازگرداندن برنامه به تنظیمات کارخانه';
+
+  @override
+  String get settingsResetWarning =>
+      'این کار برنامه را کاملاً بازنشانی می‌کند. همه داده‌ها از بین می‌رود.';
+
+  @override
+  String get settingsCacheCleared => 'حافظه پنهان و تنظیمات پاک شد';
+
+  @override
+  String settingsClearFailed(String message) {
+    return 'خطا در پاک کردن داده: $message';
+  }
+
+  @override
+  String get settingsAppVersion => 'نسخه برنامه';
+
+  @override
+  String get settingsRateApp => 'امتیاز به برنامه';
+
+  @override
+  String get settingsRateSubtitle => 'از برنامه راضی هستید؟ نظر بگذارید';
+
+  @override
+  String get settingsReplayTutorialSubtitle =>
+      'دوباره مقدمه و راهنما را ببینید';
+
+  @override
+  String get homeYourFuelStats => 'آمار سوخت شما';
+
+  @override
+  String get homeQuickActions => 'دسترسی سریع';
+
+  @override
+  String get homeAddFuelEntry => 'افزودن سوخت‌گیری';
+
+  @override
+  String get homeViewFuelHistory => 'مشاهده تاریخچه';
+
+  @override
+  String get homeSwitchVehicles => 'تغییر خودرو';
+
+  @override
+  String get homeTripCalculator => 'محاسبه‌گر هزینه سفر';
+
+  @override
+  String get homeTripCalculatorSubtitle => 'هزینه سوخت یک سفر را برآورد کنید';
+
+  @override
+  String get homeBudgetReports => 'بودجه و گزارش‌ها';
+
+  @override
+  String get homeBudgetReportsSubtitle => 'هزینه ماهانه و پیگیری بودجه';
+
+  @override
+  String get homeSpendingComparison => 'مقایسه هزینه‌ها';
+
+  @override
+  String get homeSpendingComparisonSubtitle => 'ماه‌ها را کنار هم مقایسه کنید';
+
+  @override
+  String get homeCompareVehicles => 'مقایسه خودروها';
+
+  @override
+  String get homeCompareVehiclesSubtitle => 'تحلیل مقایسه‌ای بازدهی';
+
+  @override
+  String get homeMaintenanceLog => 'دفترچه سرویس';
+
+  @override
+  String get homeMaintenanceLogSubtitle => 'سرویس‌های خودرویتان را پیگیری کنید';
+
+  @override
+  String get homeThanksFeedback => 'از بازخورد شما سپاسگزاریم!';
+
+  @override
+  String get addFuelAddVehicle => 'افزودن خودرو';
+
+  @override
+  String addFuelSaveFailed(String message) {
+    return 'خطا در ذخیره رکورد: $message';
+  }
+
+  @override
+  String get addFuelAutoBackupOk => 'پشتیبان‌گیری خودکار موفق بود!';
+
+  @override
+  String addFuelAutoBackupFailed(String message) {
+    return 'پشتیبان‌گیری خودکار ناموفق: $message';
+  }
+
+  @override
+  String get addFuelBackupOk => 'پشتیبان‌گیری موفق بود!';
+
+  @override
+  String get addFuelConnectedBackedUp => 'متصل شد و پشتیبان گرفته شد!';
+
+  @override
+  String get historyEntryDeleted => 'رکورد حذف شد';
+
+  @override
+  String get historyTimeUpdated => 'زمان رکورد به‌روزرسانی شد';
+
+  @override
+  String historyDeleteFailed(String message) {
+    return 'خطا در حذف رکورد: $message';
+  }
+
+  @override
+  String historyLoadFailed(String message) {
+    return 'خطا در بارگذاری داده: $message';
+  }
+
+  @override
+  String historyExportFailed(String message) {
+    return 'خطا در خروجی CSV: $message';
+  }
+
+  @override
+  String get entryCardEdit => 'ویرایش';
+
+  @override
+  String get entryCardDelete => 'حذف';
+
+  @override
+  String get entryCardChangeTime => 'تغییر زمان';
+
+  @override
+  String get deleteEntryTitle => 'حذف رکورد';
+
+  @override
+  String get rateTitle => 'از برنامه راضی هستید؟';
+
+  @override
+  String get rateNow => 'الان امتیاز بدهید';
+
+  @override
+  String get rateLater => 'الان نه';
+
+  @override
+  String get currencyDialogTitle => 'انتخاب واحد پول';
+
+  @override
+  String get currencyDialogSearch => 'جستجوی واحد پول...';
+
+  @override
+  String get chartNeedMoreData => 'برای دیدن روندها رکوردهای بیشتری اضافه کنید';
+
+  @override
+  String summaryAvgPricePerUnit(String unit) {
+    return 'میانگین قیمت هر $unit';
+  }
+
+  @override
+  String summaryAvgPriceShort(String unit) {
+    return 'میانگین قیمت/$unit';
+  }
+
+  @override
+  String get mileageDistanceTraveled => 'مسافت طی‌شده:';
+
+  @override
+  String get mileageFuelEfficiency => 'بازدهی سوخت:';
+
+  @override
+  String budgetWeekShort(int number) {
+    return 'ه$number';
+  }
+
+  @override
+  String get vehiclesNameHint => 'مثلاً خودروی من';
+
+  @override
+  String get maintenanceCostHint => 'مثلاً ۱۵۰';
+
+  @override
+  String vehiclesDeleteConfirm(String name) {
+    return 'آیا از حذف «$name» مطمئن هستید؟ رکوردهای سوخت حذف نمی‌شوند.';
+  }
+
+  @override
+  String get restoreLabelVehicle => 'خودرو';
+
+  @override
+  String get restoreLabelSetting => 'تنظیم';
+
+  @override
+  String get fuelType_petrol => 'بنزین';
+
+  @override
+  String get fuelType_diesel => 'گازوئیل';
+
+  @override
+  String get fuelType_cng => 'سی‌ان‌جی';
+
+  @override
+  String get fuelType_electric => 'برقی';
+
+  @override
+  String get fuelType_hybrid => 'هیبریدی';
+
+  @override
+  String get vehicleType_directions_car => 'خودرو';
+
+  @override
+  String get vehicleType_two_wheeler => 'موتورسیکلت';
+
+  @override
+  String get vehicleType_local_shipping => 'کامیون';
+
+  @override
+  String get vehicleType_airport_shuttle => 'ون';
+
+  @override
+  String get vehicleType_electric_car => 'خودروی برقی';
+
+  @override
+  String get vehicleType_pedal_bike => 'دوچرخه';
+
+  @override
+  String get maintenanceType_oil_change => 'تعویض روغن';
+
+  @override
+  String get maintenanceType_tire_rotation => 'جابه‌جایی لاستیک';
+
+  @override
+  String get maintenanceType_brake_service => 'سرویس ترمز';
+
+  @override
+  String get maintenanceType_air_filter => 'فیلتر هوا';
+
+  @override
+  String get maintenanceType_transmission => 'گیربکس';
+
+  @override
+  String get maintenanceType_battery => 'باتری';
+
+  @override
+  String get maintenanceType_coolant => 'تعویض ضدیخ';
+
+  @override
+  String get maintenanceType_spark_plugs => 'شمع';
+
+  @override
+  String get maintenanceType_belt_replacement => 'تعویض تسمه';
+
+  @override
+  String get maintenanceType_wheel_alignment => 'تنظیم فرمان';
+
+  @override
+  String get maintenanceType_suspension => 'سیستم تعلیق';
+
+  @override
+  String get maintenanceType_exhaust => 'اگزوز';
+
+  @override
+  String get maintenanceType_ac_service => 'سرویس کولر';
+
+  @override
+  String get maintenanceType_wiper_blades => 'تیغه برف‌پاک‌کن';
+
+  @override
+  String get maintenanceType_headlights => 'چراغ جلو';
+
+  @override
+  String get maintenanceType_car_wash => 'کارواش';
+
+  @override
+  String get maintenanceType_detailing => 'صفرشویی';
+
+  @override
+  String get maintenanceType_inspection => 'معاینه فنی';
+
+  @override
+  String get maintenanceType_insurance => 'بیمه';
+
+  @override
+  String get maintenanceType_registration => 'ثبت و پلاک';
+
+  @override
+  String get maintenanceType_towing => 'یدک‌کشی';
+
+  @override
+  String get maintenanceType_general_service => 'سرویس دوره‌ای';
+
+  @override
+  String get maintenanceType_body_repair => 'صافکاری';
+
+  @override
+  String get maintenanceType_other => 'سایر';
+
+  @override
+  String get homeAddFuelSubtitle => 'خرید سوخت خود را ثبت کنید';
+
+  @override
+  String get homeViewHistorySubtitle => 'رکوردهای خود را مرور کنید';
+
+  @override
+  String settingsEntriesImportedTo(int count, String vehicle) {
+    return '$count رکورد به $vehicle وارد شد';
+  }
+
+  @override
+  String get homeOverallSummary => 'خلاصه کلی';
+
+  @override
+  String get homeSummary => 'خلاصه';
+
+  @override
+  String get homeMonitorEfficiency => 'بازدهی سوخت خود را زیر نظر بگیرید';
+
+  @override
+  String get tourVehiclesTitle => 'تغییر خودرو';
+
+  @override
+  String get tourVehiclesBody =>
+      'برای دیدن آمار کلی «همه» را انتخاب کنید، یا خودروی مشخصی را برگزینید. برای افزودن خودروی جدید دکمه + انتهای فهرست را بزنید.';
+
+  @override
+  String get tourSettingsBody =>
+      'از اینجا واحد پول، پوسته و بودجه ماهانه را تنظیم کنید و از داده‌هایتان در Google Drive پشتیبان بگیرید.';
+
+  @override
+  String get tourStatsBody =>
+      'در یک نگاه هزینه این ماه، هزینه آخرین سوخت‌گیری، روزهای سپری‌شده و بازدهی کلی خود را ببینید.';
+
+  @override
+  String get tourActionsBody =>
+      'به تاریخچه سوخت، محاسبه‌گر سفر، گزارش‌های بودجه، دفترچه سرویس و ابزارهای دیگر بروید.';
+
+  @override
+  String get tourAddFuelBody =>
+      'برای ثبت سوخت‌گیری جدید اینجا را بزنید. مقدار، قیمت و کیلومترشمار را وارد می‌کنید.';
+
+  @override
+  String get comparisonMetric => 'شاخص';
+
+  @override
+  String get comparisonScroll => 'پیمایش';
+
+  @override
+  String get comparisonSummary => 'خلاصه';
+
+  @override
+  String get comparisonSelectTwo => 'برای مقایسه حداقل ۲ خودرو انتخاب کنید';
+
+  @override
+  String get comparisonSubtitle => 'مقایسه بازدهی';
+
+  @override
+  String get historyLoading => 'در حال بارگذاری داده‌ها...';
+
+  @override
+  String get historyLoadingHint => 'لطفاً تا دریافت داده‌هایتان صبر کنید';
+
+  @override
+  String get currencyNoResults => 'واحد پولی یافت نشد';
+
+  @override
+  String get currencyNoResultsHint => 'با کلمات دیگری جستجو کنید';
+
+  @override
+  String get mileageCalculationTitle => 'محاسبه مصرف';
+
+  @override
+  String mileageSinceLastFill(String date) {
+    return 'از آخرین سوخت‌گیری: $date';
+  }
+
+  @override
+  String get addFuelNoVehicles =>
+      'خودرویی ثبت نشده است. ابتدا یک خودرو اضافه کنید.';
+
+  @override
+  String budgetProgressLabel(String amount, String percent) {
+    return 'بودجه: $amount  |  $percent% مصرف‌شده';
+  }
+
+  @override
+  String get howToAutoCalc =>
+      'وقتی قرائت کیلومترشمار را وارد کنید، برنامه به‌طور خودکار بازدهی سوخت را محاسبه می‌کند:';
+
+  @override
+  String get deleteEntryMessage =>
+      'آیا از حذف این سوخت‌گیری مطمئن هستید؟ این عمل قابل بازگشت نیست.';
+
+  @override
+  String get chartNotEnoughData => 'داده کافی نیست';
+
+  @override
+  String get chartAnalytics => 'تحلیل‌ها';
+
+  @override
+  String entryCardOdometer(String value) {
+    return 'کیلومترشمار: $value کیلومتر';
+  }
+
+  @override
+  String get summaryFillUpTitle => 'خلاصه سوخت‌گیری';
 }

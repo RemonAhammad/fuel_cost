@@ -263,7 +263,7 @@ class _VehicleComparisonScreenState
                             ),
                           ),
                           Text(
-                            'Side-by-side efficiency',
+                            AppLocalizations.of(context).comparisonSubtitle,
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.white.withValues(alpha: 0.8),
@@ -472,12 +472,12 @@ class _VehicleComparisonScreenState
                         },
                         loading: () =>
                             const Center(child: CircularProgressIndicator()),
-                        error: (e, _) => Center(child: Text('Error: $e')),
+                        error: (e, _) => Center(child: Text(AppLocalizations.of(context).commonError(e.toString()))),
                       );
                     },
                     loading: () =>
                         const Center(child: CircularProgressIndicator()),
-                    error: (e, _) => Center(child: Text('Error: $e')),
+                    error: (e, _) => Center(child: Text(AppLocalizations.of(context).commonError(e.toString()))),
                   ),
                 ),
               ),
@@ -528,7 +528,7 @@ class _VehicleComparisonScreenState
             ),
             const SizedBox(height: 12),
             Text(
-              'Select at least 2 vehicles to compare',
+              AppLocalizations.of(context).comparisonSelectTwo,
               style: TextStyle(
                 fontSize: 16,
                 color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
@@ -869,7 +869,7 @@ class _VehicleComparisonScreenState
           Row(
             children: [
               Text(
-                'Summary',
+                AppLocalizations.of(context).comparisonSummary,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -885,7 +885,7 @@ class _VehicleComparisonScreenState
                 ),
                 const SizedBox(width: 4),
                 Text(
-                  'Scroll',
+                  AppLocalizations.of(context).comparisonScroll,
                   style: TextStyle(
                     fontSize: 11,
                     color: isDark ? Colors.grey.shade600 : Colors.grey.shade400,
@@ -901,7 +901,7 @@ class _VehicleComparisonScreenState
               SizedBox(
                 width: 80,
                 child: Text(
-                  'Metric',
+                  AppLocalizations.of(context).comparisonMetric,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 12,
