@@ -44,5 +44,18 @@ class MaintenanceService {
     return entries.fold(0.0, (sum, e) => sum + e.cost);
   }
 
+  /// Merges entries from a backup: matching ids are overwritten by [incoming],
+  /// local-only entries are kept.
+  static Future<void> mergeMaintenanceEntries(
+      List<MaintenanceEntry> incoming) async {
+    final byId = {for (final e in await getMaintenanceEntries()) e.id: e};
+    for (final entry in incoming) {
+      byId[entry.id] = entry;
+    }
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(
+        _maintenanceKey, MaintenanceEntry.listToJson(byId.values.toList()));
+  }
+
   static String generateId() => _uuid.v4();
 }

@@ -24,3 +24,4 @@ export 'cupertino_section.dart';
 export 'cupertino_list_tile.dart';
 export 'currency_selection_dialog.dart';
 export 'confirmation_dialog.dart';
+export 'rate_app_dialog.dart';

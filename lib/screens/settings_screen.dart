@@ -9,6 +9,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:intl/intl.dart';
 import '../services/tutorial_service.dart';
+import '../services/review_service.dart';
 import 'splash_screen.dart';
 import 'restore_conflicts_screen.dart';
 import '../services/fuel_storage_service.dart';
@@ -22,6 +23,7 @@ import '../models/vehicle.dart';
 import '../models/fuel_entry.dart';
 import '../providers/theme_provider.dart';
 import '../providers/fuel_entries_provider.dart';
+import '../providers/summary_providers.dart';
 import '../providers/vehicle_provider.dart';
 import '../widgets/widgets.dart';
 
@@ -70,6 +72,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       MaterialPageRoute(builder: (_) => const SplashScreen()),
       (route) => false,
     );
+  }
+
+  Future<void> _rateApp() async {
+    // Tapping this tile is already an opt-in, so skip the gate dialog.
+    await ReviewService.requestReview();
+    await ReviewService.markRated();
   }
 
   Future<void> _loadCurrency() async {
@@ -621,16 +629,27 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         preview,
         keepLocalEntryIds: resolution.keepLocalEntryIds,
         keepLocalVehicleIds: resolution.keepLocalVehicleIds,
+        keepLocalMaintenanceIds: resolution.keepLocalMaintenanceIds,
+        keepLocalSettingIds: resolution.keepLocalSettingIds,
       );
 
       // Restored data lives in Isar + SharedPreferences; drop the cached
       // provider state so Home/History show it without an app restart.
       ref.invalidate(fuelEntriesProvider);
       ref.invalidate(vehiclesProvider);
+      // Restored settings need the same treatment, or a new theme/currency
+      // sits invisible until the next launch.
+      ref.invalidate(currencyNotifierProvider);
+      await ref.read(themeProvider.notifier).reload();
+      await _loadCurrency();
+      await _loadBudget();
       if (mounted) {
-        var summary = result.vehicles > 0
-            ? 'Restored ${result.entries} entries and ${result.vehicles} vehicles'
-            : 'Restored ${result.entries} entries from backup';
+        final restored = <String>[
+          '${result.entries} entries',
+          if (result.vehicles > 0) '${result.vehicles} vehicles',
+          if (result.maintenance > 0) '${result.maintenance} maintenance',
+        ];
+        var summary = 'Restored ${restored.join(', ')}';
         if (result.keptLocal > 0) {
           summary += ' · ${result.keptLocal} kept yours';
         }
@@ -869,6 +888,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                       iconColor: Colors.teal,
                                       isFirst: true,
                                       onTap: _replayTutorial,
+                                    ),
+                                    CustomCupertinoListTile(
+                                      icon: Icons.star_outline,
+                                      title: 'Rate this App',
+                                      subtitle: 'Enjoying Fuel Cost? Leave a review',
+                                      iconColor: Colors.amber,
+                                      onTap: _rateApp,
                                     ),
                                     CustomCupertinoListTile(
                                       icon: Icons.info_outline,

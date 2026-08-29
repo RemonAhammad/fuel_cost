@@ -24,7 +24,7 @@
 - **Isar Community 3.3.0** (NoSQL embedded DB) for `FuelEntry` — the only Isar collection
 - **SharedPreferences** for everything else:
   - Vehicles list, selected vehicle, entry-vehicle mapping
-  - Maintenance entries
+  - Maintenance entries (backed up)
   - Theme mode, accent color
   - Currency selection
   - Monthly budget
@@ -73,6 +73,7 @@ lib/
     backup_data_service.dart         # Backup payload format (v2 JSON) + merge-on-restore logic
     app_update_service.dart          # Google Play in-app update check (Android-only, via in_app_update)
     tutorial_service.dart            # Onboarding + showcase tour completion flags; resetAll() for "Replay Tutorial"
+    review_service.dart              # Store-rating eligibility (5 entries on one vehicle) + snooze/give-up state
     fuel_unit_service.dart           # Per-entry unit snapshots (entry_unit_map)
   screens/
     splash_screen.dart               # Animated splash: layered particles, gauge logo, letter reveal, road dashes (~3.6s)
@@ -105,6 +106,7 @@ lib/
     delete_confirmation_dialog.dart  # Delete confirm dialog
     confirmation_dialog.dart         # Generic confirm dialog
     currency_selection_dialog.dart   # Currency picker
+    rate_app_dialog.dart             # "Enjoying Fuel Cost?" gate before the store review sheet
     cupertino_section.dart           # iOS-style section (settings)
     cupertino_list_tile.dart         # iOS-style list tile (settings)
     staggered_animation_wrapper.dart # Staggered entrance animation
@@ -118,7 +120,7 @@ Vehicle-to-fuel-entry mapping is stored in SharedPreferences as a JSON map (`ent
 
 ### Backup Payload Versions
 
-`BackupDataService` owns the Drive payload. **v3** (`fuel_cost_backup.json`) carries `fuelEntries`, `vehicles`, `entryVehicleMap`, `entryUnitMap`, and `selectedVehicleId`; v2 was the same without `entryUnitMap`. **v1** (`fuel_cost_backup.csv`) was fuel entries only — still read on restore, never written.
+`BackupDataService` owns the Drive payload. **v4** (`fuel_cost_backup.json`) carries `fuelEntries`, `vehicles`, `entryVehicleMap`, `entryUnitMap`, `selectedVehicleId`, `maintenanceEntries`, and `settings`. Earlier versions are the same minus the later keys (v3 had no maintenance/settings, v2 no `entryUnitMap`) and restore fine — an absent key means "no data", never "cleared". **v1** (`fuel_cost_backup.csv`) was fuel entries only — still read on restore, never written.
 
 - The v2 Drive file id is stored under `drive_backup_json_file_id`, a *different* key from v1's `drive_backup_file_id`; sharing the key would make `files.update` write JSON into the user's `.csv` file
 - The backup's `selectedVehicleId` is applied only when the device has no selection
@@ -133,6 +135,9 @@ Restore never writes straight from the backup. `DriveBackupService.fetchRestoreP
 - `BackupDataService.diff()` is the pure comparison, deliberately free of storage calls so the rules are unit-testable without Isar (`test/restore_conflict_test.dart`)
 - "Keep mine" on an entry also keeps its vehicle assignment — `applyRestore` strips those ids from the incoming `entryVehicleMap` before merging
 - CSV export appends a `unit` column last, so parsers reading fixed indices 0-5 (including `parseLegacyCsv`) still read new files
+- **Settings** (`selected_currency`, `monthly_fuel_budget`, `theme_mode`, `accent_color`) have no id to merge on, so the rule is: backup value + device never set it → applied silently; same value → nothing; different value → **conflict, user picks**; absent from backup → nothing. Distinguishing "never set" from "set to the default" needs the raw getters (`CurrencyService.getSelectedCurrencyOrNull`, `ThemeService.getThemeModeRaw` / `getAccentColorValue`) — the normal getters return a default and would make every fresh device look like it had chosen `$`/light
+- Restored settings must be pushed into the UI: `ref.invalidate(currencyNotifierProvider)` plus `themeProvider.notifier.reload()`, or a restored theme/currency stays invisible until relaunch
+- **Never backed up**: `onboarding_completed` and `tour_completed` (device-local UX state), and `drive_backup_json_file_id` / `last_drive_backup_time` / `auto_backup_enabled` — restoring a Drive file id onto a second device would aim its backups at the first device's file
 - `RestoreConflictsScreen` pops a `ConflictResolution` (two sets of keep-local ids) or `null` to abort. It only appears when `preview.hasConflicts`, so a clean restore stays one tap
 
 ### Fuel Units
@@ -159,6 +164,15 @@ Resolution order (`FuelUnitResolver`):
 - Overall mileage: `totalDistance / (totalFuel - lastEntryFuel)` (last entry's fuel hasn't been consumed yet)
 - Located in `lib/business_logic/fuel_calculations.dart`
 
+### Rating Prompt Eligibility
+
+`ReviewService.meetsEntryThreshold()` is a pure predicate — no storage calls — so the counting rules are unit-testable without Isar (`test/review_eligibility_test.dart`), the same split as `BackupDataService.diff()`.
+
+- The threshold is **per vehicle**: 5 entries spread over 5 vehicles is not a habit, 5 on one is
+- Mappings are filtered against **live Isar entry ids and existing vehicle ids** before counting, because `entry_vehicle_map` is not self-cleaning. `clearFuelEntries()`/`clearAllData()` wipe Isar but leave the map fully populated, and `deleteVehicle()` leaves its entries mapped — counting the raw map would make a user who just erased everything look eligible. (`deleteFuelEntry()` *does* clean up, via `removeEntryMapping`)
+- Neither store reports back whether a review was actually left, so `review_prompt_done` only means "we ran the flow for this user"
+- `HomeScreen._maybeAskForReview()` bails when the showcase tour is unfinished — both run from the same `addPostFrameCallback`, and a dialog on top of a spotlight overlay traps the user
+
 ### No build_runner for Isar
 
 The `fuel_entry.g.dart` was pre-generated. Do NOT add `isar_generator` to dev_dependencies — it conflicts with other analyzer versions. If you modify the `FuelEntry` model, you must manually update the `.g.dart` or temporarily add the generator.
@@ -177,7 +191,7 @@ Only `fuel_entries_provider` and `summary_providers` use `@riverpod` code-gen. A
 6. **Spending Comparison** - Compare 4 months side-by-side
 7. **Vehicle Comparison** - Per-vehicle stats (cost, mileage, distance, cost/km)
 8. **Maintenance Log** - Track 24 maintenance types with cost, mileage, next-due dates
-9. **Google Drive Backup** - Sign in with Google; backs up fuel entries + vehicles + entry-vehicle mapping as JSON to Drive appDataFolder. Restore merges by id, **prompting the user to resolve every record that differs on both sides**, and still reads v1 CSV backups
+9. **Google Drive Backup** - Sign in with Google; backs up fuel entries, vehicles, entry-vehicle mapping, per-entry units, the maintenance log, and app settings (currency, budget, theme, accent) as JSON to Drive appDataFolder. Restore merges by id, **prompting the user to resolve every record that differs on both sides**, and still reads v1 CSV backups
 10. **CSV Import/Export** - Share or import fuel data as CSV files
 11. **Theme Customization** - Light/dark/system mode + 10 accent colors
 12. **Currency Support** - 160+ world currencies
@@ -186,6 +200,7 @@ Only `fuel_entries_provider` and `summary_providers` use `@riverpod` code-gen. A
 15. **Animated Splash Screen** - Custom-painted splash with floating particles, dual rotating dashed rings, liquid-fill gauge logo, letter-by-letter title reveal, shimmer tagline, and animated road dashes
 16. **Onboarding Carousel** - 5-page swipeable intro (tracking, multi-vehicle, mileage, budget, cloud backup) shown once on first launch; completion persisted by `TutorialService`
 17. **Interactive Tour** - `showcaseview` spotlights on the home screen (vehicle selector → settings → stats card → actions grid → add-fuel FAB), auto-started for first-time users and replayable from Settings → Replay Tutorial
+18. **Rating Prompt** - Asks for a store rating once a *single* vehicle has 5+ fuel entries. A custom gate dialog comes first; only users who say yes reach the native review sheet. "Not now" snoozes 30 days, and the app stops asking after 3 tries. Always available from Settings → About → Rate this App
 
 ## Dependencies (Key)
 
@@ -203,6 +218,7 @@ Only `fuel_entries_provider` and `summary_providers` use `@riverpod` code-gen. A
 | `uuid` | Unique ID generation |
 | `path_provider` | App directory paths |
 | `in_app_update` | Google Play in-app update API (Android-only) |
+| `in_app_review` | Play/App Store native review sheet (transitively pulls in `url_launcher`) |
 | `showcaseview` | Guided tour spotlight overlays (home screen) |
 | `package_info_plus` | Runtime app version/build number (Settings) |
 

@@ -161,6 +161,16 @@ class CurrencyService {
     'ETH': 'Ethereum',
   };
 
+  /// Raw stored value, or null when the user has never chosen one.
+  ///
+  /// The backup restore needs to tell "never set" apart from "deliberately set
+  /// to the default" — [getSelectedCurrency] returns the default either way,
+  /// which would make every fresh device look like it had picked `$`.
+  static Future<String?> getSelectedCurrencyOrNull() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_currencyKey);
+  }
+
   /// Get the currently selected currency symbol
   static Future<String> getSelectedCurrency() async {
     final prefs = await SharedPreferences.getInstance();

@@ -25,6 +25,7 @@ import 'maintenance_log_screen.dart';
 import 'spending_comparison_screen.dart';
 import 'vehicle_comparison_screen.dart';
 import '../services/app_update_service.dart';
+import '../services/review_service.dart';
 
 const Map<String, IconData> _vehicleIconMap = {
   'directions_car': Icons.directions_car,
@@ -89,6 +90,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
     WidgetsBinding.instance.addPostFrameCallback((_) {
       AppUpdateService.checkForUpdate(context);
       _maybeStartTour();
+      _maybeAskForReview();
     });
 
     _fadeAnimationController = AnimationController(duration: const Duration(milliseconds: 800), vsync: this);
@@ -135,6 +137,44 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
     _tourStepsCount = keys.length;
 
     ShowcaseView.get().startShowCase(keys);
+  }
+
+  Future<void> _maybeAskForReview() async {
+    // The showcase tour starts from this same callback — a dialog on top of a
+    // spotlight overlay would trap the user, so let the tour finish first.
+    if (!await TutorialService.isTourCompleted()) return;
+    if (!mounted) return;
+    if (!await ReviewService.isEligible()) return;
+    if (!mounted) return;
+
+    // Let the entrance animations settle before interrupting.
+    await Future.delayed(const Duration(milliseconds: 1200));
+    if (!mounted) return;
+
+    final choice = await showDialog<RateAppChoice>(
+      context: context,
+      builder: (_) => const RateAppDialog(),
+    );
+
+    switch (choice) {
+      case RateAppChoice.rate:
+        await ReviewService.requestReview();
+        await ReviewService.markRated();
+      case RateAppChoice.decline:
+        await ReviewService.markDeclined();
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Thanks for the feedback!'),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        }
+      // "Not now", or dismissed by tapping outside — ask again after a cooldown.
+      case RateAppChoice.later:
+      case null:
+        await ReviewService.markSnoozed();
+    }
   }
 
   Future<void> _loadVehicles() async {

@@ -13,6 +13,10 @@ class ThemeNotifier extends StateNotifier<ThemeState> {
     state = ThemeState(themeMode: mode, accentColor: color);
   }
 
+  /// Re-reads the persisted theme. Called after a restore writes new values so
+  /// the app repaints without needing a restart.
+  Future<void> reload() => _loadTheme();
+
   Future<void> setThemeMode(ThemeMode mode) async {
     await ThemeService.setThemeMode(mode);
     state = state.copyWith(themeMode: mode);

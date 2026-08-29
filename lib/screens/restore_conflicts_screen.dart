@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import '../models/fuel_entry.dart';
 import '../models/vehicle.dart';
 import '../models/fuel_unit.dart';
+import '../models/maintenance_entry.dart';
 import '../services/backup_data_service.dart';
 import '../services/currency_service.dart';
 
@@ -10,10 +11,14 @@ import '../services/currency_service.dart';
 class ConflictResolution {
   final Set<String> keepLocalEntryIds;
   final Set<String> keepLocalVehicleIds;
+  final Set<String> keepLocalMaintenanceIds;
+  final Set<String> keepLocalSettingIds;
 
   const ConflictResolution({
     required this.keepLocalEntryIds,
     required this.keepLocalVehicleIds,
+    this.keepLocalMaintenanceIds = const {},
+    this.keepLocalSettingIds = const {},
   });
 }
 
@@ -34,6 +39,8 @@ class _RestoreConflictsScreenState extends State<RestoreConflictsScreen> {
   /// which is the default the plan calls for.
   final Set<String> _keepLocalEntryIds = {};
   final Set<String> _keepLocalVehicleIds = {};
+  final Set<String> _keepLocalMaintenanceIds = {};
+  final Set<String> _keepLocalSettingIds = {};
 
   String _currency = '\$';
   final _dateFormat = DateFormat('MMM dd, yyyy');
@@ -57,6 +64,12 @@ class _RestoreConflictsScreenState extends State<RestoreConflictsScreen> {
       _keepLocalVehicleIds
         ..clear()
         ..addAll(widget.preview.vehicleConflicts.map((c) => c.id));
+      _keepLocalMaintenanceIds
+        ..clear()
+        ..addAll(widget.preview.maintenanceConflicts.map((c) => c.id));
+      _keepLocalSettingIds
+        ..clear()
+        ..addAll(widget.preview.settingConflicts.map((c) => c.id));
     });
   }
 
@@ -64,6 +77,8 @@ class _RestoreConflictsScreenState extends State<RestoreConflictsScreen> {
     setState(() {
       _keepLocalEntryIds.clear();
       _keepLocalVehicleIds.clear();
+      _keepLocalMaintenanceIds.clear();
+      _keepLocalSettingIds.clear();
     });
   }
 
@@ -71,6 +86,8 @@ class _RestoreConflictsScreenState extends State<RestoreConflictsScreen> {
     Navigator.of(context).pop(ConflictResolution(
       keepLocalEntryIds: Set.of(_keepLocalEntryIds),
       keepLocalVehicleIds: Set.of(_keepLocalVehicleIds),
+      keepLocalMaintenanceIds: Set.of(_keepLocalMaintenanceIds),
+      keepLocalSettingIds: Set.of(_keepLocalSettingIds),
     ));
   }
 
@@ -103,6 +120,19 @@ class _RestoreConflictsScreenState extends State<RestoreConflictsScreen> {
                   _sectionHeader('Vehicles', preview.vehicleConflicts.length),
                   ...preview.vehicleConflicts
                       .map((c) => _buildVehicleConflict(c, isDark)),
+                  const SizedBox(height: 8),
+                ],
+                if (preview.settingConflicts.isNotEmpty) ...[
+                  _sectionHeader('Settings', preview.settingConflicts.length),
+                  ...preview.settingConflicts
+                      .map((c) => _buildSettingConflict(c, isDark)),
+                  const SizedBox(height: 8),
+                ],
+                if (preview.maintenanceConflicts.isNotEmpty) ...[
+                  _sectionHeader(
+                      'Maintenance', preview.maintenanceConflicts.length),
+                  ...preview.maintenanceConflicts
+                      .map((c) => _buildMaintenanceConflict(c, isDark)),
                   const SizedBox(height: 8),
                 ],
                 if (preview.entryConflicts.isNotEmpty) ...[
@@ -214,6 +244,84 @@ class _RestoreConflictsScreenState extends State<RestoreConflictsScreen> {
       parts.add(v.tankCapacity == null
           ? 'no tank size'
           : '${v.tankCapacity!.toStringAsFixed(0)} ${v.fuelUnit.short} tank');
+    }
+    return parts.isEmpty ? 'unchanged' : parts.join(' · ');
+  }
+
+  Widget _buildSettingConflict(SettingConflict conflict, bool isDark) {
+    final keepLocal = _keepLocalSettingIds.contains(conflict.id);
+    return _ConflictCard(
+      isDark: isDark,
+      title: conflict.label,
+      subtitle: 'Setting',
+      keepLocal: keepLocal,
+      mineDetail: conflict.localDisplay,
+      backupDetail: conflict.backupDisplay,
+      onChanged: (mine) => setState(() {
+        if (mine) {
+          _keepLocalSettingIds.add(conflict.id);
+        } else {
+          _keepLocalSettingIds.remove(conflict.id);
+        }
+      }),
+    );
+  }
+
+  Widget _buildMaintenanceConflict(MaintenanceConflict conflict, bool isDark) {
+    final keepLocal = _keepLocalMaintenanceIds.contains(conflict.id);
+    final typeLabel =
+        MaintenanceEntry.maintenanceTypes[conflict.backup.type] ??
+            conflict.backup.type;
+    return _ConflictCard(
+      isDark: isDark,
+      title: typeLabel,
+      subtitle: _dateFormat.format(conflict.backup.dateTime),
+      keepLocal: keepLocal,
+      mineDetail: _maintenanceDetail(conflict.local, conflict.backup),
+      backupDetail: _maintenanceDetail(conflict.backup, conflict.local),
+      onChanged: (mine) => setState(() {
+        if (mine) {
+          _keepLocalMaintenanceIds.add(conflict.id);
+        } else {
+          _keepLocalMaintenanceIds.remove(conflict.id);
+        }
+      }),
+    );
+  }
+
+  /// Describes [m], listing only what differs from [other].
+  String _maintenanceDetail(MaintenanceEntry m, MaintenanceEntry other) {
+    final parts = <String>[];
+    if (m.cost != other.cost) parts.add(_money(m.cost));
+    if (m.description != other.description) {
+      parts.add(m.description.isEmpty ? 'no description' : m.description);
+    }
+    if (m.type != other.type) {
+      parts.add(MaintenanceEntry.maintenanceTypes[m.type] ?? m.type);
+    }
+    if (m.mileage != other.mileage) {
+      parts.add(m.mileage == null
+          ? 'no odometer'
+          : 'odo ${m.mileage!.toStringAsFixed(0)}');
+    }
+    if (!m.dateTime.isAtSameMomentAs(other.dateTime)) {
+      parts.add(_dateFormat.format(m.dateTime));
+    }
+    if (m.notes != other.notes) {
+      parts.add((m.notes == null || m.notes!.isEmpty) ? 'no notes' : 'notes changed');
+    }
+    if (m.nextDueMileage != other.nextDueMileage) {
+      parts.add(m.nextDueMileage == null
+          ? 'no next-due odometer'
+          : 'due at ${m.nextDueMileage!.toStringAsFixed(0)}');
+    }
+    if (m.nextDueDate != other.nextDueDate) {
+      parts.add(m.nextDueDate == null
+          ? 'no next-due date'
+          : 'due ${_dateFormat.format(m.nextDueDate!)}');
+    }
+    if (m.vehicleId != other.vehicleId) {
+      parts.add(m.vehicleId == null ? 'unassigned' : 'different vehicle');
     }
     return parts.isEmpty ? 'unchanged' : parts.join(' · ');
   }

@@ -5,6 +5,20 @@ class ThemeService {
   static const String _themeModeKey = 'theme_mode';
   static const String _accentColorKey = 'accent_color';
 
+  /// Raw stored theme mode, or null when never chosen. [getThemeMode] falls
+  /// back to light, so the restore uses this to avoid treating an untouched
+  /// device as having deliberately chosen a light theme.
+  static Future<String?> getThemeModeRaw() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_themeModeKey);
+  }
+
+  /// Raw stored accent colour value, or null when never chosen.
+  static Future<int?> getAccentColorValue() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(_accentColorKey);
+  }
+
   static Future<ThemeMode> getThemeMode() async {
     final prefs = await SharedPreferences.getInstance();
     final mode = prefs.getString(_themeModeKey) ?? 'light';

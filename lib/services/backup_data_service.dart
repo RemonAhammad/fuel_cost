@@ -1,16 +1,22 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import '../models/fuel_entry.dart';
 import '../models/vehicle.dart';
 import '../models/fuel_unit.dart';
+import '../models/maintenance_entry.dart';
 import 'fuel_unit_service.dart';
 import 'fuel_storage_service.dart';
 import 'vehicle_service.dart';
+import 'maintenance_service.dart';
+import 'currency_service.dart';
+import 'budget_service.dart';
+import 'theme_service.dart';
 
 /// Counts reported back to the UI after a restore.
 class BackupRestoreResult {
   final int entries;
   final int vehicles;
+  final int maintenance;
 
   /// Conflicts where the user chose to keep the local version.
   final int keptLocal;
@@ -18,6 +24,7 @@ class BackupRestoreResult {
   const BackupRestoreResult({
     required this.entries,
     required this.vehicles,
+    this.maintenance = 0,
     this.keptLocal = 0,
   });
 }
@@ -57,6 +64,49 @@ class VehicleConflict {
   String get id => backup.id;
 }
 
+/// A maintenance record that exists both locally and in the backup with
+/// different values.
+class MaintenanceConflict {
+  final MaintenanceEntry local;
+  final MaintenanceEntry backup;
+
+  const MaintenanceConflict({required this.local, required this.backup});
+
+  String get id => backup.id;
+}
+
+/// Identifiers for the app settings the backup carries.
+class BackupSettingKeys {
+  static const String currency = 'currency';
+  static const String monthlyBudget = 'monthlyBudget';
+  static const String themeMode = 'themeMode';
+  static const String accentColor = 'accentColor';
+}
+
+/// A single-valued setting that differs between the backup and this device.
+///
+/// Unlike entries and vehicles there is no id to merge on, so a difference is
+/// always a real choice: applying the backup would overwrite what this device
+/// deliberately set. Settings the device never set are applied silently rather
+/// than surfaced here.
+class SettingConflict {
+  final String id;
+  final String label;
+  final String localDisplay;
+  final String backupDisplay;
+
+  /// Raw value to write when the user takes the backup's version.
+  final Object? backupValue;
+
+  const SettingConflict({
+    required this.id,
+    required this.label,
+    required this.localDisplay,
+    required this.backupDisplay,
+    required this.backupValue,
+  });
+}
+
 /// What a restore would do, computed before anything is written so the user
 /// can resolve conflicts first.
 class RestorePreview {
@@ -64,6 +114,14 @@ class RestorePreview {
   final List<EntryConflict> entryConflicts;
   final List<Vehicle> newVehicles;
   final List<VehicleConflict> vehicleConflicts;
+  final List<MaintenanceEntry> newMaintenance;
+  final List<MaintenanceConflict> maintenanceConflicts;
+
+  /// Settings that differ from this device's own — the user picks.
+  final List<SettingConflict> settingConflicts;
+
+  /// Settings this device never set, applied silently on restore.
+  final Map<String, Object?> settingsToApply;
 
   /// Backup's entry -> vehicle mapping, applied for entries the user does not
   /// keep local.
@@ -76,6 +134,7 @@ class RestorePreview {
   /// Records present in both copies with identical values — skipped silently.
   final int identicalEntries;
   final int identicalVehicles;
+  final int identicalMaintenance;
 
   const RestorePreview({
     required this.newEntries,
@@ -87,14 +146,30 @@ class RestorePreview {
     required this.selectedVehicleId,
     required this.identicalEntries,
     required this.identicalVehicles,
+    this.newMaintenance = const [],
+    this.maintenanceConflicts = const [],
+    this.settingConflicts = const [],
+    this.settingsToApply = const {},
+    this.identicalMaintenance = 0,
   });
 
   bool get hasConflicts =>
-      entryConflicts.isNotEmpty || vehicleConflicts.isNotEmpty;
+      entryConflicts.isNotEmpty ||
+      vehicleConflicts.isNotEmpty ||
+      maintenanceConflicts.isNotEmpty ||
+      settingConflicts.isNotEmpty;
 
-  int get conflictCount => entryConflicts.length + vehicleConflicts.length;
-  int get newCount => newEntries.length + newVehicles.length;
-  int get identicalCount => identicalEntries + identicalVehicles;
+  int get conflictCount =>
+      entryConflicts.length +
+      vehicleConflicts.length +
+      maintenanceConflicts.length +
+      settingConflicts.length;
+
+  int get newCount =>
+      newEntries.length + newVehicles.length + newMaintenance.length;
+
+  int get identicalCount =>
+      identicalEntries + identicalVehicles + identicalMaintenance;
 }
 
 /// Owns the backup payload format, so DriveBackupService only has to deal with
@@ -108,7 +183,7 @@ class RestorePreview {
 /// mapping together. Version 1 was a bare fuel-entry CSV with no vehicle data —
 /// see [analyzeLegacyCsv].
 class BackupDataService {
-  static const int payloadVersion = 3;
+  static const int payloadVersion = 4;
 
   // --- Export ---
 
@@ -117,6 +192,7 @@ class BackupDataService {
     final vehicles = await VehicleService.getVehicles();
     final entryVehicleMap = await VehicleService.getEntryVehicleMap();
     final selectedVehicleId = await VehicleService.getSelectedVehicleId();
+    final maintenance = await MaintenanceService.getMaintenanceEntries();
 
     return jsonEncode({
       'version': payloadVersion,
@@ -126,7 +202,29 @@ class BackupDataService {
       'entryVehicleMap': entryVehicleMap,
       'entryUnitMap': await FuelUnitService.getEntryUnitMap(),
       'selectedVehicleId': selectedVehicleId,
+      'maintenanceEntries': maintenance.map((e) => e.toJson()).toList(),
+      'settings': await _collectSettings(),
     });
+  }
+
+  /// Only settings the user actually set are exported — an absent key means
+  /// "this device had no opinion", which restores as no change.
+  static Future<Map<String, Object?>> _collectSettings() async {
+    final settings = <String, Object?>{};
+
+    final currency = await CurrencyService.getSelectedCurrencyOrNull();
+    if (currency != null) settings[BackupSettingKeys.currency] = currency;
+
+    final budget = await BudgetService.getMonthlyBudget();
+    if (budget != null) settings[BackupSettingKeys.monthlyBudget] = budget;
+
+    final themeMode = await ThemeService.getThemeModeRaw();
+    if (themeMode != null) settings[BackupSettingKeys.themeMode] = themeMode;
+
+    final accent = await ThemeService.getAccentColorValue();
+    if (accent != null) settings[BackupSettingKeys.accentColor] = accent;
+
+    return settings;
   }
 
   // --- Analyze ---
@@ -162,12 +260,30 @@ class BackupDataService {
         ? Map<String, String>.from(rawUnits)
         : <String, String>{};
 
+    // Absent in v1-v3 backups, which restore with no maintenance or settings
+    // rather than reporting everything as changed.
+    final maintenance = <MaintenanceEntry>[];
+    for (final raw in (data['maintenanceEntries'] as List?) ?? const []) {
+      try {
+        maintenance.add(MaintenanceEntry.fromJson(Map<String, dynamic>.from(raw)));
+      } catch (e) {
+        debugPrint('Skipping invalid maintenance entry in backup: $e');
+      }
+    }
+
+    final rawSettings = data['settings'];
+    final settings = rawSettings is Map
+        ? Map<String, Object?>.from(rawSettings)
+        : <String, Object?>{};
+
     return _analyze(
       backupEntries: entries,
       backupVehicles: vehicles,
       backupEntryVehicleMap: entryVehicleMap,
       backupEntryUnitMap: entryUnitMap,
       selectedVehicleId: data['selectedVehicleId'] as String?,
+      backupMaintenance: maintenance,
+      backupSettings: settings,
     );
   }
 
@@ -189,6 +305,8 @@ class BackupDataService {
     required Map<String, String> backupEntryVehicleMap,
     required Map<String, String> backupEntryUnitMap,
     required String? selectedVehicleId,
+    List<MaintenanceEntry> backupMaintenance = const [],
+    Map<String, Object?> backupSettings = const {},
   }) async {
     return diff(
       backupEntries: backupEntries,
@@ -200,6 +318,10 @@ class BackupDataService {
       localVehicles: await VehicleService.getVehicles(),
       localEntryVehicleMap: await VehicleService.getEntryVehicleMap(),
       localEntryUnitMap: await FuelUnitService.getEntryUnitMap(),
+      backupMaintenance: backupMaintenance,
+      localMaintenance: await MaintenanceService.getMaintenanceEntries(),
+      backupSettings: backupSettings,
+      localSettings: await _collectSettings(),
     );
   }
 
@@ -215,10 +337,48 @@ class BackupDataService {
     required Map<String, String> localEntryVehicleMap,
     Map<String, String> backupEntryUnitMap = const {},
     Map<String, String> localEntryUnitMap = const {},
+    List<MaintenanceEntry> backupMaintenance = const [],
+    List<MaintenanceEntry> localMaintenance = const [],
+    Map<String, Object?> backupSettings = const {},
+    Map<String, Object?> localSettings = const {},
   }) {
     final localEntriesById = {for (final e in localEntries) e.id: e};
     final localVehiclesById = {for (final v in localVehicles) v.id: v};
     final localMap = localEntryVehicleMap;
+
+    final localMaintenanceById = {for (final m in localMaintenance) m.id: m};
+    final newMaintenance = <MaintenanceEntry>[];
+    final maintenanceConflicts = <MaintenanceConflict>[];
+    int identicalMaintenance = 0;
+    for (final backup in backupMaintenance) {
+      final local = localMaintenanceById[backup.id];
+      if (local == null) {
+        newMaintenance.add(backup);
+      } else if (_maintenanceEqual(local, backup)) {
+        identicalMaintenance++;
+      } else {
+        maintenanceConflicts
+            .add(MaintenanceConflict(local: local, backup: backup));
+      }
+    }
+
+    final settingConflicts = <SettingConflict>[];
+    final settingsToApply = <String, Object?>{};
+    for (final entry in backupSettings.entries) {
+      final local = localSettings[entry.key];
+      if (local == null) {
+        // This device never set it — adopt the backup's without asking.
+        settingsToApply[entry.key] = entry.value;
+      } else if (local != entry.value) {
+        settingConflicts.add(SettingConflict(
+          id: entry.key,
+          label: _settingLabel(entry.key),
+          localDisplay: _settingDisplay(entry.key, local),
+          backupDisplay: _settingDisplay(entry.key, entry.value),
+          backupValue: entry.value,
+        ));
+      }
+    }
 
     final newVehicles = <Vehicle>[];
     final vehicleConflicts = <VehicleConflict>[];
@@ -282,7 +442,44 @@ class BackupDataService {
       selectedVehicleId: selectedVehicleId,
       identicalEntries: identicalEntries,
       identicalVehicles: identicalVehicles,
+      newMaintenance: newMaintenance,
+      maintenanceConflicts: maintenanceConflicts,
+      settingConflicts: settingConflicts,
+      settingsToApply: settingsToApply,
+      identicalMaintenance: identicalMaintenance,
     );
+  }
+
+  static String _settingLabel(String id) {
+    switch (id) {
+      case BackupSettingKeys.currency:
+        return 'Currency';
+      case BackupSettingKeys.monthlyBudget:
+        return 'Monthly Budget';
+      case BackupSettingKeys.themeMode:
+        return 'Theme';
+      case BackupSettingKeys.accentColor:
+        return 'Accent Color';
+      default:
+        return id;
+    }
+  }
+
+  static String _settingDisplay(String id, Object? value) {
+    if (value == null) return 'not set';
+    switch (id) {
+      case BackupSettingKeys.monthlyBudget:
+        return (value as num).toStringAsFixed(0);
+      case BackupSettingKeys.themeMode:
+        final mode = value.toString();
+        return mode.isEmpty ? mode : '${mode[0].toUpperCase()}${mode.substring(1)}';
+      case BackupSettingKeys.accentColor:
+        final hex =
+            (value as num).toInt().toRadixString(16).padLeft(8, '0').substring(2);
+        return '#${hex.toUpperCase()}';
+      default:
+        return value.toString();
+    }
   }
 
   // --- Apply ---
@@ -293,6 +490,8 @@ class BackupDataService {
     RestorePreview preview, {
     Set<String> keepLocalEntryIds = const {},
     Set<String> keepLocalVehicleIds = const {},
+    Set<String> keepLocalMaintenanceIds = const {},
+    Set<String> keepLocalSettingIds = const {},
   }) async {
     // Vehicles first, so restored entries have something to map onto.
     final vehiclesToWrite = <Vehicle>[
@@ -340,6 +539,26 @@ class BackupDataService {
       }
     }
 
+    final maintenanceToWrite = <MaintenanceEntry>[
+      ...preview.newMaintenance,
+      ...preview.maintenanceConflicts
+          .where((c) => !keepLocalMaintenanceIds.contains(c.id))
+          .map((c) => c.backup),
+    ];
+    if (maintenanceToWrite.isNotEmpty) {
+      await MaintenanceService.mergeMaintenanceEntries(maintenanceToWrite);
+    }
+
+    // Settings this device never set, plus any conflict the user resolved in
+    // the backup's favour.
+    final settings = <String, Object?>{
+      ...preview.settingsToApply,
+      for (final conflict in preview.settingConflicts)
+        if (!keepLocalSettingIds.contains(conflict.id))
+          conflict.id: conflict.backupValue,
+    };
+    await _applySettings(settings);
+
     // Only adopt the backup's selection if this device has none, so a restore
     // never switches the vehicle out from under an active user.
     final backupSelectedId = preview.selectedVehicleId;
@@ -353,8 +572,48 @@ class BackupDataService {
     return BackupRestoreResult(
       entries: importedEntries,
       vehicles: vehiclesToWrite.length,
-      keptLocal: keepLocalEntryIds.length + keepLocalVehicleIds.length,
+      maintenance: maintenanceToWrite.length,
+      keptLocal: keepLocalEntryIds.length +
+          keepLocalVehicleIds.length +
+          keepLocalMaintenanceIds.length +
+          keepLocalSettingIds.length,
     );
+  }
+
+  static Future<void> _applySettings(Map<String, Object?> settings) async {
+    for (final entry in settings.entries) {
+      final value = entry.value;
+      if (value == null) continue;
+      try {
+        switch (entry.key) {
+          case BackupSettingKeys.currency:
+            await CurrencyService.setSelectedCurrency(value.toString());
+            break;
+          case BackupSettingKeys.monthlyBudget:
+            await BudgetService.setMonthlyBudget((value as num).toDouble());
+            break;
+          case BackupSettingKeys.themeMode:
+            await ThemeService.setThemeMode(_themeModeFromId(value.toString()));
+            break;
+          case BackupSettingKeys.accentColor:
+            await ThemeService.setAccentColor(Color((value as num).toInt()));
+            break;
+        }
+      } catch (e) {
+        debugPrint('Failed to restore setting ${entry.key}: $e');
+      }
+    }
+  }
+
+  static ThemeMode _themeModeFromId(String id) {
+    switch (id) {
+      case 'dark':
+        return ThemeMode.dark;
+      case 'system':
+        return ThemeMode.system;
+      default:
+        return ThemeMode.light;
+    }
   }
 
   // --- Legacy CSV parsing ---
@@ -398,6 +657,22 @@ class BackupDataService {
       a.totalCost == b.totalCost &&
       a.dateTime.isAtSameMomentAs(b.dateTime) &&
       a.odometerReading == b.odometerReading;
+
+  static bool _maintenanceEqual(MaintenanceEntry a, MaintenanceEntry b) =>
+      a.vehicleId == b.vehicleId &&
+      a.type == b.type &&
+      a.description == b.description &&
+      a.cost == b.cost &&
+      a.mileage == b.mileage &&
+      a.dateTime.isAtSameMomentAs(b.dateTime) &&
+      a.notes == b.notes &&
+      a.nextDueMileage == b.nextDueMileage &&
+      _sameNullableDate(a.nextDueDate, b.nextDueDate);
+
+  static bool _sameNullableDate(DateTime? a, DateTime? b) {
+    if (a == null || b == null) return a == b;
+    return a.isAtSameMomentAs(b);
+  }
 
   static bool _vehiclesEqual(Vehicle a, Vehicle b) =>
       a.name == b.name &&
