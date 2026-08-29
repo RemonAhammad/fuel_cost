@@ -9,7 +9,7 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
-  String get appTitle => 'تكلفة الوقود';
+  String get appTitle => 'Fuel Cost';
 
   @override
   String get commonCancel => 'إلغاء';
@@ -631,7 +631,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get howToTitle => 'طريقة الاستخدام';
 
   @override
-  String get howToWelcome => 'مرحباً بك في تكلفة الوقود!';
+  String howToWelcome(String app) {
+    return 'مرحباً بك في $app!';
+  }
 
   @override
   String get howToWelcomeBody => 'تابع استهلاكك وتكاليفك وكفاءتك بسهولة.';
@@ -1061,7 +1063,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsRateApp => 'قيّم التطبيق';
 
   @override
-  String get settingsRateSubtitle => 'هل يعجبك التطبيق؟ اترك تقييماً';
+  String settingsRateSubtitle(String app) {
+    return 'هل يعجبك $app؟ اترك تقييماً';
+  }
 
   @override
   String get settingsReplayTutorialSubtitle => 'شاهد المقدمة والجولة مرة أخرى';
@@ -1170,7 +1174,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get deleteEntryTitle => 'حذف السجل';
 
   @override
-  String get rateTitle => 'هل يعجبك التطبيق؟';
+  String rateTitle(String app) {
+    return 'هل يعجبك $app؟';
+  }
 
   @override
   String get rateNow => 'قيّم الآن';
@@ -1437,4 +1443,36 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get summaryFillUpTitle => 'ملخص التعبئة';
+
+  @override
+  String get unitLong_L => 'لتر';
+
+  @override
+  String get unitWord_L => 'لتر';
+
+  @override
+  String get unitLong_kg => 'كيلوغرام';
+
+  @override
+  String get unitWord_kg => 'كغ';
+
+  @override
+  String get unitLong_m3 => 'متر مكعب';
+
+  @override
+  String get unitWord_m3 => 'م³';
+
+  @override
+  String get unitLong_kWh => 'كيلوواط ساعة';
+
+  @override
+  String get unitWord_kWh => 'ك.و.س';
+
+  @override
+  String get summaryTotalFuel => 'إجمالي الوقود';
+
+  @override
+  String summaryTotalOf(String unit) {
+    return 'إجمالي $unit';
+  }
 }

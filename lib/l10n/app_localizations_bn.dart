@@ -9,7 +9,7 @@ class AppLocalizationsBn extends AppLocalizations {
   AppLocalizationsBn([String locale = 'bn']) : super(locale);
 
   @override
-  String get appTitle => 'ফুয়েল কস্ট';
+  String get appTitle => 'Fuel Cost';
 
   @override
   String get commonCancel => 'বাতিল';
@@ -624,7 +624,9 @@ class AppLocalizationsBn extends AppLocalizations {
   String get howToTitle => 'ব্যবহারের নিয়ম';
 
   @override
-  String get howToWelcome => 'ফুয়েল কস্টে স্বাগতম!';
+  String howToWelcome(String app) {
+    return '$app-এ স্বাগতম!';
+  }
 
   @override
   String get howToWelcomeBody =>
@@ -1062,7 +1064,9 @@ class AppLocalizationsBn extends AppLocalizations {
   String get settingsRateApp => 'অ্যাপটি রেট করুন';
 
   @override
-  String get settingsRateSubtitle => 'ফুয়েল কস্ট ভালো লাগছে? একটি রিভিউ দিন';
+  String settingsRateSubtitle(String app) {
+    return '$app ভালো লাগছে? একটি রিভিউ দিন';
+  }
 
   @override
   String get settingsReplayTutorialSubtitle => 'পরিচিতি ও ট্যুর আবার দেখুন';
@@ -1171,7 +1175,9 @@ class AppLocalizationsBn extends AppLocalizations {
   String get deleteEntryTitle => 'এন্ট্রি মুছুন';
 
   @override
-  String get rateTitle => 'ফুয়েল কস্ট ভালো লাগছে?';
+  String rateTitle(String app) {
+    return '$app ভালো লাগছে?';
+  }
 
   @override
   String get rateNow => 'এখনই রেট করুন';
@@ -1439,4 +1445,36 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get summaryFillUpTitle => 'ফিল-আপ সারসংক্ষেপ';
+
+  @override
+  String get unitLong_L => 'লিটার';
+
+  @override
+  String get unitWord_L => 'লিটার';
+
+  @override
+  String get unitLong_kg => 'কেজি';
+
+  @override
+  String get unitWord_kg => 'কেজি';
+
+  @override
+  String get unitLong_m3 => 'ঘনমিটার';
+
+  @override
+  String get unitWord_m3 => 'ঘনমিটার';
+
+  @override
+  String get unitLong_kWh => 'কিলোওয়াট-ঘণ্টা';
+
+  @override
+  String get unitWord_kWh => 'কিলোওয়াট-ঘণ্টা';
+
+  @override
+  String get summaryTotalFuel => 'মোট জ্বালানি';
+
+  @override
+  String summaryTotalOf(String unit) {
+    return 'মোট $unit';
+  }
 }

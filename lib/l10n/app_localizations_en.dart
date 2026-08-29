@@ -624,7 +624,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get howToTitle => 'How to Use';
 
   @override
-  String get howToWelcome => 'Welcome to Fuel Cost!';
+  String howToWelcome(String app) {
+    return 'Welcome to $app!';
+  }
 
   @override
   String get howToWelcomeBody =>
@@ -1059,7 +1061,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsRateApp => 'Rate this App';
 
   @override
-  String get settingsRateSubtitle => 'Enjoying Fuel Cost? Leave a review';
+  String settingsRateSubtitle(String app) {
+    return 'Enjoying $app? Leave a review';
+  }
 
   @override
   String get settingsReplayTutorialSubtitle => 'Watch the intro and tour again';
@@ -1168,7 +1172,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteEntryTitle => 'Delete Entry';
 
   @override
-  String get rateTitle => 'Enjoying Fuel Cost?';
+  String rateTitle(String app) {
+    return 'Enjoying $app?';
+  }
 
   @override
   String get rateNow => 'Rate now';
@@ -1436,4 +1442,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get summaryFillUpTitle => 'Fill-up Summary';
+
+  @override
+  String get unitLong_L => 'Liters';
+
+  @override
+  String get unitWord_L => 'Liter';
+
+  @override
+  String get unitLong_kg => 'Kilograms';
+
+  @override
+  String get unitWord_kg => 'kg';
+
+  @override
+  String get unitLong_m3 => 'Cubic Meters';
+
+  @override
+  String get unitWord_m3 => 'm³';
+
+  @override
+  String get unitLong_kWh => 'Kilowatt-hours';
+
+  @override
+  String get unitWord_kWh => 'kWh';
+
+  @override
+  String get summaryTotalFuel => 'Total Fuel';
+
+  @override
+  String summaryTotalOf(String unit) {
+    return 'Total $unit';
+  }
 }

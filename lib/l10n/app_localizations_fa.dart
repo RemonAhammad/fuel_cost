@@ -9,7 +9,7 @@ class AppLocalizationsFa extends AppLocalizations {
   AppLocalizationsFa([String locale = 'fa']) : super(locale);
 
   @override
-  String get appTitle => 'هزینه سوخت';
+  String get appTitle => 'Fuel Cost';
 
   @override
   String get commonCancel => 'لغو';
@@ -624,7 +624,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get howToTitle => 'راهنمای استفاده';
 
   @override
-  String get howToWelcome => 'به هزینه سوخت خوش آمدید!';
+  String howToWelcome(String app) {
+    return 'به $app خوش آمدید!';
+  }
 
   @override
   String get howToWelcomeBody =>
@@ -1058,7 +1060,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get settingsRateApp => 'امتیاز به برنامه';
 
   @override
-  String get settingsRateSubtitle => 'از برنامه راضی هستید؟ نظر بگذارید';
+  String settingsRateSubtitle(String app) {
+    return 'از $app راضی هستید؟ نظر بگذارید';
+  }
 
   @override
   String get settingsReplayTutorialSubtitle =>
@@ -1168,7 +1172,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get deleteEntryTitle => 'حذف رکورد';
 
   @override
-  String get rateTitle => 'از برنامه راضی هستید؟';
+  String rateTitle(String app) {
+    return 'از $app راضی هستید؟';
+  }
 
   @override
   String get rateNow => 'الان امتیاز بدهید';
@@ -1436,4 +1442,36 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get summaryFillUpTitle => 'خلاصه سوخت‌گیری';
+
+  @override
+  String get unitLong_L => 'لیتر';
+
+  @override
+  String get unitWord_L => 'لیتر';
+
+  @override
+  String get unitLong_kg => 'کیلوگرم';
+
+  @override
+  String get unitWord_kg => 'کیلوگرم';
+
+  @override
+  String get unitLong_m3 => 'مترمکعب';
+
+  @override
+  String get unitWord_m3 => 'مترمکعب';
+
+  @override
+  String get unitLong_kWh => 'کیلووات‌ساعت';
+
+  @override
+  String get unitWord_kWh => 'کیلووات‌ساعت';
+
+  @override
+  String get summaryTotalFuel => 'کل سوخت';
+
+  @override
+  String summaryTotalOf(String unit) {
+    return 'کل $unit';
+  }
 }

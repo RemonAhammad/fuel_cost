@@ -26,7 +26,7 @@ class RateAppDialog extends StatelessWidget {
         children: [
           Icon(Icons.star_rounded, color: Colors.amber, size: 28),
           SizedBox(width: 12),
-          Expanded(child: Text(AppLocalizations.of(context).rateTitle)),
+          Expanded(child: Text(AppLocalizations.of(context).rateTitle(AppLocalizations.of(context).appTitle))),
         ],
       ),
       content: const Text(

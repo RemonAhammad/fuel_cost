@@ -1203,8 +1203,8 @@ abstract class AppLocalizations {
   /// No description provided for @howToWelcome.
   ///
   /// In en, this message translates to:
-  /// **'Welcome to Fuel Cost!'**
-  String get howToWelcome;
+  /// **'Welcome to {app}!'**
+  String howToWelcome(String app);
 
   /// No description provided for @howToWelcomeBody.
   ///
@@ -1959,8 +1959,8 @@ abstract class AppLocalizations {
   /// No description provided for @settingsRateSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Enjoying Fuel Cost? Leave a review'**
-  String get settingsRateSubtitle;
+  /// **'Enjoying {app}? Leave a review'**
+  String settingsRateSubtitle(String app);
 
   /// No description provided for @settingsReplayTutorialSubtitle.
   ///
@@ -2157,8 +2157,8 @@ abstract class AppLocalizations {
   /// No description provided for @rateTitle.
   ///
   /// In en, this message translates to:
-  /// **'Enjoying Fuel Cost?'**
-  String get rateTitle;
+  /// **'Enjoying {app}?'**
+  String rateTitle(String app);
 
   /// No description provided for @rateNow.
   ///
@@ -2645,6 +2645,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Fill-up Summary'**
   String get summaryFillUpTitle;
+
+  /// No description provided for @unitLong_L.
+  ///
+  /// In en, this message translates to:
+  /// **'Liters'**
+  String get unitLong_L;
+
+  /// No description provided for @unitWord_L.
+  ///
+  /// In en, this message translates to:
+  /// **'Liter'**
+  String get unitWord_L;
+
+  /// No description provided for @unitLong_kg.
+  ///
+  /// In en, this message translates to:
+  /// **'Kilograms'**
+  String get unitLong_kg;
+
+  /// No description provided for @unitWord_kg.
+  ///
+  /// In en, this message translates to:
+  /// **'kg'**
+  String get unitWord_kg;
+
+  /// No description provided for @unitLong_m3.
+  ///
+  /// In en, this message translates to:
+  /// **'Cubic Meters'**
+  String get unitLong_m3;
+
+  /// No description provided for @unitWord_m3.
+  ///
+  /// In en, this message translates to:
+  /// **'m³'**
+  String get unitWord_m3;
+
+  /// No description provided for @unitLong_kWh.
+  ///
+  /// In en, this message translates to:
+  /// **'Kilowatt-hours'**
+  String get unitLong_kWh;
+
+  /// No description provided for @unitWord_kWh.
+  ///
+  /// In en, this message translates to:
+  /// **'kWh'**
+  String get unitWord_kWh;
+
+  /// No description provided for @summaryTotalFuel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Fuel'**
+  String get summaryTotalFuel;
+
+  /// No description provided for @summaryTotalOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Total {unit}'**
+  String summaryTotalOf(String unit);
 }
 
 class _AppLocalizationsDelegate

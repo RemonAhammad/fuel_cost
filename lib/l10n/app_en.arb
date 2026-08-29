@@ -365,7 +365,7 @@
   "comparisonCostPerKmShort": "Cost/km",
   "comparisonMixedUnits": "These vehicles use different units — compare each bar to itself, not to the others.",
   "howToTitle": "How to Use",
-  "howToWelcome": "Welcome to Fuel Cost!",
+  "howToWelcome": "Welcome to {app}!",
   "howToWelcomeBody": "Track your fuel consumption, costs, and calculate efficiency with ease.",
   "howToGettingStarted": "How to Get Started",
   "howToStep1": "Add your first fuel entry by tapping \"Add Fuel Entry\"",
@@ -602,7 +602,7 @@
   },
   "settingsAppVersion": "App Version",
   "settingsRateApp": "Rate this App",
-  "settingsRateSubtitle": "Enjoying Fuel Cost? Leave a review",
+  "settingsRateSubtitle": "Enjoying {app}? Leave a review",
   "settingsReplayTutorialSubtitle": "Watch the intro and tour again",
   "homeYourFuelStats": "Your Fuel Stats",
   "homeQuickActions": "Quick Actions",
@@ -670,7 +670,7 @@
   "entryCardDelete": "Delete",
   "entryCardChangeTime": "Change Time",
   "deleteEntryTitle": "Delete Entry",
-  "rateTitle": "Enjoying Fuel Cost?",
+  "rateTitle": "Enjoying {app}?",
   "rateNow": "Rate now",
   "rateLater": "Not now",
   "currencyDialogTitle": "Select Currency",
@@ -813,5 +813,43 @@
       }
     }
   },
-  "summaryFillUpTitle": "Fill-up Summary"
+  "summaryFillUpTitle": "Fill-up Summary",
+  "@howToWelcome": {
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "@rateTitle": {
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "@settingsRateSubtitle": {
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "unitLong_L": "Liters",
+  "unitWord_L": "Liter",
+  "unitLong_kg": "Kilograms",
+  "unitWord_kg": "kg",
+  "unitLong_m3": "Cubic Meters",
+  "unitWord_m3": "m³",
+  "unitLong_kWh": "Kilowatt-hours",
+  "unitWord_kWh": "kWh",
+  "summaryTotalFuel": "Total Fuel",
+  "summaryTotalOf": "Total {unit}",
+  "@summaryTotalOf": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  }
 }

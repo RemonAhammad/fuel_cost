@@ -62,6 +62,20 @@ void main() {
       }
     });
 
+    test('the app name is never translated', () {
+      // "Fuel Cost" is a brand, not prose. Strings that mention it use an
+      // {app} placeholder so the surrounding text stays translated while the
+      // name itself is injected verbatim.
+      for (final code in LanguageService.supportedCodes) {
+        expect(arb(code)['appTitle'], 'Fuel Cost',
+            reason: '$code translated the app name');
+        for (final key in ['howToWelcome', 'rateTitle', 'settingsRateSubtitle']) {
+          expect(arb(code)[key], contains('{app}'),
+              reason: '$code/$key should reference the brand by placeholder');
+        }
+      }
+    });
+
     test('Arabic supplies the plural categories its grammar needs', () {
       // Arabic has six ICU categories; two would render counts wrongly.
       final ar = arb('ar');

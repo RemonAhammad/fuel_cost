@@ -952,7 +952,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                     CustomCupertinoListTile(
                                       icon: Icons.star_outline,
                                       title: AppLocalizations.of(context).settingsRateApp,
-                                      subtitle: AppLocalizations.of(context).settingsRateSubtitle,
+                                      subtitle: AppLocalizations.of(context).settingsRateSubtitle(AppLocalizations.of(context).appTitle),
                                       iconColor: Colors.amber,
                                       onTap: _rateApp,
                                     ),

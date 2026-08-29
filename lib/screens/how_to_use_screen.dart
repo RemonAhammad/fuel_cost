@@ -71,7 +71,7 @@ class HowToUseScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      AppLocalizations.of(context).howToWelcome,
+                      AppLocalizations.of(context).howToWelcome(AppLocalizations.of(context).appTitle),
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
