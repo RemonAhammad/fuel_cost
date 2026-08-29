@@ -5,7 +5,7 @@
 **Fuel Cost** is a Flutter mobile app for tracking fuel consumption, costs, and vehicle maintenance. Users log fuel fill-ups with odometer readings, and the app calculates mileage (km/L), tracks spending over time, and provides budgeting/comparison tools.
 
 - **Package**: `com.blackshadowsoftwareltd.fuel_cost`
-- **Version**: 1.0.1+5
+- **Version**: 1.1.0+6
 - **Languages**: 7 — English, Bangla, Spanish, French, Portuguese, Arabic, Persian (`lib/l10n/*.arb`, `flutter gen-l10n`). Arabic and Persian are RTL
 - **Min SDK**: Dart ^3.8.1
 - **Platforms**: Android, iOS (portrait-only)
@@ -298,4 +298,4 @@ dart run build_runner build --delete-conflicting-outputs
 - The `clearAllSharedPreferences()` in `FuelStorageService` actually clears Isar, not SharedPreferences (naming is misleading)
 - Vehicle icon map (`_vehicleIconMap`) is duplicated across 4+ files — when adding new vehicle types, update all instances
 - The home screen and trip calculator screens use full-screen `Container`s for background gradients — must set `width: double.infinity, height: double.infinity` (home) or wrap content in a `ConstrainedBox` with `minHeight: screenHeight - safeAreaInsets` (trip calculator) so the gradient covers the full screen even when content is short
-- Splash screen still hardcodes `'v1.0.0'` in the bottom version label (`splash_screen.dart`), so it is **already stale** against the current 1.0.1 build — bump it by hand on every release, or wire it to `PackageInfo.fromPlatform()` the way `settings_screen.dart` does (`package_info_plus` is now a dependency)
+- The splash version label reads `PackageInfo.fromPlatform()` (same pattern as `settings_screen.dart`) and renders empty until it loads — it needs no manual bump on release. Do not reintroduce a hardcoded version string there

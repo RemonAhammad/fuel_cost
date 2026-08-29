@@ -576,6 +576,12 @@ abstract class AppLocalizations {
   /// **'Starting your journey…'**
   String get splashLoading;
 
+  /// No description provided for @splashVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'v{version}'**
+  String splashVersion(String version);
+
   /// No description provided for @splashTrackFuel.
   ///
   /// In en, this message translates to:

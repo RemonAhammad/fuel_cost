@@ -279,6 +279,11 @@ class AppLocalizationsEs extends AppLocalizations {
   String get splashLoading => 'Comenzando tu viaje…';
 
   @override
+  String splashVersion(String version) {
+    return 'v$version';
+  }
+
+  @override
   String get splashTrackFuel => 'Controla el combustible';
 
   @override

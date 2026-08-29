@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import '../services/tutorial_service.dart';
 import '../l10n/app_localizations.dart';
 import 'home_screen.dart';
@@ -15,6 +16,10 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
+  /// Real app version for the footer label, loaded at runtime so it can never
+  /// drift out of date the way a hardcoded string does. Empty until it loads.
+  String _version = '';
+
   // Master timeline that drives all reveal animations (0.0 -> 1.0)
   late AnimationController _master;
   // Continuous loops
@@ -46,9 +51,16 @@ class _SplashScreenState extends State<SplashScreen>
     ];
   }
 
+  Future<void> _loadVersion() async {
+    final info = await PackageInfo.fromPlatform();
+    if (mounted) setState(() => _version = info.version);
+  }
+
   @override
   void initState() {
     super.initState();
+
+    _loadVersion();
 
     final rng = math.Random(42);
     _particleList = List.generate(22, (i) {
@@ -674,7 +686,9 @@ class _SplashScreenState extends State<SplashScreen>
           ),
           const SizedBox(height: 6),
           Text(
-            'v1.0.0',
+            _version.isEmpty
+                ? ''
+                : AppLocalizations.of(context).splashVersion(_version),
             style: TextStyle(
               fontSize: 10,
               color: Colors.white.withValues(alpha: 0.45),

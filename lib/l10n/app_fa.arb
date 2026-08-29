@@ -78,6 +78,7 @@
   "commonLiters": "لیتر",
   "splashTagline": "ثبت  •  محاسبه  •  صرفه‌جویی",
   "splashLoading": "سفر شما در حال آغاز است…",
+  "splashVersion": "v{version}",
   "splashTrackFuel": "پیگیری سوخت",
   "splashDriveSmart": "رانندگی هوشمند",
   "splashSaveMoney": "صرفه‌جویی در هزینه",

@@ -78,6 +78,7 @@
   "commonLiters": "لتر",
   "splashTagline": "سجّل  •  احسب  •  وفّر",
   "splashLoading": "جارٍ بدء رحلتك…",
+  "splashVersion": "v{version}",
   "splashTrackFuel": "تتبّع الوقود",
   "splashDriveSmart": "قيادة ذكية",
   "splashSaveMoney": "وفّر المال",

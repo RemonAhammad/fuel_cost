@@ -78,6 +78,7 @@
   "commonLiters": "Litres",
   "splashTagline": "SUIVRE  •  CALCULER  •  ÉCONOMISER",
   "splashLoading": "Démarrage de votre trajet…",
+  "splashVersion": "v{version}",
   "splashTrackFuel": "Suivi carburant",
   "splashDriveSmart": "Conduite maligne",
   "splashSaveMoney": "Économies",

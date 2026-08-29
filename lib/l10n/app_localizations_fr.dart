@@ -279,6 +279,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get splashLoading => 'Démarrage de votre trajet…';
 
   @override
+  String splashVersion(String version) {
+    return 'v$version';
+  }
+
+  @override
   String get splashTrackFuel => 'Suivi carburant';
 
   @override

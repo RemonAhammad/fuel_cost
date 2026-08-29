@@ -161,6 +161,14 @@
   "commonLiters": "Liters",
   "splashTagline": "TRACK  •  CALCULATE  •  SAVE",
   "splashLoading": "Starting your journey…",
+  "splashVersion": "v{version}",
+  "@splashVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
   "splashTrackFuel": "Track Fuel",
   "splashDriveSmart": "Drive Smart",
   "splashSaveMoney": "Save Money",

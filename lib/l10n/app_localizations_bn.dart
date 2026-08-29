@@ -279,6 +279,11 @@ class AppLocalizationsBn extends AppLocalizations {
   String get splashLoading => 'আপনার যাত্রা শুরু হচ্ছে…';
 
   @override
+  String splashVersion(String version) {
+    return 'v$version';
+  }
+
+  @override
   String get splashTrackFuel => 'জ্বালানির হিসাব';
 
   @override

@@ -279,6 +279,11 @@ class AppLocalizationsFa extends AppLocalizations {
   String get splashLoading => 'سفر شما در حال آغاز است…';
 
   @override
+  String splashVersion(String version) {
+    return 'v$version';
+  }
+
+  @override
   String get splashTrackFuel => 'پیگیری سوخت';
 
   @override

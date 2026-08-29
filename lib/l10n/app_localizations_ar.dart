@@ -287,6 +287,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get splashLoading => 'جارٍ بدء رحلتك…';
 
   @override
+  String splashVersion(String version) {
+    return 'v$version';
+  }
+
+  @override
   String get splashTrackFuel => 'تتبّع الوقود';
 
   @override

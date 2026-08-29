@@ -78,6 +78,7 @@
   "commonLiters": "লিটার",
   "splashTagline": "হিসাব  •  গণনা  •  সাশ্রয়",
   "splashLoading": "আপনার যাত্রা শুরু হচ্ছে…",
+  "splashVersion": "v{version}",
   "splashTrackFuel": "জ্বালানির হিসাব",
   "splashDriveSmart": "স্মার্ট ড্রাইভিং",
   "splashSaveMoney": "টাকা সাশ্রয়",
