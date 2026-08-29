@@ -851,5 +851,17 @@
         "type": "String"
       }
     }
+  },
+  "chartCostTrend": "Fuel Cost Trend",
+  "chartConsumption": "Fuel Consumption",
+  "chartEfficiency": "Fuel Efficiency",
+  "chartTrend": "Fuel Trend",
+  "chartCostAxis": "Cost ({currency})",
+  "@chartCostAxis": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
   }
 }

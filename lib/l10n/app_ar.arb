@@ -432,5 +432,10 @@
   "unitLong_kWh": "كيلوواط ساعة",
   "unitWord_kWh": "ك.و.س",
   "summaryTotalFuel": "إجمالي الوقود",
-  "summaryTotalOf": "إجمالي {unit}"
+  "summaryTotalOf": "إجمالي {unit}",
+  "chartCostTrend": "اتجاه تكلفة الوقود",
+  "chartConsumption": "استهلاك الوقود",
+  "chartEfficiency": "كفاءة الوقود",
+  "chartTrend": "اتجاه الوقود",
+  "chartCostAxis": "التكلفة ({currency})"
 }

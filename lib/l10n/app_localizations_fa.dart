@@ -1474,4 +1474,21 @@ class AppLocalizationsFa extends AppLocalizations {
   String summaryTotalOf(String unit) {
     return 'کل $unit';
   }
+
+  @override
+  String get chartCostTrend => 'روند هزینه سوخت';
+
+  @override
+  String get chartConsumption => 'مصرف سوخت';
+
+  @override
+  String get chartEfficiency => 'بازدهی سوخت';
+
+  @override
+  String get chartTrend => 'روند سوخت';
+
+  @override
+  String chartCostAxis(String currency) {
+    return 'هزینه ($currency)';
+  }
 }

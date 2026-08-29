@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../business_logic/type_labels.dart';
 import '../l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import '../models/fuel_entry.dart';
@@ -74,7 +75,7 @@ class FuelEntryCard extends StatelessWidget {
                   children: [
                     Flexible(
                       child: Text(
-                        '${entry.liters.toStringAsFixed(2)} ${unit.long}',
+                        '${entry.liters.toStringAsFixed(2)} ${unitLongLabel(context, unit)}',
                         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: colorScheme.onSurface),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,

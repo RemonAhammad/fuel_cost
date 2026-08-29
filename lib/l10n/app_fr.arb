@@ -432,5 +432,10 @@
   "unitLong_kWh": "Kilowattheures",
   "unitWord_kWh": "kWh",
   "summaryTotalFuel": "Carburant total",
-  "summaryTotalOf": "Total {unit}"
+  "summaryTotalOf": "Total {unit}",
+  "chartCostTrend": "Évolution des coûts",
+  "chartConsumption": "Consommation",
+  "chartEfficiency": "Efficacité",
+  "chartTrend": "Évolution",
+  "chartCostAxis": "Coût ({currency})"
 }

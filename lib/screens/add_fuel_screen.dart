@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../business_logic/type_labels.dart';
 import 'package:flutter/services.dart';
 import '../models/fuel_entry.dart';
 import '../models/vehicle.dart';
@@ -746,8 +747,8 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
                                 child: GlassTextField(
                                   controller: _litersController,
                                   label: _unit.isEnergy
-                                      ? AppLocalizations.of(context).addFuelChargeAmountLabel(_unit.long)
-                                      : AppLocalizations.of(context).addFuelAmountLabel(_unit.long),
+                                      ? AppLocalizations.of(context).addFuelChargeAmountLabel(unitLongLabel(context, _unit))
+                                      : AppLocalizations.of(context).addFuelAmountLabel(unitLongLabel(context, _unit)),
                                   icon: Icons.local_gas_station,
                                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
                                   inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[0-9]*\.?[0-9]*'))],
@@ -769,7 +770,7 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
                                 animation: _staggeredAnimation,
                                 child: GlassTextField(
                                   controller: _priceController,
-                                  label: AppLocalizations.of(context).addFuelPricePerUnit(_unit.priceUnit),
+                                  label: AppLocalizations.of(context).addFuelPricePerUnit(unitPriceWord(context, _unit)),
                                   icon: Icons.attach_money,
                                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
                                   inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[0-9]*\.?[0-9]*'))],

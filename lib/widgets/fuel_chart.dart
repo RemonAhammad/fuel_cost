@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../business_logic/type_labels.dart';
 import '../l10n/app_localizations.dart';
 import '../models/fuel_unit.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -49,10 +50,10 @@ class FuelChart extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                _getChartTitle(),
+                _getChartTitle(context),
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: isDark ? Colors.white : Colors.black87),
               ),
-              _buildChartTypeSelector(isDark),
+              _buildChartTypeSelector(context, isDark),
             ],
           ),
           const SizedBox(height: 20),
@@ -102,36 +103,36 @@ class FuelChart extends StatelessWidget {
     );
   }
 
-  Widget _buildChartTypeSelector(bool isDark) {
+  Widget _buildChartTypeSelector(BuildContext context, bool isDark) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(color: isDark ? Colors.grey.shade800 : Colors.grey.shade100, borderRadius: BorderRadius.circular(12)),
       child: Text(
-        _getChartTypeLabel(),
+        _getChartTypeLabel(context),
         style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: isDark ? Colors.grey.shade300 : Colors.grey.shade600),
       ),
     );
   }
 
-  String _getChartTitle() {
+  String _getChartTitle(BuildContext context) {
     switch (chartType) {
       case 'cost':
-        return 'Fuel Cost Trend';
+        return AppLocalizations.of(context).chartCostTrend;
       case 'liters':
-        return 'Fuel Consumption';
+        return AppLocalizations.of(context).chartConsumption;
       case 'mileage':
-        return 'Fuel Efficiency';
+        return AppLocalizations.of(context).chartEfficiency;
       default:
-        return 'Fuel Trend';
+        return AppLocalizations.of(context).chartTrend;
     }
   }
 
-  String _getChartTypeLabel() {
+  String _getChartTypeLabel(BuildContext context) {
     switch (chartType) {
       case 'cost':
-        return 'Cost ($currency)';
+        return AppLocalizations.of(context).chartCostAxis(currency);
       case 'liters':
-        return unit.long;
+        return unitLongLabel(context, unit);
       case 'mileage':
         return unit.efficiencyLabel;
       default:

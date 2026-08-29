@@ -432,5 +432,10 @@
   "unitLong_kWh": "কিলোওয়াট-ঘণ্টা",
   "unitWord_kWh": "কিলোওয়াট-ঘণ্টা",
   "summaryTotalFuel": "মোট জ্বালানি",
-  "summaryTotalOf": "মোট {unit}"
+  "summaryTotalOf": "মোট {unit}",
+  "chartCostTrend": "জ্বালানি খরচের ধারা",
+  "chartConsumption": "জ্বালানি ব্যবহার",
+  "chartEfficiency": "জ্বালানি দক্ষতা",
+  "chartTrend": "জ্বালানির ধারা",
+  "chartCostAxis": "খরচ ({currency})"
 }

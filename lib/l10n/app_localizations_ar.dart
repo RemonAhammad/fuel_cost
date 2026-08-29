@@ -1475,4 +1475,21 @@ class AppLocalizationsAr extends AppLocalizations {
   String summaryTotalOf(String unit) {
     return 'إجمالي $unit';
   }
+
+  @override
+  String get chartCostTrend => 'اتجاه تكلفة الوقود';
+
+  @override
+  String get chartConsumption => 'استهلاك الوقود';
+
+  @override
+  String get chartEfficiency => 'كفاءة الوقود';
+
+  @override
+  String get chartTrend => 'اتجاه الوقود';
+
+  @override
+  String chartCostAxis(String currency) {
+    return 'التكلفة ($currency)';
+  }
 }

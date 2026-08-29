@@ -1477,4 +1477,21 @@ class AppLocalizationsBn extends AppLocalizations {
   String summaryTotalOf(String unit) {
     return 'মোট $unit';
   }
+
+  @override
+  String get chartCostTrend => 'জ্বালানি খরচের ধারা';
+
+  @override
+  String get chartConsumption => 'জ্বালানি ব্যবহার';
+
+  @override
+  String get chartEfficiency => 'জ্বালানি দক্ষতা';
+
+  @override
+  String get chartTrend => 'জ্বালানির ধারা';
+
+  @override
+  String chartCostAxis(String currency) {
+    return 'খরচ ($currency)';
+  }
 }

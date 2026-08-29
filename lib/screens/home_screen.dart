@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../business_logic/type_labels.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -1154,7 +1155,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
             const SizedBox(height: 16),
             _buildSummaryLine(
               icon: Icons.local_gas_station_rounded,
-              label: AppLocalizations.of(context).homeTotalOf(unit.long),
+              label: AppLocalizations.of(context).homeTotalOf(unitLongLabel(context, unit)),
               value: quantityText,
               color: const Color(0xFF2196F3),
             ),

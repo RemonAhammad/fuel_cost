@@ -1474,4 +1474,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String summaryTotalOf(String unit) {
     return 'Total $unit';
   }
+
+  @override
+  String get chartCostTrend => 'Fuel Cost Trend';
+
+  @override
+  String get chartConsumption => 'Fuel Consumption';
+
+  @override
+  String get chartEfficiency => 'Fuel Efficiency';
+
+  @override
+  String get chartTrend => 'Fuel Trend';
+
+  @override
+  String chartCostAxis(String currency) {
+    return 'Cost ($currency)';
+  }
 }

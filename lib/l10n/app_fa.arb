@@ -432,5 +432,10 @@
   "unitLong_kWh": "کیلووات‌ساعت",
   "unitWord_kWh": "کیلووات‌ساعت",
   "summaryTotalFuel": "کل سوخت",
-  "summaryTotalOf": "کل {unit}"
+  "summaryTotalOf": "کل {unit}",
+  "chartCostTrend": "روند هزینه سوخت",
+  "chartConsumption": "مصرف سوخت",
+  "chartEfficiency": "بازدهی سوخت",
+  "chartTrend": "روند سوخت",
+  "chartCostAxis": "هزینه ({currency})"
 }

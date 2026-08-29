@@ -2705,6 +2705,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Total {unit}'**
   String summaryTotalOf(String unit);
+
+  /// No description provided for @chartCostTrend.
+  ///
+  /// In en, this message translates to:
+  /// **'Fuel Cost Trend'**
+  String get chartCostTrend;
+
+  /// No description provided for @chartConsumption.
+  ///
+  /// In en, this message translates to:
+  /// **'Fuel Consumption'**
+  String get chartConsumption;
+
+  /// No description provided for @chartEfficiency.
+  ///
+  /// In en, this message translates to:
+  /// **'Fuel Efficiency'**
+  String get chartEfficiency;
+
+  /// No description provided for @chartTrend.
+  ///
+  /// In en, this message translates to:
+  /// **'Fuel Trend'**
+  String get chartTrend;
+
+  /// No description provided for @chartCostAxis.
+  ///
+  /// In en, this message translates to:
+  /// **'Cost ({currency})'**
+  String chartCostAxis(String currency);
 }
 
 class _AppLocalizationsDelegate

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../business_logic/type_labels.dart';
 import '../l10n/app_localizations.dart';
 import '../models/fuel_unit.dart';
 
@@ -103,7 +104,9 @@ class FuelSummaryStats extends StatelessWidget {
                   Expanded(
                     child: _buildSummaryCard(
                       icon: Icons.local_gas_station_rounded,
-                      title: quantityBreakdown != null ? 'Total Fuel' : 'Total ${(unit ?? FuelUnit.liter).long}',
+                      title: quantityBreakdown != null
+                          ? AppLocalizations.of(context).summaryTotalFuel
+                          : AppLocalizations.of(context).summaryTotalOf(unitLongLabel(context, unit ?? FuelUnit.liter)),
                       value: quantityBreakdown ?? '${totalLiters.toStringAsFixed(1)}${(unit ?? FuelUnit.liter).short}',
                       color: Colors.blue,
                       colorScheme: colorScheme,
@@ -115,7 +118,7 @@ class FuelSummaryStats extends StatelessWidget {
               const SizedBox(height: 8),
               _buildSummaryCard(
                 icon: Icons.trending_up_rounded,
-                title: AppLocalizations.of(context).summaryAvgPricePerUnit((unit ?? FuelUnit.liter).priceUnit),
+                title: AppLocalizations.of(context).summaryAvgPricePerUnit(unitPriceWord(context, unit ?? FuelUnit.liter)),
                 value: '$currency${averagePrice.toStringAsFixed(2)}',
                 color: Colors.green,
                 colorScheme: colorScheme,
@@ -141,7 +144,9 @@ class FuelSummaryStats extends StatelessWidget {
             Expanded(
               child: _buildSummaryCard(
                 icon: Icons.local_gas_station_rounded,
-                title: quantityBreakdown != null ? 'Total Fuel' : 'Total ${(unit ?? FuelUnit.liter).long}',
+                title: quantityBreakdown != null
+                          ? AppLocalizations.of(context).summaryTotalFuel
+                          : AppLocalizations.of(context).summaryTotalOf(unitLongLabel(context, unit ?? FuelUnit.liter)),
                 value: quantityBreakdown ?? '${totalLiters.toStringAsFixed(1)}${(unit ?? FuelUnit.liter).short}',
                 color: Colors.blue,
                 colorScheme: colorScheme,

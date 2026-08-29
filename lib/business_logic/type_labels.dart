@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../l10n/app_localizations.dart';
+import '../models/fuel_unit.dart';
 import '../models/maintenance_entry.dart';
 import '../models/vehicle.dart';
 
@@ -101,5 +102,41 @@ String maintenanceTypeLabel(BuildContext context, String id) {
       return l10n.maintenanceType_other;
     default:
       return MaintenanceEntry.maintenanceTypes[id] ?? id;
+  }
+}
+
+/// Plural unit name for quantities — "Liters", "লিটার", "Litres".
+///
+/// [FuelUnit.long] and [FuelUnit.priceUnit] are English constants; injecting
+/// them into a translated sentence produced strings like "প্রতি Liter". Route
+/// unit words through here instead. The compact symbols ([FuelUnit.short],
+/// [FuelUnit.efficiencyLabel]) stay untranslated on purpose — SI symbols are
+/// international.
+String unitLongLabel(BuildContext context, FuelUnit unit) {
+  final l10n = AppLocalizations.of(context);
+  switch (unit) {
+    case FuelUnit.liter:
+      return l10n.unitLong_L;
+    case FuelUnit.kilogram:
+      return l10n.unitLong_kg;
+    case FuelUnit.cubicMeter:
+      return l10n.unitLong_m3;
+    case FuelUnit.kilowattHour:
+      return l10n.unitLong_kWh;
+  }
+}
+
+/// Singular unit word used in per-unit prices — "Price per Liter".
+String unitPriceWord(BuildContext context, FuelUnit unit) {
+  final l10n = AppLocalizations.of(context);
+  switch (unit) {
+    case FuelUnit.liter:
+      return l10n.unitWord_L;
+    case FuelUnit.kilogram:
+      return l10n.unitWord_kg;
+    case FuelUnit.cubicMeter:
+      return l10n.unitWord_m3;
+    case FuelUnit.kilowattHour:
+      return l10n.unitWord_kWh;
   }
 }
