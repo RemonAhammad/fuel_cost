@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../models/fuel_entry.dart';
 import '../models/vehicle.dart';
 import '../services/fuel_storage_service.dart';
 import '../services/vehicle_service.dart';
 import '../business_logic/fuel_unit_resolver.dart';
+import '../business_logic/entry_filter.dart';
 import '../services/currency_service.dart';
 import '../widgets/widgets.dart';
 import 'add_fuel_screen.dart';
@@ -27,6 +29,11 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
   String? _selectedVehicleFilter; // null = "All"
   bool _showFilterInAppBar = false;
 
+  String _searchQuery = '';
+  DateFilterPreset _datePreset = DateFilterPreset.all;
+  DateTimeRange? _customRange;
+  final _searchController = TextEditingController();
+
   late AnimationController _cardAnimationController;
   late Animation<double> _cardSlideAnimation;
   final _scrollController = ScrollController();
@@ -49,6 +56,7 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
   void dispose() {
     _cardAnimationController.dispose();
     _scrollController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -123,22 +131,164 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
     }
   }
 
+  DateTimeRange? get _activeRange => _datePreset == DateFilterPreset.custom
+      ? _customRange
+      : _datePreset.rangeFrom(DateTime.now());
+
+  bool get _hasActiveFilters =>
+      _selectedVehicleFilter != null ||
+      _searchQuery.trim().isNotEmpty ||
+      _datePreset != DateFilterPreset.all;
+
   void _applyFilter() {
-    if (_selectedVehicleFilter == null) {
-      _filteredEntries = List.from(_entries);
-    } else {
-      _filteredEntries = _entries.where((e) => _entryVehicleMap[e.id] == _selectedVehicleFilter).toList();
+    _filteredEntries = filterEntries(
+      entries: _entries,
+      entryVehicleMap: _entryVehicleMap,
+      vehicleNames: {for (final v in _vehicles) v.id: v.name},
+      vehicleId: _selectedVehicleFilter,
+      range: _activeRange,
+      query: _searchQuery,
+    );
+  }
+
+  void _refilter() {
+    setState(_applyFilter);
+    _cardAnimationController.reset();
+    _cardAnimationController.forward();
+  }
+
+  void _onSearchChanged(String value) {
+    _searchQuery = value;
+    _refilter();
+  }
+
+  Future<void> _onDatePresetChanged(DateFilterPreset preset) async {
+    if (preset == DateFilterPreset.custom) {
+      final now = DateTime.now();
+      final picked = await showDateRangePicker(
+        context: context,
+        firstDate: DateTime(now.year - 10),
+        lastDate: now,
+        initialDateRange: _customRange,
+      );
+      if (picked == null) return;
+      _customRange = picked;
     }
+    _datePreset = preset;
+    _refilter();
+  }
+
+  void _clearFilters() {
+    _searchController.clear();
+    _searchQuery = '';
+    _datePreset = DateFilterPreset.all;
+    _customRange = null;
+    _selectedVehicleFilter = null;
+    _refilter();
   }
 
   void _onVehicleFilterChanged(String? vehicleId) {
-    setState(() {
-      _selectedVehicleFilter = vehicleId;
-    });
-    _applyFilter();
-    _cardAnimationController.reset();
-    _cardAnimationController.forward();
-    setState(() {});
+    _selectedVehicleFilter = vehicleId;
+    _refilter();
+  }
+
+  Widget _buildSearchAndDateFilters(ColorScheme colorScheme, bool isDark) {
+    final horizontal = MediaQuery.of(context).size.width < 400 ? 12.0 : 16.0;
+
+    return Padding(
+      padding: EdgeInsets.fromLTRB(horizontal, 0, horizontal, 4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextField(
+            controller: _searchController,
+            onChanged: _onSearchChanged,
+            style: TextStyle(color: colorScheme.onSurface, fontSize: 14),
+            decoration: InputDecoration(
+              isDense: true,
+              // Says what it actually matches: FuelEntry has no notes field,
+              // so this is not free-text search.
+              hintText: 'Search amount, odometer or vehicle',
+              hintStyle: TextStyle(
+                color: colorScheme.onSurface.withValues(alpha: 0.5),
+                fontSize: 14,
+              ),
+              prefixIcon: Icon(Icons.search, size: 20, color: colorScheme.primary),
+              suffixIcon: _searchQuery.isEmpty
+                  ? null
+                  : IconButton(
+                      icon: const Icon(Icons.clear, size: 18),
+                      onPressed: () {
+                        _searchController.clear();
+                        _onSearchChanged('');
+                      },
+                    ),
+              filled: true,
+              fillColor: isDark
+                  ? Colors.white.withValues(alpha: 0.05)
+                  : Colors.black.withValues(alpha: 0.04),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide.none,
+              ),
+              contentPadding: const EdgeInsets.symmetric(vertical: 12),
+            ),
+          ),
+          const SizedBox(height: 10),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: DateFilterPreset.values.map((preset) {
+                final isSelected = _datePreset == preset;
+                final label = preset == DateFilterPreset.custom &&
+                        _customRange != null &&
+                        isSelected
+                    ? '${DateFormat('MMM d').format(_customRange!.start)} – ${DateFormat('MMM d').format(_customRange!.end)}'
+                    : preset.label;
+                return Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: ChoiceChip(
+                    label: Text(label, style: const TextStyle(fontSize: 12.5)),
+                    selected: isSelected,
+                    onSelected: (_) => _onDatePresetChanged(preset),
+                    selectedColor: colorScheme.primary.withValues(alpha: 0.2),
+                    visualDensity: VisualDensity.compact,
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+          if (_hasActiveFilters)
+            Padding(
+              padding: const EdgeInsets.only(top: 6),
+              child: Row(
+                children: [
+                  Icon(Icons.filter_alt_outlined,
+                      size: 15, color: colorScheme.onSurface.withValues(alpha: 0.6)),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      '${_filteredEntries.length} of ${_entries.length} entries',
+                      style: TextStyle(
+                        fontSize: 12.5,
+                        color: colorScheme.onSurface.withValues(alpha: 0.6),
+                      ),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: _clearFilters,
+                    style: TextButton.styleFrom(
+                      visualDensity: VisualDensity.compact,
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                    ),
+                    child: const Text('Clear', style: TextStyle(fontSize: 12.5)),
+                  ),
+                ],
+              ),
+            ),
+        ],
+      ),
+    );
   }
 
   Vehicle? _getVehicleForEntry(FuelEntry entry) {
@@ -356,6 +506,8 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
                   if (_vehicles.isNotEmpty)
                     const SliverToBoxAdapter(child: SizedBox(height: 8)),
 
+                  SliverToBoxAdapter(child: _buildSearchAndDateFilters(colorScheme, theme.brightness == Brightness.dark)),
+
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width < 400 ? 12 : 16),
@@ -386,10 +538,16 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
                       ? SliverFillRemaining(
                           child: EmptyStateWidget(
                             icon: Icons.local_gas_station_rounded,
-                            title: _selectedVehicleFilter != null ? 'No entries for this vehicle' : 'No fuel entries yet',
-                            subtitle: _selectedVehicleFilter != null
-                                ? 'Switch to "All" to see all entries'
-                                : 'Add your first fuel entry to start\ntracking your fuel costs!',
+                            title: _entries.isEmpty
+                                ? 'No fuel entries yet'
+                                : (_hasActiveFilters
+                                    ? 'No entries match your filters'
+                                    : 'No fuel entries yet'),
+                            subtitle: _entries.isEmpty
+                                ? 'Add your first fuel entry to start\ntracking your fuel costs!'
+                                : (_hasActiveFilters
+                                    ? 'Try a wider date range, or clear your filters'
+                                    : 'Add your first fuel entry to start\ntracking your fuel costs!'),
                           ),
                         )
                       : SliverList(

@@ -50,6 +50,7 @@ lib/
   business_logic/
     fuel_calculations.dart           # Mileage metrics, efficiency chart data, total distance, per-unit quantity totals
     fuel_unit_resolver.dart          # Resolves each entry's fuel unit (snapshot -> vehicle -> liter)
+    entry_filter.dart                # Pure vehicle/date/search filter for fuel history + date presets
   models/
     fuel_entry.dart + .g.dart        # Isar @collection (id, liters, pricePerLiter, totalCost, dateTime, odometerReading)
     vehicle.dart                     # Plain Dart class (id, name, iconName, fuelType, tankCapacity, unitId)
@@ -81,7 +82,7 @@ lib/
     restore_conflicts_screen.dart    # Side-by-side review of backup-vs-local conflicts before a restore writes
     home_screen.dart                 # Dashboard: quick stats, fuel chart, action buttons grid
     add_fuel_screen.dart             # Add/edit fuel entry with vehicle selector + mileage preview
-    fuel_history_screen.dart         # Filterable fuel entry list with vehicle filter chips
+    fuel_history_screen.dart         # Fuel entry list filterable by vehicle, date range and search
     settings_screen.dart             # Currency, theme, budget, backup, CSV, data management
     trip_calculator_screen.dart      # Estimate trip fuel cost based on distance + avg mileage
     budget_report_screen.dart        # Monthly spending vs budget with FL Chart bar graphs
@@ -157,6 +158,22 @@ Resolution order (`FuelUnitResolver`):
 - **Never sum across units.** Cost and distance always aggregate; quantity must go through `FuelCalculations.quantityByUnit`, and efficiency is only meaningful within one unit. Home splits the quantity tile when `hasMixedUnits`; Vehicle Comparison labels each bar with its own unit and warns that bars aren't comparable
 - Backward compatible with no migration: pre-units entries have no snapshot and resolve to liters, exactly as before
 
+### Running Cost vs Fuel Cost
+
+`FuelCalculations.runningCostPerKm` folds maintenance into cost per km, and Vehicle Comparison uses it (`(fuel + maintenance) / distance`), keeping `fuelCostPerKm` alongside so the split stays explainable.
+
+- **Only Vehicle Comparison is all-in.** Home, Budget Report and Spending Comparison stay fuel-only on purpose — the stored key is `monthly_fuel_budget`, so folding servicing in would silently redefine every existing user's budget and shift their historical charts
+- Maintenance with `vehicleId == null` belongs to no vehicle and is excluded from per-vehicle stats
+- `totalDistance` comes from fuel-entry odometers, so a vehicle with heavy servicing and few fill-ups shows an inflated cost/km — the per-row fuel/service split is what makes that visible
+
+### History Filtering
+
+`filterEntries` in `business_logic/entry_filter.dart` is pure (vehicle → date range → search) so the rules are unit-testable without pumping widgets; the screen's `_applyFilter()` just delegates.
+
+- Date ranges are **inclusive at both ends**, compared date-only — the picker returns a midnight end date, and raw timestamp comparison would drop entries logged later that day
+- Search is **not free text**: `FuelEntry` has no notes field (frozen Isar schema), so it matches cost, quantity, price, odometer, formatted date and vehicle name. The hint text says so
+- The empty state distinguishes "no entries match your filters" from "no fuel entries yet"
+
 ### Mileage Calculation Logic
 
 - Fuel at entry `i` is considered consumed between entry `i` and entry `i+1`
@@ -189,7 +206,7 @@ Only `fuel_entries_provider` and `summary_providers` use `@riverpod` code-gen. A
 4. **Trip Cost Calculator** - Estimate fuel cost for a planned trip
 5. **Budget & Reports** - Set monthly budget, view spending bar charts (FL Chart)
 6. **Spending Comparison** - Compare 4 months side-by-side
-7. **Vehicle Comparison** - Per-vehicle stats (cost, mileage, distance, cost/km)
+7. **Vehicle Comparison** - Per-vehicle stats (fuel cost, maintenance cost, mileage, distance, **all-in cost/km**)
 8. **Maintenance Log** - Track 24 maintenance types with cost, mileage, next-due dates
 9. **Google Drive Backup** - Sign in with Google; backs up fuel entries, vehicles, entry-vehicle mapping, per-entry units, the maintenance log, and app settings (currency, budget, theme, accent) as JSON to Drive appDataFolder. Restore merges by id, **prompting the user to resolve every record that differs on both sides**, and still reads v1 CSV backups
 10. **CSV Import/Export** - Share or import fuel data as CSV files

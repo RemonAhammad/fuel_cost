@@ -8,6 +8,7 @@ import '../models/vehicle.dart';
 import '../models/fuel_entry.dart';
 import '../business_logic/fuel_calculations.dart';
 import '../models/fuel_unit.dart';
+import '../services/maintenance_service.dart';
 
 const Map<String, IconData> _vehicleIconMap = {
   'directions_car': Icons.directions_car,
@@ -36,7 +37,13 @@ class _VehicleStats {
   final double avgPricePerLiter;
   final double overallMileage;
   final double totalDistance;
+  /// All-in: (fuel + maintenance) / distance.
   final double costPerKm;
+
+  /// Fuel-only cost/km, kept so the split stays explainable.
+  final double fuelCostPerKm;
+  final double maintenanceCost;
+  final int maintenanceCount;
   final FuelUnit unit;
 
   _VehicleStats({
@@ -50,6 +57,9 @@ class _VehicleStats {
     required this.overallMileage,
     required this.totalDistance,
     required this.costPerKm,
+    required this.fuelCostPerKm,
+    required this.maintenanceCost,
+    required this.maintenanceCount,
     required this.unit,
   });
 }
@@ -142,7 +152,18 @@ class _VehicleComparisonScreenState
           FuelCalculations.calculateMileageMetrics(vehicleEntries, totalLiters);
       final totalDistance = mileageMetrics['totalDistance'] ?? 0.0;
       final overallMileage = mileageMetrics['overallMileage'] ?? 0.0;
-      final costPerKm = totalDistance > 0 ? totalCost / totalDistance : 0.0;
+      // Servicing is part of what a vehicle costs to run, so cost/km counts
+      // both. Entries with no vehicleId belong to no vehicle and are excluded.
+      final maintenanceEntries =
+          await MaintenanceService.getEntriesForVehicle(vehicleId);
+      final maintenanceCost =
+          MaintenanceService.getTotalMaintenanceCost(maintenanceEntries);
+      final costPerKm = FuelCalculations.runningCostPerKm(
+        fuelCost: totalCost,
+        maintenanceCost: maintenanceCost,
+        distance: totalDistance,
+      );
+      final fuelCostPerKm = totalDistance > 0 ? totalCost / totalDistance : 0.0;
 
       stats[vehicleId] = _VehicleStats(
         vehicleId: vehicleId,
@@ -155,6 +176,9 @@ class _VehicleComparisonScreenState
         overallMileage: overallMileage,
         totalDistance: totalDistance,
         costPerKm: costPerKm,
+        fuelCostPerKm: fuelCostPerKm,
+        maintenanceCost: maintenanceCost,
+        maintenanceCount: maintenanceEntries.length,
         unit: vehicle.fuelUnit,
       );
     }
@@ -321,6 +345,23 @@ class _VehicleComparisonScreenState
                                     ),
                                     const SizedBox(height: 12),
                                     _buildComparisonCard(
+                                      'Maintenance',
+                                      _vehicleStats.values
+                                          .map((s) => s.maintenanceCost)
+                                          .toList(),
+                                      _vehicleStats.values
+                                          .map((s) => s.vehicleName)
+                                          .toList(),
+                                      _vehicleStats.values
+                                          .map((s) => _colorForVehicle(
+                                              s.vehicleId,
+                                              vehicles))
+                                          .toList(),
+                                      isDark,
+                                      prefix: _currency,
+                                    ),
+                                    const SizedBox(height: 12),
+                                    _buildComparisonCard(
                                       'Total Fuel',
                                       _vehicleStats.values
                                           .map((s) => s.totalLiters)
@@ -381,7 +422,7 @@ class _VehicleComparisonScreenState
                                     ),
                                     const SizedBox(height: 12),
                                     _buildComparisonCard(
-                                      'Cost per km',
+                                      'Cost per km · all-in',
                                       _vehicleStats.values
                                           .map((s) => s.costPerKm)
                                           .toList(),
@@ -395,6 +436,12 @@ class _VehicleComparisonScreenState
                                           .toList(),
                                       isDark,
                                       prefix: _currency,
+                                      note: 'fuel + maintenance ÷ distance',
+                                      perValueSuffix: _vehicleStats.values
+                                          .map((s) => s.maintenanceCost > 0
+                                              ? '(fuel $_currency${s.fuelCostPerKm.toStringAsFixed(2)})'
+                                              : '')
+                                          .toList(),
                                     ),
                                     const SizedBox(height: 12),
                                     _buildComparisonCard(
@@ -562,6 +609,7 @@ class _VehicleComparisonScreenState
     bool mixedUnits = false,
     List<String>? perValueSuffix,
     bool preciseValues = false,
+    String? note,
   }) {
     final maxValue =
         values.isEmpty ? 1.0 : values.reduce((a, b) => a > b ? a : b);
@@ -591,6 +639,17 @@ class _VehicleComparisonScreenState
               color: isDark ? Colors.white : Colors.grey.shade800,
             ),
           ),
+          if (note != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 2),
+              child: Text(
+                note,
+                style: TextStyle(
+                  fontSize: 11.5,
+                  color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
+                ),
+              ),
+            ),
           const SizedBox(height: 12),
           if (mixedUnits)
             Padding(
@@ -674,6 +733,7 @@ class _VehicleComparisonScreenState
 
     final metrics = [
       'Total Cost',
+      'Maintenance',
       'Total Fuel',
       'Fill-ups',
       'Efficiency',
@@ -682,18 +742,21 @@ class _VehicleComparisonScreenState
     ];
 
     String valueForMetric(_VehicleStats s, int metricIndex) {
+      // Indices track the `metrics` list above.
       switch (metricIndex) {
         case 0:
           return '$_currency${s.totalCost.toStringAsFixed(2)}';
         case 1:
-          return '${s.totalLiters.toStringAsFixed(1)} ${s.unit.short}';
+          return '$_currency${s.maintenanceCost.toStringAsFixed(2)}';
         case 2:
-          return '${s.fillUpCount}';
+          return '${s.totalLiters.toStringAsFixed(1)} ${s.unit.short}';
         case 3:
-          return '${s.overallMileage.toStringAsFixed(2)} ${s.unit.efficiencyLabel}';
+          return '${s.fillUpCount}';
         case 4:
-          return '$_currency${s.costPerKm.toStringAsFixed(2)}';
+          return '${s.overallMileage.toStringAsFixed(2)} ${s.unit.efficiencyLabel}';
         case 5:
+          return '$_currency${s.costPerKm.toStringAsFixed(2)}';
+        case 6:
           return '${s.totalDistance.toStringAsFixed(1)} km';
         default:
           return '';

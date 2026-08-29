@@ -162,6 +162,21 @@ class FuelCalculations {
   ) =>
       resolver.unitsIn(entries).length > 1;
 
+  /// All-in running cost per km: fuel **and** maintenance over the distance
+  /// covered. Fuel-only cost/km understates what a vehicle actually costs to
+  /// run, which is what the vehicle comparison used to show.
+  ///
+  /// Returns 0 when no distance has been recorded, and is identical to the
+  /// fuel-only figure when there is no maintenance.
+  static double runningCostPerKm({
+    required double fuelCost,
+    required double maintenanceCost,
+    required double distance,
+  }) {
+    if (distance <= 0) return 0.0;
+    return (fuelCost + maintenanceCost) / distance;
+  }
+
   /// Renders a per-unit breakdown, e.g. `120.5 L · 340.0 kWh`.
   static String formatQuantityByUnit(Map<FuelUnit, double> totals) {
     if (totals.isEmpty) return '0';
