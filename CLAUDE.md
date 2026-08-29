@@ -6,6 +6,7 @@
 
 - **Package**: `com.blackshadowsoftwareltd.fuel_cost`
 - **Version**: 1.0.1+5
+- **Languages**: English + Bangla (`lib/l10n/*.arb`, `flutter gen-l10n`)
 - **Min SDK**: Dart ^3.8.1
 - **Platforms**: Android, iOS (portrait-only)
 - **Repo extras**: `assets/` (registered in pubspec — `img.png`, `fuel_entries_fixed.csv` sample), `privacy_policy.html` at the repo root (published policy for the store listing)
@@ -30,6 +31,7 @@
   - Monthly budget
   - Google Drive backup metadata
   - Tutorial flags (`onboarding_completed`, `tour_completed`)
+  - Language (`app_language`)
   - Per-entry fuel units (`entry_unit_map`)
 
 ### Navigation
@@ -60,6 +62,7 @@ lib/
     fuel_entries_provider.dart + .g.dart   # @riverpod FuelEntries (AsyncNotifier)
     summary_providers.dart + .g.dart      # @riverpod totalCost, totalLiters, averageMileage, currency, etc.
     theme_provider.dart                   # Plain StateNotifier<ThemeState>
+    language_provider.dart                # Plain StateNotifier<Locale?> (null = device locale)
     vehicle_provider.dart                 # Plain FutureProvider/StateProvider for vehicles
     maintenance_provider.dart             # Plain FutureProvider for maintenance
   services/
@@ -74,6 +77,7 @@ lib/
     backup_data_service.dart         # Backup payload format (v2 JSON) + merge-on-restore logic
     app_update_service.dart          # Google Play in-app update check (Android-only, via in_app_update)
     tutorial_service.dart            # Onboarding + showcase tour completion flags; resetAll() for "Replay Tutorial"
+    language_service.dart            # Language choice (app_language; null = follow device)
     review_service.dart              # Store-rating eligibility (5 entries on one vehicle) + snooze/give-up state
     fuel_unit_service.dart           # Per-entry unit snapshots (entry_unit_map)
   screens/
@@ -158,6 +162,17 @@ Resolution order (`FuelUnitResolver`):
 - **Never sum across units.** Cost and distance always aggregate; quantity must go through `FuelCalculations.quantityByUnit`, and efficiency is only meaningful within one unit. Home splits the quantity tile when `hasMixedUnits`; Vehicle Comparison labels each bar with its own unit and warns that bars aren't comparable
 - Backward compatible with no migration: pre-units entries have no snapshot and resolve to liters, exactly as before
 
+### Localization
+
+ARB files in `lib/l10n/` (`app_en.arb` is the template, `app_bn.arb` is Bangla); `l10n.yaml` drives `flutter gen-l10n`, which generates `lib/l10n/app_localizations*.dart` at build time.
+
+- **`flutter gen-l10n` is unrelated to `build_runner`** — it never touches the Riverpod or Isar `.g.dart` files, so the standing regeneration warning does not apply
+- **Numbers and every input field stay Latin digits.** `intl`'s `bn` locale renders Bengali numerals (০১২৩) by default; AddFuel parses inputs with `double.parse`, which would throw on those. Translate text, localize dates, leave numeric formatting alone
+- `DateFormat` must be given `Localizations.localeOf(context).toLanguageTag()` or a Bangla UI shows English month names
+- Language is stored in `app_language` (null = follow device) and is carried in the backup `settings` map like currency and theme
+- Adding a locale means: a new ARB, a code in `LanguageService.supportedCodes`, and a `languageNames` entry
+- Untranslated keys fall back to English, so partial translation is safe — screens outside Phase 1 are still English
+
 ### Running Cost vs Fuel Cost
 
 `FuelCalculations.runningCostPerKm` folds maintenance into cost per km, and Vehicle Comparison uses it (`(fuel + maintenance) / distance`), keeping `fuelCostPerKm` alongside so the split stays explainable.
@@ -209,7 +224,7 @@ Only `fuel_entries_provider` and `summary_providers` use `@riverpod` code-gen. A
 7. **Vehicle Comparison** - Per-vehicle stats (fuel cost, maintenance cost, mileage, distance, **all-in cost/km**)
 8. **Maintenance Log** - Track 24 maintenance types with cost, mileage, next-due dates
 9. **Google Drive Backup** - Sign in with Google; backs up fuel entries, vehicles, entry-vehicle mapping, per-entry units, the maintenance log, and app settings (currency, budget, theme, accent) as JSON to Drive appDataFolder. Restore merges by id, **prompting the user to resolve every record that differs on both sides**, and still reads v1 CSV backups
-10. **CSV Import/Export** - Share or import fuel data as CSV files
+10. **CSV Import/Export** - Share or import fuel data as CSV; History exports exactly the filtered view. All exports go through `FuelStorageService.buildCsv` — never build CSV inline, that is how the `unit` column went missing once
 11. **Theme Customization** - Light/dark/system mode + 10 accent colors
 12. **Currency Support** - 160+ world currencies
 13. **How-to Guide** - In-app tutorial screen

@@ -1,13 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import '../models/fuel_entry.dart';
 import '../models/vehicle.dart';
 import '../services/fuel_storage_service.dart';
 import '../services/vehicle_service.dart';
+import '../services/fuel_unit_service.dart';
 import '../business_logic/fuel_unit_resolver.dart';
 import '../business_logic/entry_filter.dart';
 import '../services/currency_service.dart';
 import '../widgets/widgets.dart';
+import '../l10n/app_localizations.dart';
 import 'add_fuel_screen.dart';
 
 class FuelHistoryScreen extends StatefulWidget {
@@ -33,6 +39,7 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
   DateFilterPreset _datePreset = DateFilterPreset.all;
   DateTimeRange? _customRange;
   final _searchController = TextEditingController();
+  bool _isExporting = false;
 
   late AnimationController _cardAnimationController;
   late Animation<double> _cardSlideAnimation;
@@ -131,6 +138,21 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
     }
   }
 
+  String _presetLabel(DateFilterPreset preset, AppLocalizations l10n) {
+    switch (preset) {
+      case DateFilterPreset.all:
+        return l10n.dateAll;
+      case DateFilterPreset.thisMonth:
+        return l10n.dateThisMonth;
+      case DateFilterPreset.lastThreeMonths:
+        return l10n.dateLastThreeMonths;
+      case DateFilterPreset.thisYear:
+        return l10n.dateThisYear;
+      case DateFilterPreset.custom:
+        return l10n.dateCustom;
+    }
+  }
+
   DateTimeRange? get _activeRange => _datePreset == DateFilterPreset.custom
       ? _customRange
       : _datePreset.rangeFrom(DateTime.now());
@@ -192,7 +214,79 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
     _refilter();
   }
 
+  /// Exports the currently filtered entries, so what you share matches what
+  /// you're looking at. Settings keeps the export-everything path.
+  Future<void> _exportFilteredEntries() async {
+    setState(() => _isExporting = true);
+    try {
+      final csv = FuelStorageService.buildCsv(
+        _filteredEntries,
+        await FuelUnitService.getEntryUnitMap(),
+      );
+
+      final dir = await getTemporaryDirectory();
+      final file = File('${dir.path}/${_exportFileName()}');
+      await file.writeAsString(csv);
+
+      if (!mounted) return;
+      final box = context.findRenderObject() as RenderBox?;
+      await Share.shareXFiles(
+        [XFile(file.path)],
+        text: 'Fuel Cost Export',
+        sharePositionOrigin: box != null
+            ? box.localToGlobal(Offset.zero) & box.size
+            : const Rect.fromLTWH(0, 0, 100, 100),
+      );
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Row(children: [
+            const Icon(Icons.check_circle, color: Colors.white),
+            const SizedBox(width: 12),
+            Text(AppLocalizations.of(context).historyExported(_filteredEntries.length)),
+          ]),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ));
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Error exporting CSV: $e'),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+        ));
+      }
+    } finally {
+      if (mounted) setState(() => _isExporting = false);
+    }
+  }
+
+  /// Names the file after the selection so exports are distinguishable.
+  String _exportFileName() {
+    final parts = <String>['fuel_entries'];
+
+    if (_selectedVehicleFilter != null) {
+      final vehicle =
+          _vehicles.where((v) => v.id == _selectedVehicleFilter).firstOrNull;
+      if (vehicle != null) {
+        parts.add(vehicle.name.replaceAll(' ', '_').toLowerCase());
+      }
+    }
+
+    final range = _activeRange;
+    if (range != null) {
+      final fmt = DateFormat('yyyy-MM-dd');
+      parts.add('${fmt.format(range.start)}_${fmt.format(range.end)}');
+    }
+
+    return '${parts.join('_')}.csv';
+  }
+
   Widget _buildSearchAndDateFilters(ColorScheme colorScheme, bool isDark) {
+    final l10n = AppLocalizations.of(context);
+    final locale = Localizations.localeOf(context).toLanguageTag();
     final horizontal = MediaQuery.of(context).size.width < 400 ? 12.0 : 16.0;
 
     return Padding(
@@ -208,7 +302,7 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
               isDense: true,
               // Says what it actually matches: FuelEntry has no notes field,
               // so this is not free-text search.
-              hintText: 'Search amount, odometer or vehicle',
+              hintText: l10n.historySearchHint,
               hintStyle: TextStyle(
                 color: colorScheme.onSurface.withValues(alpha: 0.5),
                 fontSize: 14,
@@ -243,8 +337,8 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
                 final label = preset == DateFilterPreset.custom &&
                         _customRange != null &&
                         isSelected
-                    ? '${DateFormat('MMM d').format(_customRange!.start)} – ${DateFormat('MMM d').format(_customRange!.end)}'
-                    : preset.label;
+                    ? '${DateFormat('MMM d', locale).format(_customRange!.start)} – ${DateFormat('MMM d', locale).format(_customRange!.end)}'
+                    : _presetLabel(preset, l10n);
                 return Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: ChoiceChip(
@@ -268,7 +362,7 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
                   const SizedBox(width: 6),
                   Expanded(
                     child: Text(
-                      '${_filteredEntries.length} of ${_entries.length} entries',
+                      l10n.historyFilteredCount(_filteredEntries.length, _entries.length),
                       style: TextStyle(
                         fontSize: 12.5,
                         color: colorScheme.onSurface.withValues(alpha: 0.6),
@@ -281,7 +375,7 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
                       visualDensity: VisualDensity.compact,
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                     ),
-                    child: const Text('Clear', style: TextStyle(fontSize: 12.5)),
+                    child: Text(l10n.commonClear, style: const TextStyle(fontSize: 12.5)),
                   ),
                 ],
               ),
@@ -378,7 +472,7 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
-                      _buildAppBarFilterChip(label: 'All', icon: Icons.select_all_rounded, isSelected: _selectedVehicleFilter == null, onTap: () => _onVehicleFilterChanged(null)),
+                      _buildAppBarFilterChip(label: AppLocalizations.of(context).commonAll, icon: Icons.select_all_rounded, isSelected: _selectedVehicleFilter == null, onTap: () => _onVehicleFilterChanged(null)),
                       ..._vehicles.map((v) => _buildAppBarFilterChip(
                         label: v.name,
                         icon: _vehicleIconMap[v.iconName] ?? Icons.directions_car,
@@ -389,7 +483,7 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
                   ),
                 )
               : Text(
-                  'Fuel History',
+                  AppLocalizations.of(context).historyTitle,
                   key: const ValueKey('title'),
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22, letterSpacing: 0.5, color: Colors.white),
                 ),
@@ -398,6 +492,17 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
         elevation: 0,
         centerTitle: !_showFilterInAppBar || _vehicles.isEmpty,
         iconTheme: const IconThemeData(color: Colors.white),
+        actions: [
+          // Exports exactly what the filters are showing; pointless (and
+          // misleading) when that's nothing.
+          IconButton(
+            icon: const Icon(Icons.ios_share, color: Colors.white),
+            tooltip: AppLocalizations.of(context).historyExportTooltip,
+            onPressed: _filteredEntries.isEmpty || _isExporting
+                ? null
+                : _exportFilteredEntries,
+          ),
+        ],
         flexibleSpace: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -516,7 +621,7 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
                           Icon(Icons.history, color: colorScheme.primary, size: 20),
                           const SizedBox(width: 8),
                           Text(
-                            'Recent Entries',
+                            AppLocalizations.of(context).historyRecentEntries,
                             style: TextStyle(
                               fontSize: MediaQuery.of(context).size.width < 400 ? 16 : 18,
                               fontWeight: FontWeight.w600,
@@ -526,7 +631,7 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
                           const Spacer(),
                           if (_filteredEntries.isNotEmpty)
                             Text(
-                              '${_filteredEntries.length} entries',
+                              AppLocalizations.of(context).historyEntryCount(_filteredEntries.length),
                               style: TextStyle(color: colorScheme.onSurface.withValues(alpha: 0.6), fontSize: 14),
                             ),
                         ],
@@ -538,16 +643,12 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
                       ? SliverFillRemaining(
                           child: EmptyStateWidget(
                             icon: Icons.local_gas_station_rounded,
-                            title: _entries.isEmpty
-                                ? 'No fuel entries yet'
-                                : (_hasActiveFilters
-                                    ? 'No entries match your filters'
-                                    : 'No fuel entries yet'),
-                            subtitle: _entries.isEmpty
-                                ? 'Add your first fuel entry to start\ntracking your fuel costs!'
-                                : (_hasActiveFilters
-                                    ? 'Try a wider date range, or clear your filters'
-                                    : 'Add your first fuel entry to start\ntracking your fuel costs!'),
+                            title: _entries.isNotEmpty && _hasActiveFilters
+                                ? AppLocalizations.of(context).historyNoMatches
+                                : AppLocalizations.of(context).historyNoEntriesYet,
+                            subtitle: _entries.isNotEmpty && _hasActiveFilters
+                                ? AppLocalizations.of(context).historyNoMatchesSubtitle
+                                : AppLocalizations.of(context).historyNoEntriesSubtitle,
                           ),
                         )
                       : SliverList(

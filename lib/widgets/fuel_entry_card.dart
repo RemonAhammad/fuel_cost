@@ -297,8 +297,10 @@ class FuelEntryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dateFormatter = DateFormat('MMM dd, yyyy');
-    final timeFormatter = DateFormat('HH:mm');
+    // Locale-aware so a Bangla UI shows Bangla month names.
+    final locale = Localizations.localeOf(context).toLanguageTag();
+    final dateFormatter = DateFormat('MMM dd, yyyy', locale);
+    final timeFormatter = DateFormat('HH:mm', locale);
     final colorScheme = Theme.of(context).colorScheme;
 
     return AnimatedBuilder(

@@ -11,6 +11,7 @@ import 'maintenance_service.dart';
 import 'currency_service.dart';
 import 'budget_service.dart';
 import 'theme_service.dart';
+import 'language_service.dart';
 
 /// Counts reported back to the UI after a restore.
 class BackupRestoreResult {
@@ -81,6 +82,7 @@ class BackupSettingKeys {
   static const String monthlyBudget = 'monthlyBudget';
   static const String themeMode = 'themeMode';
   static const String accentColor = 'accentColor';
+  static const String language = 'language';
 }
 
 /// A single-valued setting that differs between the backup and this device.
@@ -223,6 +225,9 @@ class BackupDataService {
 
     final accent = await ThemeService.getAccentColorValue();
     if (accent != null) settings[BackupSettingKeys.accentColor] = accent;
+
+    final language = await LanguageService.getLanguageCode();
+    if (language != null) settings[BackupSettingKeys.language] = language;
 
     return settings;
   }
@@ -460,6 +465,8 @@ class BackupDataService {
         return 'Theme';
       case BackupSettingKeys.accentColor:
         return 'Accent Color';
+      case BackupSettingKeys.language:
+        return 'Language';
       default:
         return id;
     }
@@ -473,6 +480,8 @@ class BackupDataService {
       case BackupSettingKeys.themeMode:
         final mode = value.toString();
         return mode.isEmpty ? mode : '${mode[0].toUpperCase()}${mode.substring(1)}';
+      case BackupSettingKeys.language:
+        return LanguageService.displayName(value.toString());
       case BackupSettingKeys.accentColor:
         final hex =
             (value as num).toInt().toRadixString(16).padLeft(8, '0').substring(2);
@@ -597,6 +606,9 @@ class BackupDataService {
             break;
           case BackupSettingKeys.accentColor:
             await ThemeService.setAccentColor(Color((value as num).toInt()));
+            break;
+          case BackupSettingKeys.language:
+            await LanguageService.setLanguageCode(value.toString());
             break;
         }
       } catch (e) {

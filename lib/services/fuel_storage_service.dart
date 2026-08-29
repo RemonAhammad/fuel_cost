@@ -162,20 +162,33 @@ class FuelStorageService {
     });
   }
 
-  static Future<String> exportToCsv() async {
-    final entries = await getFuelEntries();
-    final units = await FuelUnitService.getEntryUnitMap();
+  /// The single CSV writer for the app. Every export path must go through this
+  /// — a duplicated inline copy is how the `unit` column came to be missing
+  /// from the Settings export.
+  ///
+  /// `unit` is appended last so older parsers, which read fixed indices 0-5,
+  /// still read these files correctly.
+  static String buildCsv(
+    List<FuelEntry> entries,
+    Map<String, String> unitsByEntryId,
+  ) {
     final buffer = StringBuffer();
-    // `unit` is appended last so older parsers, which read fixed indices 0-5,
-    // still read these files correctly.
-    buffer.writeln('id,liters,pricePerLiter,totalCost,dateTime,odometerReading,unit');
+    buffer.writeln(
+        'id,liters,pricePerLiter,totalCost,dateTime,odometerReading,unit');
     for (final entry in entries) {
-      final unit = units[entry.id] ?? FuelUnit.liter.id;
+      final unit = unitsByEntryId[entry.id] ?? FuelUnit.liter.id;
       buffer.writeln(
         '${entry.id},${entry.liters},${entry.pricePerLiter},${entry.totalCost},${entry.dateTime.toIso8601String()},${entry.odometerReading ?? ''},$unit',
       );
     }
     return buffer.toString();
+  }
+
+  static Future<String> exportToCsv() async {
+    return buildCsv(
+      await getFuelEntries(),
+      await FuelUnitService.getEntryUnitMap(),
+    );
   }
 
   static Future<int> importFromCsv(String csvContent) async {

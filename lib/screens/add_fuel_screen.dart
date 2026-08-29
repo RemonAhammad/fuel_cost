@@ -10,6 +10,7 @@ import '../models/fuel_unit.dart';
 import '../business_logic/fuel_unit_resolver.dart';
 import '../services/drive_backup_service.dart';
 import '../widgets/widgets.dart';
+import '../l10n/app_localizations.dart';
 import 'vehicle_management_screen.dart';
 
 class AddFuelScreen extends StatefulWidget {
@@ -219,7 +220,7 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
           Padding(
             padding: const EdgeInsets.only(left: 8, bottom: 6),
             child: Text(
-              'Fuel Type',
+              AppLocalizations.of(context).addFuelFuelType,
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
@@ -251,7 +252,9 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          unit.isEnergy ? 'Charge' : 'Petrol',
+                          unit.isEnergy
+                              ? AppLocalizations.of(context).addFuelCharge
+                              : AppLocalizations.of(context).addFuelPetrol,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
@@ -431,7 +434,7 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
     if (!_formKey.currentState!.validate()) return;
 
     if (_selectedVehicleId == null) {
-      setState(() => _vehicleError = 'Please select a vehicle');
+      setState(() => _vehicleError = AppLocalizations.of(context).addFuelSelectVehicle);
       return;
     }
 
@@ -472,7 +475,9 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(widget.isEditing ? 'Fuel entry updated!' : 'Fuel entry saved successfully!'),
+            content: Text(widget.isEditing
+                ? AppLocalizations.of(context).addFuelUpdated
+                : AppLocalizations.of(context).addFuelSaved),
             backgroundColor: Colors.green,
           ),
         );
@@ -740,7 +745,9 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
                                 animation: _staggeredAnimation,
                                 child: GlassTextField(
                                   controller: _litersController,
-                                  label: _unit.quantityLabel,
+                                  label: _unit.isEnergy
+                                      ? AppLocalizations.of(context).addFuelChargeAmountLabel(_unit.long)
+                                      : AppLocalizations.of(context).addFuelAmountLabel(_unit.long),
                                   icon: Icons.local_gas_station,
                                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
                                   inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[0-9]*\.?[0-9]*'))],
@@ -762,7 +769,7 @@ class _AddFuelScreenState extends State<AddFuelScreen> with TickerProviderStateM
                                 animation: _staggeredAnimation,
                                 child: GlassTextField(
                                   controller: _priceController,
-                                  label: _unit.priceLabel,
+                                  label: AppLocalizations.of(context).addFuelPricePerUnit(_unit.priceUnit),
                                   icon: Icons.attach_money,
                                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
                                   inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^[0-9]*\.?[0-9]*'))],

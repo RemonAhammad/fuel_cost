@@ -13,6 +13,7 @@ import '../services/review_service.dart';
 import 'splash_screen.dart';
 import 'restore_conflicts_screen.dart';
 import '../services/fuel_storage_service.dart';
+import '../services/fuel_unit_service.dart';
 import '../services/currency_service.dart';
 import '../services/drive_backup_service.dart';
 import '../services/backup_data_service.dart';
@@ -25,7 +26,10 @@ import '../providers/theme_provider.dart';
 import '../providers/fuel_entries_provider.dart';
 import '../providers/summary_providers.dart';
 import '../providers/vehicle_provider.dart';
+import '../providers/language_provider.dart';
+import '../services/language_service.dart';
 import '../widgets/widgets.dart';
+import '../l10n/app_localizations.dart';
 
 
 class SettingsScreen extends ConsumerStatefulWidget {
@@ -43,6 +47,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   DateTime? _lastBackupTime;
   bool _autoBackupEnabled = false;
   double? _monthlyBudget;
+  String? _languageCode;
   String _appVersion = '';
   String _buildNumber = '';
 
@@ -53,6 +58,47 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     _checkGoogleDriveStatus();
     _loadBudget();
     _loadAppVersion();
+    _loadLanguage();
+  }
+
+  Future<void> _loadLanguage() async {
+    final code = await LanguageService.getLanguageCode();
+    if (mounted) setState(() => _languageCode = code);
+  }
+
+  Future<void> _showLanguageDialog() async {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    // null = follow the device.
+    final options = <String?>[null, ...LanguageService.supportedCodes];
+
+    final selected = await showDialog<Object?>(
+      context: context,
+      builder: (context) => SimpleDialog(
+        title: Text(AppLocalizations.of(context).settingsLanguage),
+        children: options.map((code) {
+          final isSelected = _languageCode == code;
+          return SimpleDialogOption(
+            onPressed: () => Navigator.pop(context, code ?? 'system'),
+            child: Row(
+              children: [
+                Icon(
+                  isSelected ? Icons.radio_button_checked : Icons.radio_button_unchecked,
+                  size: 20,
+                  color: isSelected ? const Color(0xFF2196F3) : (isDark ? Colors.white38 : Colors.black26),
+                ),
+                const SizedBox(width: 12),
+                Text(code == null ? AppLocalizations.of(context).settingsLanguageSystem : LanguageService.displayName(code)),
+              ],
+            ),
+          );
+        }).toList(),
+      ),
+    );
+
+    if (selected == null) return; // dismissed
+    final code = selected == 'system' ? null : selected as String;
+    await ref.read(languageProvider.notifier).setLanguage(code);
+    await _loadLanguage();
   }
 
   Future<void> _loadAppVersion() async {
@@ -299,17 +345,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         return;
       }
 
-      final buffer = StringBuffer();
-      buffer.writeln('id,liters,pricePerLiter,totalCost,dateTime,odometerReading');
-      for (final entry in entriesToExport) {
-        buffer.writeln(
-          '${entry.id},${entry.liters},${entry.pricePerLiter},${entry.totalCost},${entry.dateTime.toIso8601String()},${entry.odometerReading ?? ''}',
-        );
-      }
+      // Shared writer, so this export carries the unit column like every other.
+      final csv = FuelStorageService.buildCsv(
+        entriesToExport,
+        await FuelUnitService.getEntryUnitMap(),
+      );
 
       final dir = await getTemporaryDirectory();
       final file = File('${dir.path}/$fileName');
-      await file.writeAsString(buffer.toString());
+      await file.writeAsString(csv);
       final box = context.findRenderObject() as RenderBox?;
       await Share.shareXFiles([XFile(file.path)], text: 'Fuel Cost Export',
         sharePositionOrigin: box != null ? box.localToGlobal(Offset.zero) & box.size : const Rect.fromLTWH(0, 0, 100, 100));
@@ -583,7 +627,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       if (mounted) {
         setState(() => _lastBackupTime = now);
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: const Row(children: [Icon(Icons.cloud_done, color: Colors.white), SizedBox(width: 12), Text('Backup successful!')]),
+          content: Row(children: [const Icon(Icons.cloud_done, color: Colors.white), const SizedBox(width: 12), Text(AppLocalizations.of(context).settingsBackupSuccess)]),
           backgroundColor: Colors.green, behavior: SnackBarBehavior.floating, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))));
       }
     } catch (e) {
@@ -615,7 +659,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           // Backed out of the review — leave local data untouched.
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: const Text('Restore cancelled'),
+              content: Text(AppLocalizations.of(context).settingsRestoreCancelled),
               backgroundColor: Colors.grey.shade700,
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))));
@@ -641,6 +685,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       // sits invisible until the next launch.
       ref.invalidate(currencyNotifierProvider);
       await ref.read(themeProvider.notifier).reload();
+      await ref.read(languageProvider.notifier).reload();
+      await _loadLanguage();
       await _loadCurrency();
       await _loadBudget();
       if (mounted) {
@@ -664,7 +710,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     }
   }
 
-  String _formatBackupTime(DateTime time) => DateFormat('MMM dd, yyyy HH:mm').format(time);
+  String _formatBackupTime(DateTime time) => DateFormat(
+        'MMM dd, yyyy HH:mm',
+        Localizations.localeOf(context).toLanguageTag(),
+      ).format(time);
 
   @override
   Widget build(BuildContext context) {
@@ -763,15 +812,22 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                   children: [
                                     CustomCupertinoListTile(
                                       icon: Icons.currency_exchange,
-                                      title: 'Currency',
+                                      title: AppLocalizations.of(context).settingsCurrency,
                                       subtitle: 'Current: $_selectedCurrency (${CurrencyService.getCurrencyName(_selectedCurrency)})',
                                       onTap: _showCurrencyDialog,
                                       iconColor: const Color(0xFF2196F3),
                                       isFirst: true,
                                     ),
                                     CustomCupertinoListTile(
+                                      icon: Icons.language,
+                                      title: AppLocalizations.of(context).settingsLanguage,
+                                      subtitle: LanguageService.displayName(_languageCode),
+                                      onTap: _showLanguageDialog,
+                                      iconColor: const Color(0xFF00BCD4),
+                                    ),
+                                    CustomCupertinoListTile(
                                       icon: Icons.account_balance_wallet,
-                                      title: 'Monthly Budget',
+                                      title: AppLocalizations.of(context).settingsMonthlyBudget,
                                       subtitle: _monthlyBudget != null ? '$_selectedCurrency${_monthlyBudget!.toStringAsFixed(0)} per month' : 'Not set',
                                       onTap: _showBudgetDialog,
                                       iconColor: const Color(0xFFFF9800),
@@ -883,7 +939,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                   children: [
                                     CustomCupertinoListTile(
                                       icon: Icons.school_outlined,
-                                      title: 'Replay Tutorial',
+                                      title: AppLocalizations.of(context).settingsReplayTutorial,
                                       subtitle: 'Watch the intro and tour again',
                                       iconColor: Colors.teal,
                                       isFirst: true,

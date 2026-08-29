@@ -6,6 +6,7 @@ import '../services/tutorial_service.dart';
 import '../services/vehicle_service.dart';
 import '../services/budget_service.dart';
 import '../widgets/widgets.dart';
+import '../l10n/app_localizations.dart';
 import '../providers/fuel_entries_provider.dart';
 import '../providers/summary_providers.dart';
 import '../providers/vehicle_provider.dart';
@@ -433,7 +434,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                               Text(
                                 'FUEL COST',
                                 style: GoogleFonts.exo2(
-                                  fontSize: 30,
+                                  fontSize: 40,
                                   fontWeight: FontWeight.bold,
                                   fontStyle: FontStyle.italic,
                                   color: isDark ? Colors.white : Colors.grey.shade800,
@@ -1015,7 +1016,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                 Expanded(
                   child: _buildOverallStatTile(
                     icon: Icons.payments_rounded,
-                    label: 'Total Cost',
+                    label: AppLocalizations.of(context).homeTotalCost,
                     value: '$currency${totalCost.toStringAsFixed(0)}',
                     color: const Color(0xFFE91E63),
                     isDark: isDark,
@@ -1025,7 +1026,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                 Expanded(
                   child: _buildOverallStatTile(
                     icon: Icons.local_gas_station_rounded,
-                    label: 'Total Fuels',
+                    label: AppLocalizations.of(context).homeTotalFuels,
                     value: quantityText,
                     color: const Color(0xFF2196F3),
                     isDark: isDark,
@@ -1035,7 +1036,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                 Expanded(
                   child: _buildOverallStatTile(
                     icon: Icons.route_rounded,
-                    label: 'Total Distance',
+                    label: AppLocalizations.of(context).homeTotalDistance,
                     value: totalDistance > 0 ? '${totalDistance.toStringAsFixed(0)} km' : 'N/A',
                     color: const Color(0xFFFF9800),
                     isDark: isDark,
@@ -1164,7 +1165,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
             const SizedBox(height: 16),
             _buildSummaryLine(
               icon: Icons.local_gas_station_rounded,
-              label: 'Total ${unit.long}',
+              label: AppLocalizations.of(context).homeTotalOf(unit.long),
               value: quantityText,
               color: const Color(0xFF2196F3),
             ),
@@ -1178,28 +1179,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
             const SizedBox(height: 16),
             _buildSummaryLine(
               icon: Icons.directions_car_rounded,
-              label: 'Last Trip Mileage',
+              label: AppLocalizations.of(context).homeLastTripMileage,
               value: lastTripMileage > 0 ? '${lastTripMileage.toStringAsFixed(1)} ${unit.efficiencyLabel}' : 'N/A',
               color: const Color(0xFF4CAF50),
             ),
             const SizedBox(height: 16),
             _buildSummaryLine(
               icon: Icons.trending_up_rounded,
-              label: 'Overall Mileage',
+              label: AppLocalizations.of(context).homeOverallMileage,
               value: overallMileage > 0 ? '${overallMileage.toStringAsFixed(1)} ${unit.efficiencyLabel}' : 'N/A',
               color: const Color(0xFF9C27B0),
             ),
             const SizedBox(height: 16),
             _buildSummaryLine(
               icon: Icons.keyboard_double_arrow_up_rounded,
-              label: 'Max Mileage',
+              label: AppLocalizations.of(context).homeMaxMileage,
               value: maxMileage > 0 ? '${maxMileage.toStringAsFixed(1)} ${unit.efficiencyLabel}' : 'N/A',
               color: const Color(0xFF00C853),
             ),
             const SizedBox(height: 16),
             _buildSummaryLine(
               icon: Icons.keyboard_double_arrow_down_rounded,
-              label: 'Min Mileage',
+              label: AppLocalizations.of(context).homeMinMileage,
               value: minMileage > 0 ? '${minMileage.toStringAsFixed(1)} ${unit.efficiencyLabel}' : 'N/A',
               color: const Color(0xFFFF5722),
             ),

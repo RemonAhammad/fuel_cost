@@ -1,0 +1,112 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "Fuel Cost",
+
+  "commonCancel": "Cancel",
+  "commonSave": "Save",
+  "commonDelete": "Delete",
+  "commonEdit": "Edit",
+  "commonClear": "Clear",
+  "commonAll": "All",
+  "commonNotAvailable": "N/A",
+  "commonNotSet": "Not set",
+
+  "homeTotalCost": "Total Cost",
+  "homeTotalFuels": "Total Fuels",
+  "homeTotalDistance": "Total Distance",
+  "homeTotalOf": "Total {unit}",
+  "@homeTotalOf": {
+    "placeholders": { "unit": { "type": "String" } }
+  },
+  "homeLastTripMileage": "Last Trip Mileage",
+  "homeOverallMileage": "Overall Mileage",
+  "homeMaxMileage": "Max Mileage",
+  "homeMinMileage": "Min Mileage",
+  "homeThisMonth": "This Month",
+  "homeAddFuel": "Add Fuel",
+  "homeHistory": "History",
+  "homeSettings": "Settings",
+
+  "addFuelTitle": "Add Fuel Entry",
+  "addFuelEditTitle": "Edit Fuel Entry",
+  "addFuelAmountLabel": "Fuel Amount ({unit})",
+  "@addFuelAmountLabel": {
+    "placeholders": { "unit": { "type": "String" } }
+  },
+  "addFuelChargeAmountLabel": "Charge Amount ({unit})",
+  "@addFuelChargeAmountLabel": {
+    "placeholders": { "unit": { "type": "String" } }
+  },
+  "addFuelPricePerUnit": "Price per {unit}",
+  "@addFuelPricePerUnit": {
+    "placeholders": { "unit": { "type": "String" } }
+  },
+  "addFuelOdometer": "Odometer Reading",
+  "addFuelVehicle": "Vehicle",
+  "addFuelFuelType": "Fuel Type",
+  "addFuelPetrol": "Petrol",
+  "addFuelCharge": "Charge",
+  "addFuelSelectVehicle": "Please select a vehicle",
+  "addFuelSaved": "Fuel entry saved successfully!",
+  "addFuelUpdated": "Fuel entry updated!",
+  "addFuelLastRecorded": "Last recorded: {value} km",
+  "@addFuelLastRecorded": {
+    "placeholders": { "value": { "type": "String" } }
+  },
+
+  "historyTitle": "Fuel History",
+  "historyRecentEntries": "Recent Entries",
+  "historySearchHint": "Search amount, odometer or vehicle",
+  "historyExportTooltip": "Export these entries",
+  "historyEntryCount": "{count, plural, =1{1 entry} other{{count} entries}}",
+  "@historyEntryCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "historyFilteredCount": "{shown} of {total} entries",
+  "@historyFilteredCount": {
+    "placeholders": {
+      "shown": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "historyExported": "{count, plural, =1{1 entry exported} other{{count} entries exported}}",
+  "@historyExported": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "historyNoEntriesYet": "No fuel entries yet",
+  "historyNoMatches": "No entries match your filters",
+  "historyNoEntriesSubtitle": "Add your first fuel entry to start\ntracking your fuel costs!",
+  "historyNoMatchesSubtitle": "Try a wider date range, or clear your filters",
+
+  "dateAll": "All",
+  "dateThisMonth": "This Month",
+  "dateLastThreeMonths": "Last 3 Months",
+  "dateThisYear": "This Year",
+  "dateCustom": "Custom",
+
+  "settingsTitle": "Settings",
+  "settingsCurrency": "Currency",
+  "settingsLanguage": "Language",
+  "settingsLanguageSystem": "System default",
+  "settingsTheme": "Theme",
+  "settingsMonthlyBudget": "Monthly Budget",
+  "settingsBudgetPerMonth": "{amount} per month",
+  "@settingsBudgetPerMonth": {
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "settingsBackupToDrive": "Backup to Google Drive",
+  "settingsRestoreFromDrive": "Restore from Google Drive",
+  "settingsExportCsv": "Export CSV",
+  "settingsImportCsv": "Import CSV",
+  "settingsReplayTutorial": "Replay Tutorial",
+  "settingsVersion": "Version {version} (Build {build})",
+  "@settingsVersion": {
+    "placeholders": {
+      "version": { "type": "String" },
+      "build": { "type": "String" }
+    }
+  },
+  "settingsRestoreCancelled": "Restore cancelled",
+  "settingsBackupSuccess": "Backup successful!"
+}
