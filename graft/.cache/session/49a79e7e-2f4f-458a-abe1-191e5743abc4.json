@@ -1,0 +1,12 @@
+{
+  "lastQuery": "I have exported all data. then I imported it from another device, then the fuel entry is imported but no behicle is showing",
+  "perAgentQuery": {},
+  "graftReads": 0,
+  "sourceReads": 0,
+  "savedTokens": 0,
+  "injectedPointers": [],
+  "nudges": 0,
+  "inputCostMicros": 1049146,
+  "inputTokensBilled": 1359309,
+  "lastBillingUuid": "ca3d0fd0-4fc9-4a9a-a4e5-3c42e273631d"
+}

@@ -950,6 +950,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settingsIncludeAllVehicles => 'Incluir dados de todos os veículos';
 
   @override
+  String get settingsKeepFileVehicles => 'Usar os veículos salvos no arquivo';
+
+  @override
   String get settingsNoVehicle => 'Sem veículo';
 
   @override

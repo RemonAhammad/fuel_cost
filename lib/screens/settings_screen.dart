@@ -350,6 +350,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       final csv = FuelStorageService.buildCsv(
         entriesToExport,
         await FuelUnitService.getEntryUnitMap(),
+        vehicleIdByEntryId: await VehicleService.getEntryVehicleMap(),
+        vehicles: vehicles,
       );
 
       final dir = await getTemporaryDirectory();
@@ -384,6 +386,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       subtitle: AppLocalizations.of(context).settingsAssignImported,
       vehicles: vehicles,
       showUnassigned: true,
+      allSubtitle: AppLocalizations.of(context).settingsKeepFileVehicles,
     );
     if (selectedVehicleId == null) return; // User cancelled
 
@@ -397,9 +400,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       final file = File(result.files.single.path!);
       final csvContent = await file.readAsString();
 
-      // Parse and import entries
-      final lines = csvContent.trim().split('\n');
-      if (lines.length < 2) {
+      if (FuelStorageService.parseCsv(csvContent).entries.isEmpty) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(AppLocalizations.of(context).settingsCsvInvalid), backgroundColor: Colors.red, behavior: SnackBarBehavior.floating));
@@ -407,32 +408,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         return;
       }
 
-      int imported = 0;
-      for (int i = 1; i < lines.length; i++) {
-        final line = lines[i].trim();
-        if (line.isEmpty) continue;
-        final parts = line.split(',');
-        if (parts.length < 5) continue;
-        try {
-          final entry = FuelEntry()
-            ..id = parts[0]
-            ..liters = double.parse(parts[1])
-            ..pricePerLiter = double.parse(parts[2])
-            ..totalCost = double.parse(parts[3])
-            ..dateTime = DateTime.parse(parts[4])
-            ..odometerReading = parts.length > 5 && parts[5].isNotEmpty ? double.parse(parts[5]) : null;
-
-          await FuelStorageService.saveFuelEntry(entry);
-
-          // Assign to selected vehicle if not "unassigned"
-          if (selectedVehicleId != '__all__' && selectedVehicleId != '__none__') {
-            await VehicleService.assignVehicleToEntry(entry.id, selectedVehicleId);
-          }
-          imported++;
-        } catch (e) {
-          debugPrint('Skipping invalid CSV row $i: $e');
-        }
-      }
+      // "All Vehicles" = keep the vehicles recorded in the file (recreating
+      // any this device lacks); a specific vehicle overrides them.
+      final importResult = await FuelStorageService.importFromCsv(
+        csvContent,
+        leaveUnassigned: selectedVehicleId == '__none__',
+        assignToVehicleId: selectedVehicleId == '__all__' || selectedVehicleId == '__none__' ? null : selectedVehicleId,
+      );
+      final imported = importResult.entriesImported;
+      ref.invalidate(fuelEntriesProvider);
+      ref.invalidate(vehiclesProvider);
 
       if (mounted) {
         final assigned = selectedVehicleId == '__all__' || selectedVehicleId == '__none__'
@@ -471,6 +456,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     required String subtitle,
     required List<Vehicle> vehicles,
     bool showUnassigned = false,
+    String? allSubtitle,
   }) async {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return showDialog<String>(
@@ -491,7 +477,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   context: context,
                   icon: Icons.dashboard_rounded,
                   label: AppLocalizations.of(context).settingsAllVehicles,
-                  subtitle: AppLocalizations.of(context).settingsIncludeAllVehicles,
+                  subtitle: allSubtitle ?? AppLocalizations.of(context).settingsIncludeAllVehicles,
                   color: const Color(0xFF667eea),
                   onTap: () => Navigator.pop(context, '__all__'),
                   isDark: isDark,

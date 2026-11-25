@@ -1746,6 +1746,12 @@ abstract class AppLocalizations {
   /// **'Include data from all vehicles'**
   String get settingsIncludeAllVehicles;
 
+  /// No description provided for @settingsKeepFileVehicles.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the vehicles saved in the file'**
+  String get settingsKeepFileVehicles;
+
   /// No description provided for @settingsNoVehicle.
   ///
   /// In en, this message translates to:

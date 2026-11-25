@@ -273,6 +273,7 @@
   "settingsSelectExportVehicle": "انتخاب کنید داده کدام خودرو خروجی گرفته شود",
   "settingsAllVehicles": "همه خودروها",
   "settingsIncludeAllVehicles": "شامل داده همه خودروها",
+  "settingsKeepFileVehicles": "استفاده از خودروهای ذخیره‌شده در فایل",
   "settingsNoVehicle": "بدون خودرو",
   "settingsNoVehicleSubtitle": "به هیچ خودرویی اختصاص نده",
   "settingsNothingToExport": "رکوردی برای خروجی گرفتن از این خودرو نیست",

@@ -539,6 +539,7 @@
   "settingsSelectExportVehicle": "Select which vehicle data to export",
   "settingsAllVehicles": "All Vehicles",
   "settingsIncludeAllVehicles": "Include data from all vehicles",
+  "settingsKeepFileVehicles": "Use the vehicles saved in the file",
   "settingsNoVehicle": "No Vehicle",
   "settingsNoVehicleSubtitle": "Don't assign to any vehicle",
   "settingsNothingToExport": "No entries to export for this vehicle",

@@ -273,6 +273,7 @@
   "settingsSelectExportVehicle": "اختر بيانات أي مركبة تريد تصديرها",
   "settingsAllVehicles": "كل المركبات",
   "settingsIncludeAllVehicles": "تضمين بيانات كل المركبات",
+  "settingsKeepFileVehicles": "استخدام المركبات المحفوظة في الملف",
   "settingsNoVehicle": "بدون مركبة",
   "settingsNoVehicleSubtitle": "عدم الإسناد إلى أي مركبة",
   "settingsNothingToExport": "لا توجد سجلات لتصديرها لهذه المركبة",

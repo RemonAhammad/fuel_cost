@@ -943,6 +943,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsIncludeAllVehicles => 'Include data from all vehicles';
 
   @override
+  String get settingsKeepFileVehicles => 'Use the vehicles saved in the file';
+
+  @override
   String get settingsNoVehicle => 'No Vehicle';
 
   @override

@@ -945,6 +945,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingsIncludeAllVehicles => 'تضمين بيانات كل المركبات';
 
   @override
+  String get settingsKeepFileVehicles => 'استخدام المركبات المحفوظة في الملف';
+
+  @override
   String get settingsNoVehicle => 'بدون مركبة';
 
   @override

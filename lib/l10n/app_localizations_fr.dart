@@ -951,6 +951,10 @@ class AppLocalizationsFr extends AppLocalizations {
       'Inclure les données de tous les véhicules';
 
   @override
+  String get settingsKeepFileVehicles =>
+      'Utiliser les véhicules enregistrés dans le fichier';
+
+  @override
   String get settingsNoVehicle => 'Aucun véhicule';
 
   @override

@@ -941,6 +941,10 @@ class AppLocalizationsBn extends AppLocalizations {
   String get settingsIncludeAllVehicles => 'সব যানবাহনের তথ্য অন্তর্ভুক্ত করুন';
 
   @override
+  String get settingsKeepFileVehicles =>
+      'ফাইলে সংরক্ষিত গাড়িগুলো ব্যবহার করুন';
+
+  @override
   String get settingsNoVehicle => 'কোনো যানবাহন নয়';
 
   @override

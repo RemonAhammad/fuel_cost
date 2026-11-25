@@ -941,6 +941,10 @@ class AppLocalizationsFa extends AppLocalizations {
   String get settingsIncludeAllVehicles => 'شامل داده همه خودروها';
 
   @override
+  String get settingsKeepFileVehicles =>
+      'استفاده از خودروهای ذخیره‌شده در فایل';
+
+  @override
   String get settingsNoVehicle => 'بدون خودرو';
 
   @override

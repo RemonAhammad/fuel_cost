@@ -273,6 +273,7 @@
   "settingsSelectExportVehicle": "Selecione que veículo exportar",
   "settingsAllVehicles": "Todos os veículos",
   "settingsIncludeAllVehicles": "Incluir dados de todos os veículos",
+  "settingsKeepFileVehicles": "Usar os veículos salvos no arquivo",
   "settingsNoVehicle": "Sem veículo",
   "settingsNoVehicleSubtitle": "Não atribuir a nenhum veículo",
   "settingsNothingToExport": "Não há registos para exportar deste veículo",

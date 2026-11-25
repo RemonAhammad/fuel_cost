@@ -222,6 +222,8 @@ class _FuelHistoryScreenState extends State<FuelHistoryScreen> with TickerProvid
       final csv = FuelStorageService.buildCsv(
         _filteredEntries,
         await FuelUnitService.getEntryUnitMap(),
+        vehicleIdByEntryId: await VehicleService.getEntryVehicleMap(),
+        vehicles: await VehicleService.getVehicles(),
       );
 
       final dir = await getTemporaryDirectory();
